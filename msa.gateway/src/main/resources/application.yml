@@ -8,6 +8,9 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
       routes:
         - id: order-service
           uri: lb://order-service
@@ -20,7 +23,7 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/users/**, /auth/**
+            - Path=/auth/**
         - id: hub-service
           uri: lb://hub-service
           predicates:
