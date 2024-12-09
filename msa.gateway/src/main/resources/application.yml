@@ -1,0 +1,41 @@
+server:
+  port: 19091
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/orders/**
+        - id: company-service
+          uri: lb://company-service
+          predicates:
+            - Path=/companies/**, /products/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**, /auth/**
+        - id: hub-service
+          uri: lb://hub-service
+          predicates:
+            - Path=/hubs/**, /hub-routes/**
+        - id: delivery-service
+          uri: lb://delivery-service
+          predicates:
+            - Path=/deliveries/**
+        - id: notice-service
+          uri: lb://notice-service
+          predicates:
+            - Path=/ai-requests/**, /slack-notifications/**
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19090/eureka/

@@ -1,0 +1,10 @@
+server:
+  port: 19096
+spring:
+  application:
+    name: order-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19090/eureka/
