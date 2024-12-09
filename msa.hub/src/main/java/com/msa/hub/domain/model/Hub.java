@@ -6,8 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,6 +52,12 @@ public class Hub extends BaseEntity {
 
     @Column(name="longitude", nullable=false)
     private Double longitude;
+
+    @OneToMany(mappedBy = "source_hub_id")
+    private List<HubRoute> sourceHubRoutes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "destination_hub_id")
+    private List<HubRoute> destinationHubRoutes = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
     private Hub(String name, String city, String district, String streetName, String streetNumber, String addressDetail,
