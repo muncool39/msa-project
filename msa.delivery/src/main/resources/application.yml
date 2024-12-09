@@ -3,8 +3,35 @@ server:
 spring:
   application:
     name: delivery-service
+  datasource:
+    hikari:
+      maximum-pool-size: 4
+    url: jdbc:postgresql://localhost:5433/msa_delivery
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+    defer-datasource-initialization: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ${REDIS_PASSWORD}
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:19090/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
