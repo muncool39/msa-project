@@ -38,7 +38,7 @@ public class AuthenticationFilter implements GlobalFilter {
         }
 
         final Claims claims = jwtUtil.getClaims(token);
-        String userid = (String) claims.get(CLAIM_USER_ID);
+        String userid = String.valueOf(claims.get(CLAIM_USER_ID));
         String username = (String) claims.get(CLAIM_USER_ROLE);
 
         exchange.getRequest().mutate()
