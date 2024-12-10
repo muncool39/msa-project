@@ -28,7 +28,7 @@ import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Addre
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name = "p_company")
-public class Company {
+public class Company extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
