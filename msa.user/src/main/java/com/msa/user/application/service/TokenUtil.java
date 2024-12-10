@@ -23,7 +23,7 @@ public class TokenUtil {
     @Value("${jwt.expired-time}")
     private Long TOKEN_EXPIRATION_TIME;
 
-    public String generateToken(String userId, Role role) {
+    public String generateToken(Long userId, Role role) {
         final Date now = new Date();
         final Claims claims = Jwts.claims()
                 .setIssuedAt(now)
