@@ -53,6 +53,9 @@ public class Company {
     @Enumerated(EnumType.STRING)
     private CompanyStatus status = CompanyStatus.PENDING;
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    private Set<Product> products;
+
     public static Company create(Long userId, UUID hubId, String name, CompanyType type, Address address) {
         return Company.builder()
                 .userId(userId)
