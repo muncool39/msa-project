@@ -11,4 +11,4 @@ eureka:
 
 jwt:
   secret: msaproject1234567890project
-  expired-time: 1000000
+  expired-time: 86400000
