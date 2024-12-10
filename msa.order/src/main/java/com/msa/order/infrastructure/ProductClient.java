@@ -1,11 +1,13 @@
 package com.msa.order.infrastructure;
 
 import com.msa.order.application.service.ProductManager;
+import com.msa.order.application.service.dto.CompanyData;
 import com.msa.order.application.service.dto.ProductStockRequest;
-import com.msa.order.application.service.dto.ProductStockResponse;
+import com.msa.order.application.service.dto.ProductStockData;
 import com.msa.order.config.FeignConfiguration;
 import java.util.UUID;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +21,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface ProductClient extends ProductManager {
 
   @PatchMapping("/products/{id}/reduce-stock")
-  ProductStockResponse reduceStock(@PathVariable(name = "id") UUID id,
+  ProductStockData reduceStock(@PathVariable(name = "id") UUID id,
       @RequestBody ProductStockRequest stock);
 
   @PatchMapping("/products/{id}/restore-stock")
-  ProductStockResponse restoreStock(@PathVariable(name = "id") UUID id,
+  ProductStockData restoreStock(@PathVariable(name = "id") UUID id,
       @RequestBody ProductStockRequest stock);
+
+  @GetMapping("/companies/{id}")
+  CompanyData getCompanyInfo(@PathVariable(name = "id") UUID companyId);
 
 }
