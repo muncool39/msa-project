@@ -53,10 +53,10 @@ public class Hub extends BaseEntity {
     @Column(name="longitude", nullable=false)
     private Double longitude;
 
-    @OneToMany(mappedBy = "source_hub_id")
+    @OneToMany(mappedBy = "sourceHubId")
     private List<HubRoute> sourceHubRoutes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "destination_hub_id")
+    @OneToMany(mappedBy = "destinationHubId")
     private List<HubRoute> destinationHubRoutes = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
