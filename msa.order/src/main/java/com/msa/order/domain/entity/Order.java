@@ -48,21 +48,24 @@ public class Order extends BaseEntity {
 
 	private String description;
 
-	@Column(nullable = false)
 	private UUID deliveryId;
 
-
 	public static Order create(UUID supplierCompanyId, UUID receiverCompanyId, UUID itemId, int quantity,
-		String description, UUID deliveryId) {
+		String description) {
 
 		return Order.builder()
 			.supplierCompanyId(supplierCompanyId)
 			.receiverCompanyId(receiverCompanyId)
-			.status(OrderStatus.ORDERED)
+			.status(OrderStatus.ORDER_REQUEST)
 			.itemId(itemId)
 			.quantity(quantity)
 			.description(description)
-			.deliveryId(deliveryId)
 			.build();
 	}
+
+	public void updateDeliveryId(UUID deliveryId) {
+		this.status = OrderStatus.ORDERED;
+		this.deliveryId = deliveryId;
+	}
+
 }
