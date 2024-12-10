@@ -8,3 +8,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:19090/eureka/
+
+jwt:
+  secret: msaproject1234567890project
+  expired-time: 1000000
