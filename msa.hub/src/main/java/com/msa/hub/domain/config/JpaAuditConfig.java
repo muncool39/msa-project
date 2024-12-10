@@ -1,4 +1,4 @@
-package com.msa.hub.config;
+package com.msa.hub.domain.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
