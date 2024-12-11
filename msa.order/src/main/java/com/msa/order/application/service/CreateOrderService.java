@@ -52,7 +52,7 @@ public class CreateOrderService {
 //    if(deliveryResponse.deliveryId() == null) {
 //      throw new OrderException(ErrorCode.REQUEST_DELIVERY_FAILED);
 //    }
-    DeliveryData deliveryResponse = new DeliveryData(deliveryId, null,null, null, null, null, null, null);
+    DeliveryData deliveryResponse = new DeliveryData(deliveryId, null,null,null, null, null, null, null, null);
     savedOrder.updateDeliveryId(deliveryResponse.deliveryId());
   }
 

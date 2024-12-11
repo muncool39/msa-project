@@ -10,7 +10,8 @@ public record DeliveryData(
     String district,
     String streetName,
     String streetNum,
-    String detail
+    String detail,
+	UUID departureHubId
 ) {
 
 
