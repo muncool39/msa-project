@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
+  UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "접근 권한이 없습니다. "),
+
   STOCK_REDUCTION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "재고 감소에 실패했습니다. "),
   STOCK_RESTORE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "재고 복구에 실패했습니다. "),
   STOCK_NOT_ENOUGH(HttpStatus.BAD_REQUEST, "재고가 부족합니다. "),

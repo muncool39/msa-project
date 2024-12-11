@@ -1,6 +1,6 @@
 package com.msa.order.presentation;
 
-import com.msa.order.application.GetOrderService;
+import com.msa.order.application.service.GetOrderService;
 import com.msa.order.application.service.CreateOrderService;
 import com.msa.order.application.service.dto.OrderDetails;
 import com.msa.order.presentation.request.CreateOrderRequest;
@@ -32,7 +32,6 @@ public class OrderController {
 
   @GetMapping("/{id}")
   public ApiResponse<GetOrderResponse> getOrder(@PathVariable(name = "id") UUID orderId) {
-    // TODO 권한 체크
     OrderDetails orderDetails = getOrderService.getOrder(orderId);
     return ApiResponse.success(GetOrderResponse.from(orderDetails));
   }

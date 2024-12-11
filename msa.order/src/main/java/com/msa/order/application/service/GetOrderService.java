@@ -1,9 +1,5 @@
-package com.msa.order.application;
+package com.msa.order.application.service;
 
-import com.msa.order.application.service.DeliveryManager;
-import com.msa.order.application.service.ProductManager;
-import com.msa.order.application.service.dto.CompanyData;
-import com.msa.order.application.service.dto.DeliveryData;
 import com.msa.order.application.service.dto.OrderDetails;
 import com.msa.order.domain.entity.Address;
 import com.msa.order.domain.entity.Order;
@@ -32,7 +28,12 @@ public class GetOrderService {
   }
 
   public OrderDetails getOrder(UUID orderId) {
+    // TODO 권한 체크
+    // 업체담당자 : 본인 주문만 조회할 수 잇음.
+    // 허브 관리자 : 담당 허브에 들어온 주문 내역만 조회 가능
+    // 배송 담당자 : 본인이 배송할 주문내역만 조회 가능
     Order order = findOrder(orderId);
+
     // TODO companyService 연동 및 테스트 필요
 //    CompanyData supplierCompany = productManager.getCompanyInfo(order.getSupplierCompanyId());
 //    CompanyData receiveCompany = productManager.getCompanyInfo(order.getReceiverCompanyId());
