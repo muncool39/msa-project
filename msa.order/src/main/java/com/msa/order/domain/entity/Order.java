@@ -26,46 +26,51 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Order extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
-	@Column(nullable = false)
-	private UUID supplierCompanyId;
+  @Column(nullable = false)
+  private UUID supplierCompanyId;
 
-	@Column(nullable = false)
-	private UUID receiverCompanyId;
+  @Column(nullable = false)
+  private UUID receiverCompanyId;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private OrderStatus status;
+  @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
+  private OrderStatus status;
 
-	@Column(nullable = false)
-	private UUID itemId;
+  @Column(nullable = false)
+  private UUID itemId;
 
-	@Column(nullable = false)
-	private int quantity;
+  @Column(nullable = false)
+  private String itemName;
 
-	private String description;
+  @Column(nullable = false)
+  private int quantity;
 
-	private UUID deliveryId;
+  private String description;
 
-	public static Order create(UUID supplierCompanyId, UUID receiverCompanyId, UUID itemId, int quantity,
-		String description) {
+  private UUID deliveryId;
 
-		return Order.builder()
-			.supplierCompanyId(supplierCompanyId)
-			.receiverCompanyId(receiverCompanyId)
-			.status(OrderStatus.ORDER_REQUEST)
-			.itemId(itemId)
-			.quantity(quantity)
-			.description(description)
-			.build();
-	}
 
-	public void updateDeliveryId(UUID deliveryId) {
-		this.status = OrderStatus.ORDERED;
-		this.deliveryId = deliveryId;
-	}
+  public static Order create(UUID supplierCompanyId, UUID receiverCompanyId, UUID itemId,
+      String itemName, int quantity, String description) {
+
+    return Order.builder()
+        .supplierCompanyId(supplierCompanyId)
+        .receiverCompanyId(receiverCompanyId)
+        .status(OrderStatus.ORDER_REQUEST)
+        .itemId(itemId)
+        .itemName(itemName)
+        .quantity(quantity)
+        .description(description)
+        .build();
+  }
+
+  public void updateDeliveryId(UUID deliveryId) {
+    this.status = OrderStatus.ORDERED;
+    this.deliveryId = deliveryId;
+  }
 
 }
