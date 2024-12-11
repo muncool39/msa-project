@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.company" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msa.company" />
+            <option value="$PROJECT_DIR$/../../팀프로젝트/msa-project/msa.company" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.delivery" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msa.delivery" />
+            <option value="$PROJECT_DIR$/../../팀프로젝트/msa-project/msa.delivery" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.gateway" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msa.gateway" />
+            <option value="$PROJECT_DIR$/../../팀프로젝트/msa-project/msa.gateway" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.hub" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msa.hub" />
+            <option value="$PROJECT_DIR$/../../팀프로젝트/msa-project/msa.hub" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.notification" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/msa.notification" />
@@ -49,16 +50,16 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.order" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msa.order" />
+            <option value="$PROJECT_DIR$/../../팀프로젝트/msa-project/msa.order" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.server" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/msa.server" />
@@ -67,7 +68,7 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.user" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/msa.user" />
