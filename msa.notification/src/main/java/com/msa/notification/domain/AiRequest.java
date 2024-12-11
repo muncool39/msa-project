@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name="ai_request")
 public class AiRequest {
 
+    // AI 요청 데이터
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
