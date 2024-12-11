@@ -12,6 +12,9 @@ public record CreateOrderRequest(
     UUID itemId,
 
     @NotNull
+    String itemName,
+
+    @NotNull
     int quantity,
 
     String description,

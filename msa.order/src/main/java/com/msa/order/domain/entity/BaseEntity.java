@@ -41,7 +41,6 @@ public abstract class BaseEntity {
 
 	private Long canceledBy;
 
-	@ColumnDefault("false")
-	private Boolean isDeleted;
+	private Boolean isDeleted = false;
 
 }
