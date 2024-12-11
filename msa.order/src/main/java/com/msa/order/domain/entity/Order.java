@@ -73,4 +73,9 @@ public class Order extends BaseEntity {
     this.deliveryId = deliveryId;
   }
 
+  public void updateItemInfo(UUID itemId, int quantity) {
+    this.itemId = itemId;
+    this.quantity = quantity;
+  }
+
 }
