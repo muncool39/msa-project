@@ -52,4 +52,17 @@ public class HubRoute extends BaseEntity {
         this.distance = distance;
         this.duration = duration;
     }
+
+    public static HubRoute createBy(Hub sourceHubId, Hub destinationHubId, Double distance, Long duration) {
+        return HubRoute.builder()
+                .sourceHubId(sourceHubId)
+                .destinationHubId(destinationHubId)
+                .distance(distance)
+                .duration(duration)
+                .build();
+    }
+
+    public void updateWaypoints(List<Waypoint> waypoints) {
+        this.waypoints = waypoints;
+    }
 }
