@@ -5,11 +5,13 @@ import java.util.UUID;
 public record DeliveryData(
     UUID deliveryId,
     UUID orderId,
+    String status,
     String city,
     String district,
     String streetName,
     String streetNum,
-    String detail
+    String detail,
+	UUID departureHubId
 ) {
 
 
