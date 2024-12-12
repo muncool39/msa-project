@@ -1,4 +1,4 @@
-package com.msa.user.application.service;
+package com.msa.user.common;
 
 
 import com.msa.user.domain.model.Role;

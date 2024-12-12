@@ -1,4 +1,4 @@
-package com.msa.user.exception;
+package com.msa.user.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
