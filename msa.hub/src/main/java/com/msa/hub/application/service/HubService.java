@@ -31,7 +31,8 @@ public class HubService {
                         request.streetNumber(),
                         request.addressDetail(),
                         request.latitude(),
-                        request.longitude()
+                        request.longitude(),
+                        request.managerId()
                 )
         );
     }

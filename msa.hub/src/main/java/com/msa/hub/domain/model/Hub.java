@@ -53,6 +53,9 @@ public class Hub extends BaseEntity {
     @Column(name="longitude", nullable=false)
     private Double longitude;
 
+    @Column(name="manager_id", nullable = false)
+    private Long managerId;
+
     @OneToMany(mappedBy = "sourceHubId")
     private List<HubRoute> sourceHubRoutes = new ArrayList<>();
 
@@ -61,7 +64,7 @@ public class Hub extends BaseEntity {
 
     @Builder(access = AccessLevel.PRIVATE)
     private Hub(String name, String city, String district, String streetName, String streetNumber, String addressDetail,
-               Double latitude, Double longitude) {
+               Double latitude, Double longitude, Long managerId) {
         this.name = name;
         this.city = city;
         this.district = district;
@@ -70,11 +73,12 @@ public class Hub extends BaseEntity {
         this.addressDetail = addressDetail;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.managerId = managerId;
     }
 
     public static Hub createBy(String name, String city,
                              String district, String streetName, String streetNumber, String addressDetail,
-                             Double latitude, Double longitude) {
+                             Double latitude, Double longitude, Long managerId) {
         return Hub.builder()
                 .name(name)
                 .city(city)
@@ -84,6 +88,7 @@ public class Hub extends BaseEntity {
                 .addressDetail(addressDetail)
                 .latitude(latitude)
                 .longitude(longitude)
+                .managerId(managerId)
                 .build();
     }
 
