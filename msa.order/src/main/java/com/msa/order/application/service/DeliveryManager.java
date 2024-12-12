@@ -1,10 +1,13 @@
 package com.msa.order.application.service;
 
+import java.util.UUID;
+
 import com.msa.order.application.service.dto.CreateDeliveryRequest;
-import com.msa.order.application.service.dto.CreateDeliveryResponse;
+import com.msa.order.application.service.dto.DeliveryData;
 
 public interface DeliveryManager {
 
-	CreateDeliveryResponse createDelivery(CreateDeliveryRequest request);
+	DeliveryData createDelivery(CreateDeliveryRequest request);
 
+	DeliveryData getDeliveryInfo(UUID orderId);
 }

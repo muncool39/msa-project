@@ -1,5 +1,8 @@
 package com.msa.order.domain.entity;
 
+import com.msa.order.exception.BusinessException.OrderException;
+import com.msa.order.exception.ErrorCode;
+
 import java.util.UUID;
 
 import com.msa.order.domain.entity.enums.OrderStatus;
@@ -44,28 +47,47 @@ public class Order extends BaseEntity {
 	private UUID itemId;
 
 	@Column(nullable = false)
+	private String itemName;
+
+	@Column(nullable = false)
 	private int quantity;
 
 	private String description;
 
 	private UUID deliveryId;
 
-	public static Order create(UUID supplierCompanyId, UUID receiverCompanyId, UUID itemId, int quantity,
-		String description) {
+	public static Order create(UUID supplierCompanyId, UUID receiverCompanyId, UUID itemId,
+		String itemName, int quantity, String description) {
 
-		return Order.builder()
-			.supplierCompanyId(supplierCompanyId)
-			.receiverCompanyId(receiverCompanyId)
-			.status(OrderStatus.ORDER_REQUEST)
-			.itemId(itemId)
-			.quantity(quantity)
-			.description(description)
-			.build();
+		return Order.builder().supplierCompanyId(supplierCompanyId).receiverCompanyId(receiverCompanyId)
+			.status(OrderStatus.ORDER_REQUEST).itemId(itemId).itemName(itemName).quantity(quantity)
+			.description(description).build();
 	}
 
 	public void updateDeliveryId(UUID deliveryId) {
 		this.status = OrderStatus.ORDERED;
 		this.deliveryId = deliveryId;
+	}
+
+	public void updateItemInfo(UUID itemId, int quantity) {
+		this.itemId = itemId;
+		this.quantity = quantity;
+	}
+
+	public void cancelOrder() {
+		this.status = OrderStatus.ORDER_CANCELED;
+	}
+
+	public void validateChangeOrder(String status) {
+		final String HUB_WAITING = "HUB_WAITING";
+
+		if (!HUB_WAITING.equals(status)) {
+			throw new OrderException(ErrorCode.ORDER_CHANGE_NOT_ALLOWED);
+		}
+	}
+
+	public void deleteOrder(String deletedBy) {
+		super.deleteOrder(deletedBy);
 	}
 
 }

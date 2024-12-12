@@ -1,4 +1,4 @@
-package com.msa.user.config;
+package com.msa.user.domain.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
