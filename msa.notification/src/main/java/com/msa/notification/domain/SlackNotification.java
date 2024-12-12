@@ -42,4 +42,5 @@ public class SlackNotification {
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime sentAt;
+
 }
