@@ -1,6 +1,7 @@
 package com.msa.hub.application.service;
 
 
+import com.msa.hub.application.dto.Role;
 import com.msa.hub.domain.model.Hub;
 import com.msa.hub.domain.repository.HubRepository;
 import com.msa.hub.exception.ErrorCode;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class HubService {
 
+    private final UserService userService;
     private final HubRepository hubRepository;
 
     @Transactional
@@ -22,6 +24,14 @@ public class HubService {
         if(existsHub(request.name())) {
             throw new HubException(ErrorCode.DUPLICATE_HUB_NAME);
         }
+        Role managerRole = userService
+                .findUser(request.managerId())
+                .data().role();
+
+        if(managerRole!=Role.HUB_MANAGER) {
+            throw new HubException(ErrorCode.INVALID_ROLE);
+        }
+
         hubRepository.save(
                 Hub.createBy(
                         request.name(),
