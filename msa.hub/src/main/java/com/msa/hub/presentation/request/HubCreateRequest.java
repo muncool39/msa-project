@@ -11,6 +11,7 @@ public record HubCreateRequest(
         @NotBlank String streetNumber,
         @NotBlank String addressDetail,
         @NotNull Double latitude,
-        @NotNull Double longitude
+        @NotNull Double longitude,
+        @NotNull Long managerId
 ) {
 }

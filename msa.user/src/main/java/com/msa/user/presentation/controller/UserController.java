@@ -16,11 +16,11 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/{user_id}")
+    @GetMapping("/{userId}")
     public ApiResponse<UserDetailResponse> findUser(
-            @PathVariable Long user_id
+            @PathVariable Long userId
     ) {
-        return ApiResponse.success(userService.getUser(user_id));
+        return ApiResponse.success(userService.getUser(userId));
     }
 
 }

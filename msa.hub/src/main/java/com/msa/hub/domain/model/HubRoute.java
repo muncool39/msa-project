@@ -42,7 +42,7 @@ public class HubRoute extends BaseEntity {
     @Column(name="duration", nullable=false)
     private Long duration;
 
-    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "linkedRoute", cascade = CascadeType.ALL)
     private List<Waypoint> waypoints;
 
     @Builder(access = AccessLevel.PRIVATE)
