@@ -27,10 +27,7 @@ import org.springframework.stereotype.Repository;
 public class HubRouteCustomRepositoryImpl implements HubRouteCustomRepository {
 
     private final JPAQueryFactory queryFactory;
-
-
-
-
+    
     @Override
     public Page<HubRoute> findHubRoutesWith(
             Pageable pageable, String sourceHubId, String destinationHubId
