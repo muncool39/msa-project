@@ -37,4 +37,9 @@ public abstract class BaseEntity {
 
     @ColumnDefault("false")
     private Boolean isDeleted = false;
+
+    protected void initAuditInfo(Long userId) {
+        this.createdBy = userId;
+        this.updatedBy = userId;
+    }
 }
