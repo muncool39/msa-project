@@ -8,6 +8,7 @@ public record UserDetailResponse(
         String email,
         String slackId,
         Role role,
+        String belongHubId,
         LocalDateTime createAt,
         LocalDateTime updatedAt
 ) {

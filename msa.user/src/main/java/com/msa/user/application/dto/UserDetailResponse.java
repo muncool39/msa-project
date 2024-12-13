@@ -10,6 +10,7 @@ public record UserDetailResponse(
         String email,
         String slackId,
         Role role,
+        String belongHubId,
         LocalDateTime createAt,
         LocalDateTime updatedAt
 ) {
@@ -20,6 +21,7 @@ public record UserDetailResponse(
                 user.getEmail(),
                 user.getSlackId(),
                 user.getRole(),
+                user.getBelongHubId(),
                 user.getCreatedAt(),
                 user.getUpdatedAt()
         );
