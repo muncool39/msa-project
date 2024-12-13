@@ -1,6 +1,6 @@
 package com.msa.user.common.exception;
 
-public record ExceptionMessage(
+public record ExceptionResponse(
         String message
 ) {
 }
