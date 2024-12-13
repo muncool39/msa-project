@@ -1,15 +1,12 @@
 package com.msa.order.application.service;
 
-import com.msa.order.application.service.dto.CompanyData;
-import com.msa.order.application.service.dto.CreateDeliveryRequest;
-import com.msa.order.application.service.dto.DeliveryData;
-import com.msa.order.application.service.dto.ProductStockData;
-import com.msa.order.application.service.dto.ProductStockRequest;
-import com.msa.order.domain.entity.Address;
+import com.msa.order.application.client.DeliveryManager;
+import com.msa.order.application.client.ProductManager;
+import com.msa.order.application.client.dto.CreateDeliveryRequest;
+import com.msa.order.application.client.dto.DeliveryData;
+import com.msa.order.application.client.dto.ProductStockData;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.repository.OrderRepository;
-import com.msa.order.exception.BusinessException.OrderException;
-import com.msa.order.exception.ErrorCode;
 import com.msa.order.presentation.request.CreateOrderRequest;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +41,7 @@ public class CreateOrderService {
   @Transactional
   public void createOrder(CreateOrderRequest request) {
     ProductStockData productStockData = reduceProductStock(request);
-    Order savedOrder = createAndSaveOrder(request);
+    Order savedOrder = createAndSaveOrder(request, productStockData.hubId());
     CreateDeliveryRequest deliveryRequest = createDeliveryRequest(request, productStockData, savedOrder);
     createDeliveryAndUpdateOrder(deliveryRequest, savedOrder);
   }
@@ -55,25 +52,25 @@ public class CreateOrderService {
   //  if(deliveryResponse.deliveryId() == null) {
   //    throw new OrderException(ErrorCode.REQUEST_DELIVERY_FAILED);
   //  }
-    DeliveryData deliveryResponse = new DeliveryData(deliveryId, null,null,null, null, null, null, null, null);
+    DeliveryData deliveryResponse = new DeliveryData(1L, null,null,null, null, null, null, null, null);
     savedOrder.updateDeliveryId(deliveryResponse.deliveryId());
   }
 
   private CreateDeliveryRequest createDeliveryRequest(CreateOrderRequest request, ProductStockData productStockData, Order savedOrder) {
     //TODO header에 role MASTER 넣어서 요청보내기
-    Address address = Address.of(request.city(), request.district(), request.streetName(),
-        request.streetNum(), request.detail());
+   // CompanyData receiveCompany = productManager.getCompanyInfo(request.receiveCompanyId());
 
-    CompanyData receiveCompany = productManager.getCompanyInfo(request.receiveCompanyId());
-
-    return new CreateDeliveryRequest(savedOrder.getId(), receiverName, receiverSlackId, address,
-        request.supplierCompanyId(), productStockData.hubId(), receiveCompany.hubId());
+    // return new CreateDeliveryRequest(savedOrder.getId(), receiverName, receiverSlackId, savedOrder.getAddress(),
+    //     request.supplierCompanyId(), productStockData.hubId(), receiveCompany.hubId());
+    return new CreateDeliveryRequest(savedOrder.getId(), receiverName, receiverSlackId, savedOrder.getAddress(),
+        request.supplierCompanyId(), productStockData.hubId(), hubId);
   }
 
-  private Order createAndSaveOrder(CreateOrderRequest request) {
+  private Order createAndSaveOrder(CreateOrderRequest request, UUID departureHubId) {
 
-    Order order = Order.create(request.supplierCompanyId(), request.receiveCompanyId(), request.itemId(),
-        request.itemName(), request.quantity(), request.description());
+    Order order = Order.create(request.supplierCompanyId(), request.receiveCompanyId(),
+        request.itemId(), request.itemName(), request.quantity(), request.description(),
+        request.city(), request.district(), request.streetName(), request.streetNum(), request.detail(), departureHubId);
 
     return orderRepository.save(order);
   }

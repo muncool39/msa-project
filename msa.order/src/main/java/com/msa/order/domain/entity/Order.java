@@ -1,13 +1,13 @@
 package com.msa.order.domain.entity;
 
-import com.msa.order.exception.BusinessException.OrderException;
-import com.msa.order.exception.ErrorCode;
-
 import java.util.UUID;
 
 import com.msa.order.domain.entity.enums.OrderStatus;
+import com.msa.order.exception.BusinessException.OrderException;
+import com.msa.order.exception.ErrorCode;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -54,17 +54,35 @@ public class Order extends BaseEntity {
 
 	private String description;
 
-	private UUID deliveryId;
+	private Long deliveryId;
+
+	@Embedded
+	private Address address;
+
+	@Column(nullable = false)
+	private UUID departureHubId;
+
 
 	public static Order create(UUID supplierCompanyId, UUID receiverCompanyId, UUID itemId,
-		String itemName, int quantity, String description) {
+		String itemName, int quantity, String description, String city, String district, String streetName,
+		String streetNum, String detail, UUID departureHubId) {
 
-		return Order.builder().supplierCompanyId(supplierCompanyId).receiverCompanyId(receiverCompanyId)
-			.status(OrderStatus.ORDER_REQUEST).itemId(itemId).itemName(itemName).quantity(quantity)
-			.description(description).build();
+		Address address = Address.of(city, district, streetName, streetNum, detail);
+
+		return Order.builder()
+			.supplierCompanyId(supplierCompanyId)
+			.receiverCompanyId(receiverCompanyId)
+			.status(OrderStatus.ORDER_REQUEST)
+			.itemId(itemId)
+			.itemName(itemName)
+			.quantity(quantity)
+			.description(description)
+			.address(address)
+			.departureHubId(departureHubId)
+			.build();
 	}
 
-	public void updateDeliveryId(UUID deliveryId) {
+	public void updateDeliveryId(Long deliveryId) {
 		this.status = OrderStatus.ORDERED;
 		this.deliveryId = deliveryId;
 	}
@@ -74,8 +92,9 @@ public class Order extends BaseEntity {
 		this.quantity = quantity;
 	}
 
-	public void cancelOrder() {
+	public void cancelOrder(String canceledBy) {
 		this.status = OrderStatus.ORDER_CANCELED;
+		super.cancelOrder(canceledBy);
 	}
 
 	public void validateChangeOrder(String status) {
