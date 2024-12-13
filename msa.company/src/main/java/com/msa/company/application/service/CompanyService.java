@@ -3,11 +3,14 @@ package com.msa.company.application.service;
 import static com.msa.company.exception.ErrorCode.COMPANY_NOT_FOUND;
 import static com.msa.company.exception.ErrorCode.DUPLICATE_BUSINESS_NUMBER;
 import static com.msa.company.exception.ErrorCode.HUB_NOT_FOUND;
+
+import com.msa.company.domain.entity.Address;
 import com.msa.company.domain.entity.Company;
 import com.msa.company.domain.repository.CompanyRepository;
 import com.msa.company.exception.CompanyException;
 import com.msa.company.infrastructure.HubClient;
 import com.msa.company.presentation.request.CreateCompanyRequest;
+import com.msa.company.presentation.request.UpdateCompanyRequest;
 import com.msa.company.presentation.response.CompanyDetailResponse;
 import com.msa.company.presentation.response.CompanyListResponse;
 import jakarta.transaction.Transactional;
@@ -68,6 +71,34 @@ public class CompanyService {
     public CompanyDetailResponse getDetailCompany(UUID id) {
         Company company = getCompany(id);
         return CompanyDetailResponse.from(company);
+    }
+
+    // 업체 수정
+    @Transactional
+    public void updateCompany(UUID id, UpdateCompanyRequest request, Long userId, String role) {
+        Company company = getCompany(id);
+
+        // TODO: 허브 관리자(담당 허브), 업체 담당자(본인 업체)만 수정되도록 추후 개발
+
+        if (request.userId() != null) {
+            company.setUserId(request.userId());
+        }
+        if (request.name() != null) {
+            company.setName(request.name());
+        }
+        if (request.address() != null) {
+            Address address = request.address().toEntity();
+            company.setAddress(address);
+        }
+        if (request.hubId() != null) {
+            company.setHubId(request.hubId());
+        }
+        if (request.status() != null) {
+            company.setStatus(request.status());
+        }
+        if (request.type() != null) {
+            company.setType(request.type());
+        }
     }
 
     // id 존재 확인
