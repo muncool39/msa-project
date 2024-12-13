@@ -101,6 +101,16 @@ public class CompanyService {
         }
     }
 
+    // 업체 삭제
+    @Transactional
+    public void deleteCompany(UUID id, Long userId, String role) {
+
+        // TODO: 마스터(전체), 허브 관리자(본인 허브만) 추후 개발
+
+        Company company = getCompany(id);
+        company.setIsDeleted(userId, true);
+    }
+
     // id 존재 확인
     private Company getCompany(UUID id) {
         return companyRepository.findById(id)

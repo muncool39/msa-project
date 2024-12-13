@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,4 +70,14 @@ public class CompanyController {
         return ApiResponse.success();
     }
 
+    // 업체 삭제
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER')")
+    public ApiResponse<Void> deleteCompany(@PathVariable UUID id,
+                                           @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId = Long.valueOf(userDetails.getUsername());
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+        companyService.deleteCompany(id, userId, role);
+        return ApiResponse.success();
+    }
 }
