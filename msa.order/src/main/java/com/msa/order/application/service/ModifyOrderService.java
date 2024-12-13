@@ -9,10 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.msa.order.application.client.DeliveryManager;
 import com.msa.order.application.client.HubManager;
 import com.msa.order.application.client.ProductManager;
+import com.msa.order.application.client.UserManager;
+import com.msa.order.application.client.dto.CompanyData;
 import com.msa.order.application.client.dto.DeliveryData;
+import com.msa.order.application.client.dto.UserData;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.entity.enums.UserRole;
 import com.msa.order.domain.repository.OrderRepository;
+import com.msa.order.exception.BusinessException.FeignException;
 import com.msa.order.exception.BusinessException.OrderException;
 import com.msa.order.exception.BusinessException.UnauthorizedException;
 import com.msa.order.exception.ErrorCode;
@@ -26,15 +30,18 @@ public class ModifyOrderService {
 	private final ProductManager productManager;
 	private final DeliveryManager deliveryManager;
 	private final HubManager hubManager;
+	private final UserManager userManager;
 
 	public ModifyOrderService(OrderRepository orderRepository,
 		@Qualifier("productClient") ProductManager productManager,
 		@Qualifier("deliveryClient") DeliveryManager deliveryManager,
-		@Qualifier("hubClient") HubManager hubManager) {
+		@Qualifier("hubClient") HubManager hubManager,
+		@Qualifier("userClient") UserManager userManager) {
 		this.orderRepository = orderRepository;
 		this.productManager = productManager;
 		this.deliveryManager = deliveryManager;
 		this.hubManager = hubManager;
+		this.userManager = userManager;
 	}
 
 	// 임시 하드코딩
@@ -54,13 +61,30 @@ public class ModifyOrderService {
 	}
 
 	@Transactional
-	public void cancelOrder(UUID orderId, String userId) {
-		// TODO 권한 체크
-		// 업체담당자 : 본인 주문만 취소 가능
-		// 허브 관리자 : 담당 허브에 들어온 주문 내역만 취소 가능
-		// 배송 담당자 : 본인이 배송할 주문내역만 취소 가능
-		DeliveryData deliveryData = getDeliveryData(orderId);
+	public void cancelOrder(UUID orderId, String userId, UserRole role) {
 		Order savedOrder = findOrder(orderId);
+		// TODO user 서비스 연동 필요
+		// UserData userData = userManager.getUserInfo(Long.parseLong(userId));
+		// if (userData.id() == null) {
+		// 	throw new FeignException();
+		// }
+
+		UserData userData = new UserData(1L, "test user", "test@mail.com", "testslackId", UserRole.COMPANY_MANAGER, null, UUID.randomUUID(),
+			UUID.randomUUID());
+
+		switch (role) {
+			case HUB_MANAGER -> {
+				if (!savedOrder.getDepartureHubId().equals(userData.hubId())) {
+					throw new UnauthorizedException();
+				}
+			}
+			case COMPANY_MANAGER -> {
+				if (!savedOrder.getReceiverCompanyId().equals(userData.companyId())) {
+					throw new UnauthorizedException();
+				}
+			}
+		}
+		DeliveryData deliveryData = getDeliveryData(orderId);
 		//checkDeliveryStatus(savedOrder, deliveryData.status());
 		checkDeliveryStatus(savedOrder, tempDeliveryStatus);
 		restoreProductStock(savedOrder.getItemId(), savedOrder.getQuantity());
@@ -116,7 +140,6 @@ public class ModifyOrderService {
 	}
 
 	private void checkDeliveryStatus(Order savedOrder, String status) {
-		// Todo 배송 서비스 연동 테스트 필요
 		savedOrder.validateChangeOrder(status);
 	}
 

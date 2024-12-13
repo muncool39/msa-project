@@ -6,3 +6,11 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+/modules/company.main.iml
+/modules/delivery.main.iml
+/modules/gateway.main.iml
+/git_toolbox_prj.xml
+/modules/hub.main.iml
+/modules/order.main.iml
+/modules/server.main.iml
+/modules/user.main.iml

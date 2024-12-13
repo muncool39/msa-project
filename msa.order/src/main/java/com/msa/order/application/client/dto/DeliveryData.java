@@ -6,13 +6,9 @@ public record DeliveryData(
     Long deliveryId,
     UUID orderId,
     String status,
-    String city,
-    String district,
-    String streetName,
-    String streetNum,
-    String detail,
-	UUID departureHubId
+	UUID departureHubId,
+	UUID destinationHubId,
+	Long companyDeliverId
 ) {
-
 
 }
