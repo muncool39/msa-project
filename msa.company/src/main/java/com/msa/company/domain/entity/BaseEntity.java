@@ -42,4 +42,10 @@ public abstract class BaseEntity {
         this.createdBy = userId;
         this.updatedBy = userId;
     }
+
+    public void setIsDeleted(Long userId, boolean isDeleted) {
+        this.deletedAt = LocalDateTime.now();
+        this.deletedBy = userId;
+        this.isDeleted = isDeleted;
+    }
 }
