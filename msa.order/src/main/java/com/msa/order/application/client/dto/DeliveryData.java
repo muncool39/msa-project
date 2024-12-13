@@ -1,9 +1,9 @@
-package com.msa.order.application.service.dto;
+package com.msa.order.application.client.dto;
 
 import java.util.UUID;
 
 public record DeliveryData(
-    UUID deliveryId,
+    Long deliveryId,
     UUID orderId,
     String status,
     String city,

@@ -1,7 +1,7 @@
 package com.msa.order.infrastructure;
 
-import com.msa.order.application.service.dto.CreateDeliveryRequest;
-import com.msa.order.application.service.dto.DeliveryData;
+import com.msa.order.application.client.dto.CreateDeliveryRequest;
+import com.msa.order.application.client.dto.DeliveryData;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

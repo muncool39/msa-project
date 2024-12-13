@@ -1,8 +1,8 @@
 package com.msa.order.infrastructure;
 
-import com.msa.order.application.service.dto.CompanyData;
-import com.msa.order.application.service.dto.ProductStockRequest;
-import com.msa.order.application.service.dto.ProductStockData;
+import com.msa.order.application.client.dto.CompanyData;
+import com.msa.order.application.client.dto.ProductStockRequest;
+import com.msa.order.application.client.dto.ProductStockData;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
