@@ -5,12 +5,12 @@ import java.util.UUID;
 
 public record CreateDeliveryRequest(
     UUID orderId,
-    UUID receiverCompanyId,
     String receiverName,
     String receiverSlackId,
     Address address,
     UUID supplierCompanyId,
-    UUID departureHubId
+    UUID departureHubId,
+	UUID destinationHubId
 ) {
 
 }

@@ -64,6 +64,39 @@ public class Delivery extends BaseEntity {
 	private Long deliveredBy;
 
 	@OneToMany(mappedBy = "delivery")
-	private List<DeliveryHistory> deliveryHistories = new ArrayList<>();
+	@Builder.Default
+	private List<DeliveryRouteHistory> deliveryHistories = new ArrayList<>();
+
+
+	public static Delivery create(UUID orderId, UUID departureHubId, UUID destinationHubId, Address address,
+		String receiverName, String receiverSlackId) {
+
+		return Delivery.builder()
+			.orderId(orderId)
+			.status(DeliveryStatus.HUB_WAITING)
+			.departureHubId(departureHubId)
+			.destinationHubId(destinationHubId)
+			.address(address)
+			.receiverName(receiverName)
+			.receiverSlackId(receiverSlackId)
+			.build();
+
+	}
+
+	public void addDeliveryHistories(List<DeliveryRouteHistory> histories) {
+		histories.forEach(this::addDeliveryRouteHistory);
+	}
+
+	public void addDeliveryRouteHistory(DeliveryRouteHistory history) {
+		this.deliveryHistories.add(history);
+		history.setDelivery(this);
+	}
+
+	public void assignCompanyDeliveryWorker(Long deliverId) {
+		this.deliverId = deliverId;
+	}
+
+
+
 
 }
