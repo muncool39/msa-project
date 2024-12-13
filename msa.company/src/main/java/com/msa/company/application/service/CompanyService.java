@@ -1,5 +1,6 @@
 package com.msa.company.application.service;
 
+import static com.msa.company.exception.ErrorCode.COMPANY_NOT_FOUND;
 import static com.msa.company.exception.ErrorCode.DUPLICATE_BUSINESS_NUMBER;
 import static com.msa.company.exception.ErrorCode.HUB_NOT_FOUND;
 import com.msa.company.domain.entity.Company;
@@ -67,5 +68,11 @@ public class CompanyService {
     public CompanyDetailResponse getDetailCompany(UUID id) {
         Company company = getCompany(id);
         return CompanyDetailResponse.from(company);
+    }
+
+    // id 존재 확인
+    private Company getCompany(UUID id) {
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new CompanyException(COMPANY_NOT_FOUND));
     }
 }
