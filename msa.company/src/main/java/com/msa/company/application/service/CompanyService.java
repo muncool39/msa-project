@@ -7,8 +7,11 @@ import com.msa.company.domain.repository.CompanyRepository;
 import com.msa.company.exception.CompanyException;
 import com.msa.company.infrastructure.HubClient;
 import com.msa.company.presentation.request.CreateCompanyRequest;
+import com.msa.company.presentation.response.CompanyListResponse;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +51,13 @@ public class CompanyService {
                 createCompanyRequest.address().toEntity()
         );
        companyRepository.save(company);
+    }
+
+    // 업체 전체 조회
+    @Transactional
+    public List<CompanyListResponse> getListCompanies() {
+        return companyRepository.findAll().stream()
+                .map(CompanyListResponse::from)
+                .collect(Collectors.toList());
     }
 }
