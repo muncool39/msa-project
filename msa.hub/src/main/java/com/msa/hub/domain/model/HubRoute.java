@@ -1,6 +1,7 @@
 package com.msa.hub.domain.model;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,7 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,11 +42,27 @@ public class HubRoute extends BaseEntity {
     @Column(name="duration", nullable=false)
     private Long duration;
 
+    @OneToMany(mappedBy = "linkedRoute", cascade = CascadeType.ALL)
+    private List<Waypoint> waypoints;
+
     @Builder(access = AccessLevel.PRIVATE)
     private HubRoute(Hub sourceHubId, Hub destinationHubId, Double distance, Long duration) {
         this.sourceHubId = sourceHubId;
         this.destinationHubId = destinationHubId;
         this.distance = distance;
         this.duration = duration;
+    }
+
+    public static HubRoute createBy(Hub sourceHubId, Hub destinationHubId, Double distance, Long duration) {
+        return HubRoute.builder()
+                .sourceHubId(sourceHubId)
+                .destinationHubId(destinationHubId)
+                .distance(distance)
+                .duration(duration)
+                .build();
+    }
+
+    public void updateWaypoints(List<Waypoint> waypoints) {
+        this.waypoints = waypoints;
     }
 }

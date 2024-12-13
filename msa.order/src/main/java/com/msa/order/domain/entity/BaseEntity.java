@@ -25,23 +25,30 @@ public abstract class BaseEntity {
 
 	@CreatedBy
 	@Column(updatable = false)
-	private Long createdBy;
+	private String createdBy;
 
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
 
 	@LastModifiedBy
-	private Long updatedBy;
+	private String updatedBy;
 
 	private LocalDateTime deletedAt;
 
-	private Long deletedBy;
+	private String deletedBy;
 
+	@LastModifiedDate
 	private LocalDateTime canceledAt;
 
-	private Long canceledBy;
+	@LastModifiedBy
+	private String canceledBy;
 
-	@ColumnDefault("false")
-	private Boolean isDeleted;
+	private Boolean isDeleted = false;
+
+	protected void deleteOrder(String deleteBy) {
+		this.isDeleted = true;
+		this.deletedAt = LocalDateTime.now();
+		this.deletedBy = deleteBy;
+	}
 
 }

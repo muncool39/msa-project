@@ -1,14 +1,11 @@
 package com.msa.order.application.service;
 
 import com.msa.order.application.service.dto.CreateDeliveryRequest;
-import com.msa.order.application.service.dto.CreateDeliveryResponse;
-import com.msa.order.application.service.dto.ProductStockRequest;
-import com.msa.order.application.service.dto.ProductStockResponse;
+import com.msa.order.application.service.dto.DeliveryData;
+import com.msa.order.application.service.dto.ProductStockData;
 import com.msa.order.domain.entity.Address;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.repository.OrderRepository;
-import com.msa.order.exception.BusinessException.OrderException;
-import com.msa.order.exception.ErrorCode;
 import com.msa.order.presentation.request.CreateOrderRequest;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +40,9 @@ public class CreateOrderService {
 
   @Transactional
   public void createOrder(CreateOrderRequest request) {
-    ProductStockResponse productStockResponse = reduceProductStock(request);
+    ProductStockData productStockData = reduceProductStock(request);
     Order savedOrder = createAndSaveOrder(request);
-    CreateDeliveryRequest deliveryRequest = createDeliveryRequest(request, productStockResponse, savedOrder);
+    CreateDeliveryRequest deliveryRequest = createDeliveryRequest(request, productStockData, savedOrder);
     createDeliveryAndUpdateOrder(deliveryRequest, savedOrder);
   }
 
@@ -55,28 +52,28 @@ public class CreateOrderService {
 //    if(deliveryResponse.deliveryId() == null) {
 //      throw new OrderException(ErrorCode.REQUEST_DELIVERY_FAILED);
 //    }
-    CreateDeliveryResponse deliveryResponse = new CreateDeliveryResponse(deliveryId);
+    DeliveryData deliveryResponse = new DeliveryData(deliveryId, null,null,null, null, null, null, null, null);
     savedOrder.updateDeliveryId(deliveryResponse.deliveryId());
   }
 
-  private CreateDeliveryRequest createDeliveryRequest(CreateOrderRequest request, ProductStockResponse productStockResponse, Order savedOrder) {
+  private CreateDeliveryRequest createDeliveryRequest(CreateOrderRequest request, ProductStockData productStockData, Order savedOrder) {
 
     Address address = Address.of(request.city(), request.district(), request.streetName(),
         request.streetNum(), request.detail());
 
     return new CreateDeliveryRequest(savedOrder.getId(),
         receiverCompanyId, receiverName, receiverSlackId, address, request.supplierCompanyId(),
-        productStockResponse.hubId());
+        productStockData.hubId());
   }
 
   private Order createAndSaveOrder(CreateOrderRequest request) {
     Order order = Order.create(request.supplierCompanyId(), receiverCompanyId, request.itemId(),
-        request.quantity(), request.description());
+        request.itemName(), request.quantity(), request.description());
 
     return orderRepository.save(order);
   }
 
-  private ProductStockResponse reduceProductStock(CreateOrderRequest request) {
+  private ProductStockData reduceProductStock(CreateOrderRequest request) {
    // Todo 상품 서비스 연동 테스트 필요
 //    ProductStockResponse response = productManager.reduceStock(request.itemId(),
 //        new ProductStockRequest(request.quantity()));
@@ -86,7 +83,7 @@ public class CreateOrderService {
 //    }
 //
 //    return response;
-    return new ProductStockResponse(itemId, hubId);
+    return new ProductStockData(itemId, hubId);
   }
 
 }
