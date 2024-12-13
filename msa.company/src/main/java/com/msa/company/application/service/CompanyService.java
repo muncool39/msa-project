@@ -7,6 +7,7 @@ import com.msa.company.domain.repository.CompanyRepository;
 import com.msa.company.exception.CompanyException;
 import com.msa.company.infrastructure.HubClient;
 import com.msa.company.presentation.request.CreateCompanyRequest;
+import com.msa.company.presentation.response.CompanyDetailResponse;
 import com.msa.company.presentation.response.CompanyListResponse;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -59,5 +60,12 @@ public class CompanyService {
         return companyRepository.findAll().stream()
                 .map(CompanyListResponse::from)
                 .collect(Collectors.toList());
+    }
+
+    // 업체 상세 조회
+    @Transactional
+    public CompanyDetailResponse getDetailCompany(UUID id) {
+        Company company = getCompany(id);
+        return CompanyDetailResponse.from(company);
     }
 }
