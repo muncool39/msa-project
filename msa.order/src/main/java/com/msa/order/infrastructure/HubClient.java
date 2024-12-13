@@ -6,8 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.msa.order.application.service.HubManager;
-import com.msa.order.application.service.dto.HubData;
+import com.msa.order.application.client.HubManager;
+import com.msa.order.application.client.dto.HubData;
 import com.msa.order.config.FeignConfiguration;
 
 @FeignClient(

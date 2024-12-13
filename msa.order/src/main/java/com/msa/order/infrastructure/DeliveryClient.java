@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.msa.order.application.service.DeliveryManager;
-import com.msa.order.application.service.dto.CreateDeliveryRequest;
-import com.msa.order.application.service.dto.DeliveryData;
+import com.msa.order.application.client.DeliveryManager;
+import com.msa.order.application.client.dto.CreateDeliveryRequest;
+import com.msa.order.application.client.dto.DeliveryData;
 
 @FeignClient(
     name = "delivery-service",

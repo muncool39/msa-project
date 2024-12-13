@@ -1,4 +1,4 @@
-package com.msa.order.application.service.dto;
+package com.msa.order.application.client.dto;
 
 import com.msa.order.domain.entity.Address;
 import java.util.UUID;

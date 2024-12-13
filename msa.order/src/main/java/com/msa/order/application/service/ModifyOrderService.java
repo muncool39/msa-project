@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.msa.order.application.service.dto.DeliveryData;
-import com.msa.order.application.service.dto.HubData;
+import com.msa.order.application.client.DeliveryManager;
+import com.msa.order.application.client.HubManager;
+import com.msa.order.application.client.ProductManager;
+import com.msa.order.application.client.dto.DeliveryData;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.entity.enums.UserRole;
 import com.msa.order.domain.repository.OrderRepository;
@@ -18,14 +20,14 @@ import com.msa.order.presentation.request.UpdateOrderRequest;
 
 @Service
 @Transactional(readOnly = true)
-public class OrderModificationService {
+public class ModifyOrderService {
 
 	private final OrderRepository orderRepository;
 	private final ProductManager productManager;
 	private final DeliveryManager deliveryManager;
 	private final HubManager hubManager;
 
-	public OrderModificationService(OrderRepository orderRepository,
+	public ModifyOrderService(OrderRepository orderRepository,
 		@Qualifier("productClient") ProductManager productManager,
 		@Qualifier("deliveryClient") DeliveryManager deliveryManager,
 		@Qualifier("hubClient") HubManager hubManager) {
@@ -47,12 +49,12 @@ public class OrderModificationService {
 		Order savedOrder = findOrder(orderId);
 		//checkDeliveryStatus(savedOrder, deliveryData.status());
 		checkDeliveryStatus(savedOrder, tempDeliveryStatus);
-		reduceProductStock(request);
+		reduceProductStock(request); // ?? 기존 주문에 있던거는 복원시키고 수정된거 감소해야하는거 아님?
 		savedOrder.updateItemInfo(request.itemId(), request.quantity());
 	}
 
 	@Transactional
-	public void cancelOrder(UUID orderId) {
+	public void cancelOrder(UUID orderId, String userId) {
 		// TODO 권한 체크
 		// 업체담당자 : 본인 주문만 취소 가능
 		// 허브 관리자 : 담당 허브에 들어온 주문 내역만 취소 가능
@@ -62,7 +64,7 @@ public class OrderModificationService {
 		//checkDeliveryStatus(savedOrder, deliveryData.status());
 		checkDeliveryStatus(savedOrder, tempDeliveryStatus);
 		restoreProductStock(savedOrder.getItemId(), savedOrder.getQuantity());
-		savedOrder.cancelOrder();
+		savedOrder.cancelOrder(userId);
 	}
 
 	@Transactional
@@ -93,7 +95,7 @@ public class OrderModificationService {
 			Long hubManagerId = getHubManagerId(departureHubId); // 해당 허브의 관리자 id
 
 			if (!userId.equals(String.valueOf(hubManagerId))) {
-				throw new UnauthorizedException(ErrorCode.UNAUTHORIZED);
+				throw new UnauthorizedException();
 			}
 		}
 	}

@@ -1,9 +1,9 @@
 package com.msa.order.infrastructure;
 
-import com.msa.order.application.service.ProductManager;
-import com.msa.order.application.service.dto.CompanyData;
-import com.msa.order.application.service.dto.ProductStockRequest;
-import com.msa.order.application.service.dto.ProductStockData;
+import com.msa.order.application.client.ProductManager;
+import com.msa.order.application.client.dto.CompanyData;
+import com.msa.order.application.client.dto.ProductStockRequest;
+import com.msa.order.application.client.dto.ProductStockData;
 import com.msa.order.config.FeignConfiguration;
 import java.util.UUID;
 import org.springframework.cloud.openfeign.FeignClient;

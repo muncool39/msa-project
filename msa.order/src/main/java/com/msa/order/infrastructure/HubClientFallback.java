@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.msa.order.application.service.dto.HubData;
+import com.msa.order.application.client.dto.HubData;
 
 import lombok.extern.slf4j.Slf4j;
 
