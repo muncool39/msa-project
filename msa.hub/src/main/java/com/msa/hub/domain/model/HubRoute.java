@@ -30,35 +30,35 @@ public class HubRoute extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "source_hub_id")
-    private Hub sourceHubId;
+    private Hub sourceHub;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "destination_hub_id")
-    private Hub destinationHubId;
+    private Hub destinationHub;
 
     @Column(name="distance", nullable=false)
-    private Double distance;
+    private Double totalDistance;
 
     @Column(name="duration", nullable=false)
-    private Long duration;
+    private Long totalDuration;
 
     @OneToMany(mappedBy = "linkedRoute", cascade = CascadeType.ALL)
     private List<Waypoint> waypoints;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private HubRoute(Hub sourceHubId, Hub destinationHubId, Double distance, Long duration) {
-        this.sourceHubId = sourceHubId;
-        this.destinationHubId = destinationHubId;
-        this.distance = distance;
-        this.duration = duration;
+    private HubRoute(Hub sourceHub, Hub destinationHub, Double totalDistance, Long totalDuration) {
+        this.sourceHub = sourceHub;
+        this.destinationHub = destinationHub;
+        this.totalDistance = totalDistance;
+        this.totalDuration = totalDuration;
     }
 
-    public static HubRoute createBy(Hub sourceHubId, Hub destinationHubId, Double distance, Long duration) {
+    public static HubRoute createBy(Hub sourceHub, Hub destinationHub, Double totalDistance, Long totalDuration) {
         return HubRoute.builder()
-                .sourceHubId(sourceHubId)
-                .destinationHubId(destinationHubId)
-                .distance(distance)
-                .duration(duration)
+                .sourceHub(sourceHub)
+                .destinationHub(destinationHub)
+                .totalDistance(totalDistance)
+                .totalDuration(totalDuration)
                 .build();
     }
 

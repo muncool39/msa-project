@@ -56,10 +56,10 @@ public class Hub extends BaseEntity {
     @Column(name="manager_id", nullable = false)
     private Long managerId;
 
-    @OneToMany(mappedBy = "sourceHubId")
+    @OneToMany(mappedBy = "sourceHub")
     private List<HubRoute> sourceHubRoutes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "destinationHubId")
+    @OneToMany(mappedBy = "destinationHub")
     private List<HubRoute> destinationHubRoutes = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)

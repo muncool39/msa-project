@@ -65,28 +65,31 @@ public class HubRouteCreateService {
         List<Waypoint> waypoints = new ArrayList<>();
         Hub current = source;
 
+        int sequence = 1;
         for (Hub waypointHub : waypointsHubs) {
-            Waypoint waypoint = createWaypoint(route, current, waypointHub);
+            Waypoint waypoint = createWaypoint(route, current, waypointHub, sequence);
             waypoints.add(waypoint);
             current = waypointHub;
+            sequence++;
         }
 
         // 마지막 허브까지의 경유지 추가
         if (!waypointsHubs.isEmpty()) {
-            waypoints.add(createWaypoint(route, current, destination));
+            waypoints.add(createWaypoint(route, current, destination, sequence));
         }
 
         return waypoints;
     }
 
-    private Waypoint createWaypoint(HubRoute route, Hub fromHub, Hub toHub) {
+    private Waypoint createWaypoint(HubRoute route, Hub fromHub, Hub toHub, int sequence) {
         double distance = calculateDistance(fromHub, toHub);
         int duration = calculateDuration(distance);
         return Waypoint.createBy(
                 route,
                 toHub,
                 distance,
-                duration
+                duration,
+                sequence
         );
     }
 

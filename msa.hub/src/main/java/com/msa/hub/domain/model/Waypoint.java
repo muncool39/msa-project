@@ -36,20 +36,25 @@ public class Waypoint {
     @Column(name="duration_from_previuos", nullable=false)
     private int durationFromPrevious;
 
+    @Column(name="sequence", nullable=false)
+    private int sequence;
+
     @Builder(access = AccessLevel.PRIVATE)
-    private Waypoint(HubRoute linkedRoute, Hub hub, double distanceFromPrevious, int durationFromPrevious) {
+    private Waypoint(HubRoute linkedRoute, Hub hub, double distanceFromPrevious, int durationFromPrevious, int sequence) {
         this.linkedRoute = linkedRoute;
         this.hub = hub;
         this.distanceFromPrevious = distanceFromPrevious;
         this.durationFromPrevious = durationFromPrevious;
+        this.sequence = sequence;
     }
 
-    public static Waypoint createBy(HubRoute route, Hub hub, double distanceFromPrevious, int durationFromPrevious) {
+    public static Waypoint createBy(HubRoute route, Hub hub, double distanceFromPrevious, int durationFromPrevious, int sequence) {
         return Waypoint.builder()
                 .linkedRoute(route)
                 .hub(hub)
                 .distanceFromPrevious(distanceFromPrevious)
                 .durationFromPrevious(durationFromPrevious)
+                .sequence(sequence)
                 .build();
     }
 
