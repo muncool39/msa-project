@@ -39,6 +39,14 @@ public class HubRouteController {
         hubRouteCreateService.createRoute(request.sourceHubId(), request.destinationHubId());
         return ApiResponse.success();
     }
+
+    @GetMapping("/{routeId}")
+    public ApiResponse<HubRouteDetailResponse> getHubRouteDetail(
+            @PathVariable String routeId
+    ) {
+        return ApiResponse.success(hubRouteReadService.getHubRouteDetail(routeId));
+    }
+
     @GetMapping
     public ApiResponse<PageResponse<HubRouteResponse>> getHubRoutes(
             @PageableDefault(size = 10)
@@ -53,5 +61,16 @@ public class HubRouteController {
         return ApiResponse.success(PageResponse.of(
                 hubRouteReadService.findHubRoutes(pageable, sourceHubId, destinationHubId)
         ));
+    }
+
+    /*
+    배송 서비스 클라이언트 용
+     */
+    @GetMapping("/delivery")
+    public HubRouteDetailResponse getHubRoute(
+            @RequestParam String sourceHubId,
+            @RequestParam String destinationHubId
+    ) {
+        return hubRouteReadService.findHubRouteBy(sourceHubId, destinationHubId);
     }
 }
