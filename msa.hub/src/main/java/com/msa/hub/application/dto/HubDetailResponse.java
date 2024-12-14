@@ -17,7 +17,7 @@ public record HubDetailResponse(
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
-    public static HubDetailResponse convertToResponse(Hub hub) {
+    public static HubDetailResponse from(Hub hub) {
         return new HubDetailResponse(
                 hub.getId(),
                 hub.getName(),

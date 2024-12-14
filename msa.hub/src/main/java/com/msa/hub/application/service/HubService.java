@@ -39,7 +39,7 @@ public class HubService {
     }
 
     public HubDetailResponse getHubDetail(final String id) {
-        return HubDetailResponse.convertToResponse(
+        return HubDetailResponse.from(
                 hubRepository.findByIdAndIsDeleted(id, false)
                         .orElseThrow(()->new HubException(ErrorCode.HUB_NOT_FOUND))
         );
