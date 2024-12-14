@@ -1,6 +1,7 @@
 package com.msa.hub.application.service;
 
 
+import com.msa.hub.application.dto.HubDetailResponse;
 import com.msa.hub.application.dto.Role;
 import com.msa.hub.domain.model.Hub;
 import com.msa.hub.domain.repository.HubRepository;
@@ -34,6 +35,13 @@ public class HubService {
                         request.latitude(),
                         request.longitude()
                 )
+        );
+    }
+
+    public HubDetailResponse getHubDetail(final String id) {
+        return HubDetailResponse.convertToResponse(
+                hubRepository.findByIdAndIsDeleted(id, false)
+                        .orElseThrow(()->new HubException(ErrorCode.HUB_NOT_FOUND))
         );
     }
 
