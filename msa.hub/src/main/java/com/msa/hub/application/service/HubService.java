@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class HubService {
 
-    private final UserService userService;
     private final HubRepository hubRepository;
 
     @Transactional
@@ -24,14 +23,6 @@ public class HubService {
         if(existsHub(request.name())) {
             throw new HubException(ErrorCode.DUPLICATE_HUB_NAME);
         }
-        Role managerRole = userService
-                .findUser(request.managerId())
-                .data().role();
-
-        if(managerRole!=Role.HUB_MANAGER) {
-            throw new HubException(ErrorCode.INVALID_ROLE);
-        }
-
         hubRepository.save(
                 Hub.createBy(
                         request.name(),
@@ -41,10 +32,20 @@ public class HubService {
                         request.streetNumber(),
                         request.addressDetail(),
                         request.latitude(),
-                        request.longitude(),
-                        request.managerId()
+                        request.longitude()
                 )
         );
+    }
+
+    @Transactional
+    public void updateHubManager(final String hubId, final Long userId) {
+        Hub hub = getHubOrException(hubId);
+        hub.setManager(userId);
+    }
+
+    private Hub getHubOrException(final String hubId) {
+        return hubRepository.findById(hubId)
+                .orElseThrow(()->new HubException(ErrorCode.HUB_NOT_FOUND));
     }
 
     private boolean existsHub(String name) {

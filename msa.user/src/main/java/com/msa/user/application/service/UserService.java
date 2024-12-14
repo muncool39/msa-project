@@ -14,12 +14,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserService {
 
+    private final HubService hubService;
     private final UserRepository userRepository;
 
     public UserDetailResponse getUser(final Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(()->
-                new UserException(ErrorCode.USER_NOT_FOUND));
+        User user = getUserOrException(userId);
         return UserDetailResponse.from(user);
     }
 
+    @Transactional
+    public void setBelongHub(final Long userId, final String hubId) {
+        User user = getUserOrException(userId);
+        if (!hubService.verifyHub(hubId)) {
+            throw new UserException(ErrorCode.INVALID_HUB);
+        }
+        user.setBelongHub(hubId);
+        hubService.postManager(hubId, userId);
+    }
+
+
+
+    private User getUserOrException(final Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(()-> new UserException(ErrorCode.USER_NOT_FOUND));
+    }
 }
