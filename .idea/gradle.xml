@@ -4,6 +4,8 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.company" />
         <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
@@ -13,6 +15,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.delivery" />
         <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
@@ -22,6 +26,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.gateway" />
         <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
@@ -31,6 +37,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.hub" />
         <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
@@ -40,6 +48,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.notification" />
         <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
@@ -49,6 +59,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.order" />
         <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
@@ -58,6 +70,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.server" />
         <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
@@ -67,6 +81,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/msa.user" />
         <option name="gradleJvm" value="homebrew-17" />
         <option name="modules">
