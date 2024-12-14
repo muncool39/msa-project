@@ -87,7 +87,7 @@
         <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msa.user" />
+            <option value="$PROJECT_DIR$/../../팀프로젝트/msa-project/msa.user" />
           </set>
         </option>
       </GradleProjectSettings>

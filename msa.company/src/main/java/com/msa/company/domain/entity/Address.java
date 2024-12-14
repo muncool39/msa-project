@@ -5,13 +5,16 @@ import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(access = AccessLevel.PRIVATE)
 @Embeddable
+@Getter
 public class Address {
+
     @Column(nullable = false, length = 50)
     private String city;
 
@@ -27,13 +30,4 @@ public class Address {
     @Column(length = 100)
     private String addressDetail;
 
-    public static Address createAddress(String city, String district, String streetName, String streetNumber, String addressDetail) {
-        return Address.builder()
-                .city(city.trim())
-                .district(district.trim())
-                .streetName(streetName.trim())
-                .streetNumber(streetNumber.trim())
-                .addressDetail(addressDetail != null? addressDetail.trim() : null)
-                .build();
-    }
 }
