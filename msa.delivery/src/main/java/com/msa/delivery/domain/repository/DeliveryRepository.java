@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.msa.delivery.domain.entity.Delivery;
 
 @Repository
-public interface DeliveryRepository extends JpaRepository<Delivery, UUID> {
+public interface DeliveryRepository extends JpaRepository<Delivery, UUID>, DeliveryRepositoryCustom {
 	Optional<Delivery> findByOrderId(UUID orderId);
+
 }
