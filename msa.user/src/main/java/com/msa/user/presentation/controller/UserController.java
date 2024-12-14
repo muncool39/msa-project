@@ -33,7 +33,7 @@ public class UserController {
         return ApiResponse.success(userService.getUser(userId));
     }
 
-    @PatchMapping()
+    @PatchMapping
     public ApiResponse<Void> updateUser(
             Authentication authentication,
             @NotNull @RequestBody UserUpdateRequest request
