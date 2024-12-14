@@ -30,11 +30,11 @@ public class SlackNotificationController {
     private final SlackService slackService;
 
     @PostMapping
+
     public ApiResponse<SlackNotificationResponse> sendSlackNotification(
             @RequestBody @Valid SlackCreateRequest request) {
         return ApiResponse.success(slackService.createSlackMessage(request.toDTO()));
     }
-
 
     @PreAuthorize("hasAuthority('MASTER')")
     @GetMapping("/{slackRecipientId}")
@@ -69,4 +69,5 @@ public class SlackNotificationController {
             @PathVariable UUID slackNotificationId) {
         return ApiResponse.success(slackService.deleteSlackMessage(slackNotificationId));
     }
+
 }

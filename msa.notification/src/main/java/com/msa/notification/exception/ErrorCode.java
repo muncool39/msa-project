@@ -13,6 +13,7 @@ public enum ErrorCode {
     NOT_ALLOWED_API(HttpStatus.FORBIDDEN, "허용되지 않은 API 요청입니다."),
     NOT_FOUND_SLACK_NOTIFICATION(HttpStatus.NOT_FOUND, "해당 슬랙 메시지를 찾을 수 없습니다."),
 
+
     ;
 
 

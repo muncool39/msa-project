@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SlackNotificationRepository extends JpaRepository<SlackNotification, UUID>,
         CustomSlackRepository {
+
 }
