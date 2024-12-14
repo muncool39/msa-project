@@ -5,9 +5,12 @@ import com.msa.user.domain.model.User;
 import com.msa.user.domain.repository.UserRepository;
 import com.msa.user.common.exception.ErrorCode;
 import com.msa.user.common.exception.UserException;
+import com.msa.user.presentation.request.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -15,11 +18,27 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final HubService hubService;
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     public UserDetailResponse getUser(final Long userId) {
         User user = getUserOrException(userId);
         return UserDetailResponse.from(user);
+    }
+
+    @Transactional
+    public void updateUser(final Long userId, final UserUpdateRequest request) {
+        User user = getUserOrException(userId);
+        if(request.username() != null) {
+            nameValidation(request.username());
+        }
+        user.update(
+                request.username(),
+                (request.password()==null) ? null
+                        : passwordEncoder.encode(request.password()),
+                request.email(),
+                request.slackId()
+        );
     }
 
     @Transactional
