@@ -8,19 +8,24 @@ spring:
     username: postgres
     password: s5554549
     driver-class-name: org.postgresql.Driver
-    jpa:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
       hibernate:
-        ddl-auto: update
-      show-sql: true
-      properties:
-        hibernate:
-          format_sql: true
-          show_sql: true
-          use_sql_comments: true
-          highlight_sql: true
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+        highlight_sql: true
+
 
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:19090/eureka/
+
+service:
+  slack:
+    request-url: ${SLACK_REQUEST_URL}

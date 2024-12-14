@@ -6,6 +6,7 @@
     <file type="web" url="file://$PROJECT_DIR$/msa.delivery" />
     <file type="web" url="file://$PROJECT_DIR$/msa.gateway" />
     <file type="web" url="file://$PROJECT_DIR$/msa.hub" />
+    <file type="web" url="file://$PROJECT_DIR$/msa.notification" />
     <file type="web" url="file://$PROJECT_DIR$/msa.order" />
     <file type="web" url="file://$PROJECT_DIR$/msa.user" />
   </component>
