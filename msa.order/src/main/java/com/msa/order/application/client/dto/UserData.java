@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.msa.order.domain.entity.enums.UserRole;
 
-public record UserData(
+public record UserData( // #49 응답객체 참고
 	Long id,
 	String username,
 	String email,

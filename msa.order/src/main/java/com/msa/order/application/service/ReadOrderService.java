@@ -14,7 +14,6 @@ import com.msa.order.config.UserDetailImpl;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.entity.enums.UserRole;
 import com.msa.order.domain.repository.OrderRepository;
-import com.msa.order.exception.BusinessException.FeignException;
 import com.msa.order.exception.BusinessException.OrderException;
 import com.msa.order.exception.BusinessException.UnauthorizedException;
 import com.msa.order.exception.ErrorCode;
