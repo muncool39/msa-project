@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.msa.delivery.application.dto.DeliveryRoutesData;
+import com.msa.delivery.application.client.dto.DeliveryRoutesData;
 
 import lombok.extern.slf4j.Slf4j;
 

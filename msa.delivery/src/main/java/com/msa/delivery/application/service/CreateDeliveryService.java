@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.msa.delivery.application.dto.DeliveryRoutesData;
-import com.msa.delivery.application.dto.DeliveryWorkersData;
-import com.msa.delivery.application.dto.GetDeliveryWorkersRequest;
+import com.msa.delivery.application.client.DeliveryRouteManager;
+import com.msa.delivery.application.client.UserManager;
+import com.msa.delivery.application.client.dto.DeliveryRoutesData;
+import com.msa.delivery.application.client.dto.DeliveryWorkersData;
+import com.msa.delivery.application.client.dto.GetDeliveryWorkersRequest;
 import com.msa.delivery.domain.entity.Delivery;
 import com.msa.delivery.domain.entity.DeliveryRouteHistory;
 import com.msa.delivery.domain.repository.DeliveryRepository;
@@ -23,14 +25,14 @@ public class CreateDeliveryService {
 
 	private final DeliveryRepository deliveryRepository;
 	private final DeliveryRouteManager deliveryRouteManager;
-	private final DeliveryAssigner deliveryAssigner;
+	private final UserManager userManager;
 
 	public CreateDeliveryService(DeliveryRepository deliveryRepository,
 		@Qualifier("deliveryRouteClient") DeliveryRouteManager deliveryRouteManager,
-		@Qualifier("deliveryAssignClient") DeliveryAssigner deliveryAssigner) {
+		@Qualifier("userClient") UserManager userManager) {
 		this.deliveryRepository = deliveryRepository;
 		this.deliveryRouteManager = deliveryRouteManager;
-		this.deliveryAssigner = deliveryAssigner;
+		this.userManager = userManager;
 	}
 
 	@Transactional
@@ -49,7 +51,7 @@ public class CreateDeliveryService {
 
 		// 3. 배송 담당자 할당 받기
 		GetDeliveryWorkersRequest deliveryWorkerRequest = createDeliveryWorkerRequest(histories);
-		DeliveryWorkersData workersData = deliveryAssigner.assignDeliveryWorkers(deliveryWorkerRequest);
+		DeliveryWorkersData workersData = userManager.assignDeliveryWorkers(deliveryWorkerRequest);
 		mappingDeliveryWorker(delivery, workersData, histories);
 
 		return delivery;
