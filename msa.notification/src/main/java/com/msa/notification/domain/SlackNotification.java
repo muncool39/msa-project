@@ -33,7 +33,7 @@ public class SlackNotification {
     private UUID id;
 
     @Column(nullable = false)
-    private String receiptId;
+    private String slackRecipientId;
 
     @Column(nullable = false)
     private String message;
