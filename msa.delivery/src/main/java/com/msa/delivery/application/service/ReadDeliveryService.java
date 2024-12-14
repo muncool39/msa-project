@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.msa.delivery.application.client.UserManager;
 import com.msa.delivery.application.client.dto.UserData;
@@ -13,8 +14,10 @@ import com.msa.delivery.domain.entity.enums.UserRole;
 import com.msa.delivery.domain.repository.DeliveryRepository;
 import com.msa.delivery.exception.BusinessException.DeliveryNotFoundException;
 import com.msa.delivery.exception.BusinessException.UnauthorizedException;
+import com.msa.delivery.exception.ErrorCode;
 
 @Service
+@Transactional(readOnly = true)
 public class ReadDeliveryService {
 
 	private final DeliveryRepository deliveryRepository;
@@ -61,12 +64,12 @@ public class ReadDeliveryService {
 				.anyMatch(route -> route.getDeliverId().equals(userId));
 
 			if (!isManagedDelivery) {
-				throw new UnauthorizedException();
+				throw new UnauthorizedException(ErrorCode.NOT_ALLOWED_HUB_MANAGER);
 			}
 
 		} else {
 			if (!delivery.getDeliverId().equals(userId)) {
-				throw new UnauthorizedException();
+				throw new UnauthorizedException(ErrorCode.NOT_ALLOWED_COMPANY_DELIVER);
 			}
 		}
 	}
@@ -77,7 +80,7 @@ public class ReadDeliveryService {
 			.anyMatch(route -> route.getDepartureHubId().equals(hubId));
 
 		if (!isManagedHub) {
-			throw new UnauthorizedException();
+			throw new IllegalStateException("[허브 관리자] 담당 허브의 배송내역만 조회할 수 있습니다. ");
 		}
 	}
 
@@ -93,7 +96,7 @@ public class ReadDeliveryService {
 		// 	throw new FeignException();
 		// }
 		// return userData;
-		return new UserData(1L, "test user", "test@mail.com", "testslackId", UserRole.COMPANY_MANAGER, null, UUID.randomUUID(),
+		return new UserData(1L, "test user", "test@mail.com", "testslackId", UserRole.COMPANY_MANAGER, "COMPANY", UUID.randomUUID(),
 			UUID.randomUUID());
 	}
 }

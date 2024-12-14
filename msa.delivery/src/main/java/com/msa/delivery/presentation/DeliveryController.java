@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.msa.delivery.application.service.CreateDeliveryService;
 import com.msa.delivery.application.service.ReadDeliveryService;
+import com.msa.delivery.application.service.UpdateDeliveryService;
 import com.msa.delivery.config.UserDetailImpl;
 import com.msa.delivery.domain.entity.Delivery;
+import com.msa.delivery.domain.entity.enums.UserRole;
 import com.msa.delivery.presentation.request.CreateDeliveryRequest;
+import com.msa.delivery.presentation.request.UpdateDeliveryRequest;
 import com.msa.delivery.presentation.response.ApiResponse;
 import com.msa.delivery.presentation.response.CreateDeliveryResponse;
 import com.msa.delivery.presentation.response.DeliveryDataResponse;
@@ -32,6 +36,7 @@ public class DeliveryController {
 
 	private final CreateDeliveryService createDeliveryService;
 	private final ReadDeliveryService readDeliveryService;
+	private final UpdateDeliveryService updateDeliveryService;
 
 	@PreAuthorize("hasAuthority('MASTER')")
 	@PostMapping
@@ -42,21 +47,33 @@ public class DeliveryController {
 	}
 
 	@GetMapping("/{id}")
-	public ApiResponse<ReadDeliveryResponse> getDelivery(@PathVariable("id") UUID deliveryId,
+	public ApiResponse<ReadDeliveryResponse> getDelivery(@PathVariable(name = "id") UUID deliveryId,
 		@AuthenticationPrincipal UserDetailImpl userDetail) {
 		Delivery delivery = readDeliveryService.getDelivery(deliveryId, userDetail);
 		ReadDeliveryResponse response = ReadDeliveryResponse.from(delivery);
 		return ApiResponse.success(response);
 	}
 
+	@PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER', 'DELIVERY_MANAGER')")
+	@PatchMapping("/{id}")
+	public ApiResponse<Void> updateDelivery(@PathVariable(name = "id") UUID deliveryId,
+		@Valid @RequestBody UpdateDeliveryRequest request,
+		@AuthenticationPrincipal UserDetailImpl userDetail) {
+
+		String userId = userDetail.getUsername();
+		UserRole role = userDetail.getUserRole();
+		updateDeliveryService.updateDelivery(deliveryId, request, userId, role);
+		return ApiResponse.success();
+	}
+
 	@DeleteMapping("/{id}")
-	public ApiResponse<String> deleteDelivery(@PathVariable("id") UUID deliveryId) {
+	public ApiResponse<String> deleteDelivery(@PathVariable(name = "id") UUID deliveryId) {
 		return ApiResponse.success("배송 삭제는 불가합니다. ");
 	}
 
 	// 서버통신용 조회 API
 	@GetMapping("/order/{id}")
-	public DeliveryDataResponse getDeliveryByOrder(@PathVariable("id") UUID orderId) {
+	public DeliveryDataResponse getDeliveryByOrder(@PathVariable(name = "id") UUID orderId) {
 		Delivery delivery = readDeliveryService.getDeliveryByOrderId(orderId);
 		return DeliveryDataResponse.from(delivery);
 	}

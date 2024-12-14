@@ -60,7 +60,7 @@ public class CreateDeliveryService {
 	private static void mappingDeliveryWorker(Delivery delivery, DeliveryWorkersData workersData,
 		List<DeliveryRouteHistory> histories) {
 
-		delivery.assignCompanyDeliveryWorker(workersData.companyDeliveryId());
+		delivery.assignCompanyDeliver(workersData.companyDeliveryId());
 
 		// DeliveryRouteHistory를 nodeId로 조회할 수 있도록 Map으로 변환
 		Map<UUID, DeliveryRouteHistory> historyByNodeId = histories.stream()
@@ -70,7 +70,7 @@ public class CreateDeliveryService {
 		workersData.path().forEach(node -> {
 			DeliveryRouteHistory history = historyByNodeId.get(node.nodeId());
 			if (history != null) {
-				history.assignDeliveryWorker(node.deliveryId());
+				history.assignHubDeliver(node.deliveryId());
 			}
 		});
 	}
