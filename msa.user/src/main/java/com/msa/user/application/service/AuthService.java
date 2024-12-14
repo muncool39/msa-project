@@ -1,15 +1,13 @@
 package com.msa.user.application.service;
 
 
+import com.msa.user.common.TokenUtil;
 import com.msa.user.domain.model.User;
 import com.msa.user.domain.repository.UserRepository;
-import com.msa.user.exception.ErrorCode;
-import com.msa.user.exception.UserException;
+import com.msa.user.common.exception.ErrorCode;
+import com.msa.user.common.exception.UserException;
 import com.msa.user.presentation.request.SignInRequest;
 import com.msa.user.presentation.request.SignUpRequest;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

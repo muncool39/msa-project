@@ -1,6 +1,7 @@
 package com.msa.hub.application.service;
 
 
+import com.msa.hub.application.dto.Role;
 import com.msa.hub.domain.model.Hub;
 import com.msa.hub.domain.repository.HubRepository;
 import com.msa.hub.exception.ErrorCode;
@@ -34,6 +35,17 @@ public class HubService {
                         request.longitude()
                 )
         );
+    }
+
+    @Transactional
+    public void updateHubManager(final String hubId, final Long userId) {
+        Hub hub = getHubOrException(hubId);
+        hub.setManager(userId);
+    }
+
+    private Hub getHubOrException(final String hubId) {
+        return hubRepository.findById(hubId)
+                .orElseThrow(()->new HubException(ErrorCode.HUB_NOT_FOUND));
     }
 
     private boolean existsHub(String name) {

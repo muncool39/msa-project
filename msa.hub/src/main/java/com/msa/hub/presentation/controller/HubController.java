@@ -29,8 +29,17 @@ public class HubController {
         return ApiResponse.success();
     }
 
+    @PostMapping("/manager")
+    public Boolean postManager(
+            @RequestParam(required = true) String hubId,
+            @RequestParam(required = true) Long userId
+    ) {
+        hubService.updateHubManager(hubId, userId);
+        return true;
+    }
+
     @GetMapping("/verify")
-    public Boolean verifyHub(@RequestParam(value = "hub_id") String hubId) {
+    public Boolean verifyHub(@RequestParam String hubId) {
         return true;
     }
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -20,13 +21,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
+import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
+@Setter
 @Table(name = "p_company")
 public class Company extends BaseEntity {
 
@@ -43,6 +45,9 @@ public class Company extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Column(name = "business_number",nullable = false)
+    private String businessNumber;
+
     @Embedded
     private Address address;
 
@@ -54,15 +59,19 @@ public class Company extends BaseEntity {
     private CompanyStatus status = CompanyStatus.PENDING;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();
 
-    public static Company create(Long userId, UUID hubId, String name, CompanyType type, Address address) {
-        return Company.builder()
+    public static Company create(Long userId, UUID hubId, String name, String businessNumber, CompanyType type, Address address) {
+        Company company = Company.builder()
                 .userId(userId)
                 .hubId(hubId)
                 .name(name)
+                .businessNumber(businessNumber)
                 .address(address)
                 .type(type)
+                .status(CompanyStatus.PENDING)
                 .build();
+        company.initAuditInfo(userId);
+        return company;
     }
 }

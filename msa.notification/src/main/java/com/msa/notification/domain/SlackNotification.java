@@ -35,6 +35,7 @@ public class SlackNotification {
     @Column(nullable = false)
     private String slackRecipientId;
 
+
     @Column(nullable = false)
     private String message;
 

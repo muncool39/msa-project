@@ -1,37 +1,44 @@
 package com.msa.order.presentation.request;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
+
+import jakarta.validation.constraints.NotNull;
 
 public record CreateOrderRequest(
 
-    @NotNull
-    UUID supplierCompanyId,
+	@NotNull
+	UUID supplierCompanyId,
 
-    @NotNull
-    UUID itemId,
+	@NotNull
+	UUID itemId,
 
-    @NotNull
-    int quantity,
+	@NotNull
+	String itemName,
 
-    String description,
+	@NotNull
+	int quantity,
 
-    @NotNull
-    String receiverName,
+	String description,
 
-    @NotNull
-    String city,
+	@NotNull
+	UUID receiveCompanyId,
 
-    @NotNull
-    String district,
+	@NotNull
+	String receiverName,
 
-    @NotNull
-    String streetName,
+	@NotNull
+	String city,
 
-    @NotNull
-    String streetNum,
+	@NotNull
+	String district,
 
-    @NotNull
-    String detail) {
+	@NotNull
+	String streetName,
+
+	@NotNull
+	String streetNum,
+
+	@NotNull
+	String detail) {
 
 }

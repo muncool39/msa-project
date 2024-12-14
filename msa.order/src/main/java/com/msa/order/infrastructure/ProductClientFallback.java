@@ -1,7 +1,8 @@
 package com.msa.order.infrastructure;
 
-import com.msa.order.application.service.dto.ProductStockRequest;
-import com.msa.order.application.service.dto.ProductStockResponse;
+import com.msa.order.application.client.dto.CompanyData;
+import com.msa.order.application.client.dto.ProductStockRequest;
+import com.msa.order.application.client.dto.ProductStockData;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -11,13 +12,18 @@ import org.springframework.stereotype.Component;
 public class ProductClientFallback implements ProductClient {
 
   @Override
-  public ProductStockResponse reduceStock(UUID id, ProductStockRequest stock) {
+  public ProductStockData reduceStock(UUID id, ProductStockRequest stock) {
     log.error("Failed to reduce stock for product: {}", id);
-    return new ProductStockResponse(null, null);
+    return new ProductStockData(null, null);
   }
 
   @Override
-  public ProductStockResponse restoreStock(UUID id, ProductStockRequest stock) {
+  public ProductStockData restoreStock(UUID id, ProductStockRequest stock) {
+    return null;
+  }
+
+  @Override
+  public CompanyData getCompanyInfo(UUID companyId) {
     return null;
   }
 }
