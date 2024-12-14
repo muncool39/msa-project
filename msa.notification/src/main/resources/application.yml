@@ -1,10 +1,11 @@
 server:
   port: 19097
+
 spring:
   application:
     name: notice-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/b2b
+    url: jdbc:postgresql://localhost:5432/project
     username: postgres
     password: s5554549
     driver-class-name: org.postgresql.Driver
@@ -28,4 +29,4 @@ eureka:
 
 service:
   slack:
-    request-url: ${SLACK_REQUEST_URL}
+    request-url: "slack.com/api"
