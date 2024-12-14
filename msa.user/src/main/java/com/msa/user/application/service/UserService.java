@@ -32,10 +32,13 @@ public class UserService {
         hubService.postManager(hubId, userId);
     }
 
-
-
     private User getUserOrException(final Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(()-> new UserException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    private void nameValidation(String username) {
+        if(userRepository.existsByUsername(username))
+            throw new UserException(ErrorCode.DUPLICATE_USERNAME);
     }
 }
