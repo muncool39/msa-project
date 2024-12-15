@@ -30,3 +30,6 @@ eureka:
 service:
   slack:
     request-url: "slack.com/api"
+  gemini:
+    request-url: ${GEMINI_REQUEST_URL}
+    api-key: ${GEMINI_API_KEY}
