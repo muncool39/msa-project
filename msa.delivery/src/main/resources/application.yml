@@ -38,3 +38,8 @@ logging:
   level:
     org.springframework.web: DEBUG
     org.springframework.security: DEBUG
+    com:
+      msa:
+        delivery:
+          infrastructure:
+            UserClient: DEBUG
