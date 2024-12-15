@@ -1,5 +1,6 @@
 package com.msa.company.domain.entity;
 
+import com.msa.company.presentation.request.ProductRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,15 +48,14 @@ public class Product extends BaseEntity {
         this.isOutOfStock = this.stock == 0;
     }
 
-    public static Product create(Company company, String name, Long stock) {
-        if (stock <= 0) {
-            throw new IllegalArgumentException("재고량은 0보다 커야 합니다.");
-        }
-
-        return Product.builder()
+    public static Product create(ProductRequest productRequest, Company company, Long userId) {
+        Product product = Product.builder()
                 .company(company)
-                .name(name)
-                .stock(stock)
+                .name(productRequest.name())
+                .stock(productRequest.stock())
+                .isOutOfStock(false)
                 .build();
+        product.initAuditInfo(userId);
+        return product;
     }
 }
