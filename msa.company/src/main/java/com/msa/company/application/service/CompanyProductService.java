@@ -7,9 +7,13 @@ import com.msa.company.domain.entity.Product;
 import com.msa.company.domain.repository.CompanyRepository;
 import com.msa.company.domain.repository.ProductRepository;
 import com.msa.company.exception.CompanyException;
+import com.msa.company.exception.ErrorCode;
 import com.msa.company.infrastructure.HubClient;
 import com.msa.company.presentation.request.CreateProductRequest;
+import com.msa.company.presentation.response.ProductListResponse;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +46,24 @@ public class CompanyProductService {
                 userId
         );
         productRepository.save(product);
+    }
+
+    // 업체 내 상품 조회
+    @Transactional(readOnly = true)
+    public List<ProductListResponse> getProductsByCompany(UUID companyId) {
+        // 1. 업체 존재 여부 확인
+        getCompany(companyId);
+
+        List<Product> products = productRepository.findByCompany_Id(companyId);
+
+        // 2. 업체에 상품이 없는 경우 예외 처리
+        if (products.isEmpty()) {
+            throw new CompanyException(ErrorCode.PRODUCT_NOT_FOUND_IN_COMPANY);
+        }
+
+        return products.stream()
+                .map(ProductListResponse::from)
+                .collect(Collectors.toList());
     }
 
     // 업체 존재 여부 확인
