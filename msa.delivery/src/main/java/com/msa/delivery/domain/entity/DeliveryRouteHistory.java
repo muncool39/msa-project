@@ -77,14 +77,37 @@ public class DeliveryRouteHistory extends BaseEntity {
 		this.delivery = delivery;
 	}
 
-	public void updateActualDeliveryInfo(double actualDistance, long actualTime) {
-		this.actualDistance = actualDistance;
-		this.actualTime = actualTime;
-		this.status = DeliveryStatus.HUB_ARRIVED;
-	}
-
-	public void assignDeliveryWorker(Long deliverId) {
+	public void assignHubDeliver(Long deliverId) {
 		this.deliverId = deliverId;
 	}
+
+	public void completeDelivery(String updatedBy, Double actualDistance, Long actualTime) {
+		validatePreviousRoutesCompleted();
+		this.status = DeliveryStatus.HUB_ARRIVED;
+		this.actualDistance = actualDistance;
+		this.actualTime = actualTime;
+		super.updateRouteHistory(updatedBy);
+	}
+
+	public void validateHubDeliverAccess(Long deliverId) {
+		if (this.deliverId != null && !this.deliverId.equals(deliverId)) {
+			throw new IllegalStateException("이전 배송경로가 완료되지 않았습니다. ");
+		}
+	}
+
+	private void validatePreviousRoutesCompleted() {
+		if (this.sequence == 1) {
+			return;
+		}
+
+		boolean previousRoutesCompleted = delivery.getDeliveryHistories().stream()
+			.filter(route -> route.getSequence() < this.sequence)
+			.allMatch(route -> route.getStatus() == DeliveryStatus.HUB_ARRIVED);
+
+		if (!previousRoutesCompleted) {
+			throw new IllegalStateException("이전 배송경로가 완료되지 않았습니다. ");
+		}
+	}
+
 
 }

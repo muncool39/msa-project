@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.msa.order.application.client.DeliveryManager;
 import com.msa.order.application.client.dto.CreateDeliveryRequest;
 import com.msa.order.application.client.dto.DeliveryData;
+import com.msa.order.config.FeignConfiguration;
 
 @FeignClient(
     name = "delivery-service",
     fallback = DeliveryClientFallback.class,
-    qualifiers = "deliveryClient")
+    qualifiers = "deliveryClient",
+	configuration = FeignConfiguration.class)
 public interface DeliveryClient extends DeliveryManager {
 
 	@PostMapping("/deliveries")

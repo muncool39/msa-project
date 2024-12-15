@@ -25,22 +25,28 @@ public abstract class BaseEntity {
 
 	@CreatedBy
 	@Column(updatable = false)
-	private Long createdBy;
+	private String createdBy;
 
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
 
 	@LastModifiedBy
-	private Long updatedBy;
+	private String updatedBy;
 
 	private LocalDateTime deletedAt;
 
-	private Long deletedBy;
+	private String deletedBy;
 
 	private LocalDateTime canceledAt;
 
-	private Long canceledBy;
+	private String canceledBy;
 
 	private Boolean isDeleted = false;
+
+	protected void updateRouteHistory(String updatedBy) {
+		this.updatedAt = LocalDateTime.now();
+		this.updatedBy = updatedBy;
+
+	}
 
 }

@@ -1,4 +1,4 @@
-package com.msa.order.config;
+package com.msa.delivery.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,7 @@ import jakarta.persistence.PersistenceContext;
 
 @Configuration
 public class QueryDslConfig {
+
 	@PersistenceContext
 	private EntityManager entityManager;
 

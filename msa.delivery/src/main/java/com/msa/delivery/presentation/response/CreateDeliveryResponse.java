@@ -23,8 +23,8 @@ public record CreateDeliveryResponse(
 			delivery.getStatus().name(),
 			delivery.getAddress().getCity(),
 			delivery.getAddress().getDistrict(),
-			delivery.getAddress().getStreetName(),
-			delivery.getAddress().getStreetNum(),
+			delivery.getAddress().getStreetname(),
+			delivery.getAddress().getStreetnum(),
 			delivery.getAddress().getDetail(),
 			delivery.getDepartureHubId()
 		);
