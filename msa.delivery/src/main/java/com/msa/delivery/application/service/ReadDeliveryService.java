@@ -3,6 +3,8 @@ package com.msa.delivery.application.service;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +47,7 @@ public class ReadDeliveryService {
 			case MASTER -> {
 				return delivery;
 			}
-			case HUB_MANAGER, COMPANY_MANAGER -> {
+			case HUB_MANAGER -> {
 				validateHubManagerAccess(userData, delivery);
 				return delivery;
 			}
@@ -53,9 +55,46 @@ public class ReadDeliveryService {
 				validateDeliveryManagerAccess(userData, delivery, userId);
 				return delivery;
 			}
+			case COMPANY_MANAGER -> {
+				if (!delivery.getDestinationHubId().equals(userData.hubId())) {
+					throw new UnauthorizedException(ErrorCode.NOT_ALLOWED_COMPANY_MANAGER);
+				}
+				return delivery;
+			}
 		}
 
 		return delivery;
+	}
+
+	public Page<Delivery> getDeliveries(Pageable pageable, String search, UserDetailImpl userDetail) {
+		Long userId = Long.parseLong(userDetail.userId());
+		UserRole role = userDetail.getUserRole();
+		UserData userData = getUserData(userDetail);
+
+		switch (role) {
+			case MASTER -> {
+				return deliveryRepository.searchDeliveries(pageable, search);
+			}
+			case HUB_MANAGER -> {
+				// 담당 허브내의 배송 내역만 조회할 수 잇음.
+				// 출발허드 도착허브 아무거나 일치하면
+				return deliveryRepository.searchDeliveriesByHubId(pageable, search, userData.hubId());
+			}
+			case DELIVERY_MANAGER -> {
+				// 담당할 배송 내역만 조회할 수 있음.
+				if ("HUB".equals(userData.type())) {
+					return deliveryRepository.searchDeliveriesByHubDeliverId(pageable, search, userId);
+				} else {
+					return deliveryRepository.searchDeliveriesByCompanyDeliveryId(pageable, search, userId);
+				}
+			}
+			case COMPANY_MANAGER -> {
+				// 본인의 주문에 관한 배송내역만 조회할 수 있음
+				return deliveryRepository.searchDeliveriesByReceiveCompanyId(pageable, search, userData.companyId());
+			}
+		}
+
+		return null;
 	}
 
 	private static void validateDeliveryManagerAccess(UserData userData, Delivery delivery, Long userId) {
@@ -80,7 +119,7 @@ public class ReadDeliveryService {
 			.anyMatch(route -> route.getDepartureHubId().equals(hubId));
 
 		if (!isManagedHub) {
-			throw new IllegalStateException("[허브 관리자] 담당 허브의 배송내역만 조회할 수 있습니다. ");
+			throw new UnauthorizedException(ErrorCode.NOT_ALLOWED_HUB_MANAGER);
 		}
 	}
 
@@ -96,7 +135,8 @@ public class ReadDeliveryService {
 		// 	throw new FeignException();
 		// }
 		// return userData;
-		return new UserData(1L, "test user", "test@mail.com", "testslackId", UserRole.COMPANY_MANAGER, "COMPANY", UUID.randomUUID(),
-			UUID.randomUUID());
+		return new UserData(1L, "test user", "test@mail.com", "testslackId", UserRole.COMPANY_MANAGER, "COMPANY", UUID.randomUUID(), UUID.fromString("c5013a5f-9193-4d6a-8e9d-2ce06de491d7"));
 	}
+
+
 }

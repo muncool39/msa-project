@@ -11,6 +11,7 @@ public enum ErrorCode {
 
   UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "접근 권한이 없습니다. "),
   NOT_ALLOWED_HUB_MANAGER(HttpStatus.UNAUTHORIZED, "[허브 관리자] 담당 허브의 배송 내역만 처리 가능합니다. "),
+  NOT_ALLOWED_COMPANY_MANAGER(HttpStatus.UNAUTHORIZED, "[업체 관리자] 담당 업체의 배송 내역만 처리 가능합니다. "),
   NOT_ALLOWED_HUB_DELIVER(HttpStatus.UNAUTHORIZED, "[허브 배송담당자] 담당 허브의 배송 내역만 처리 가능합니다. "),
   NOT_ALLOWED_COMPANY_DELIVER(HttpStatus.UNAUTHORIZED, "[업체 배송담당자] 담당 업체의 배송 내역만 처리 가능합니다. "),
 

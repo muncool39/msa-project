@@ -78,7 +78,7 @@ public class ReadOrderService {
 				return orderRepository.searchOrdersByDepartureHubId(pageable, search, userData.hubId());
 			}
 			case DELIVERY_MANAGER -> {
-				if (userData.type().equals("COMPANY")) {
+				if ("COMPANY".equals(userData.type())) {
 					return orderRepository.searchOrdersByDeliveryId(pageable, search, userId);
 				} else {
 					return orderRepository.searchOrders(pageable, search); // 허브 배송 담당자는 담당 허브가 없기 때문에 전부 조회함.
