@@ -8,6 +8,7 @@
     <file type="web" url="file://$PROJECT_DIR$/msa.hub" />
     <file type="web" url="file://$PROJECT_DIR$/msa.notification" />
     <file type="web" url="file://$PROJECT_DIR$/msa.order" />
+    <file type="web" url="file://$PROJECT_DIR$/msa.server" />
     <file type="web" url="file://$PROJECT_DIR$/msa.user" />
   </component>
   <component name="ProjectRootManager">
