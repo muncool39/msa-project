@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+
 import com.msa.delivery.domain.entity.Address;
 import com.msa.delivery.domain.entity.Delivery;
 import com.msa.delivery.domain.entity.DeliveryRouteHistory;
@@ -20,8 +22,11 @@ public record ReadDeliveryResponse(
 	String receiverSlackId,
 	LocalDateTime deliveredAt,
 	Long companyDeliverId,
+	LocalDateTime createdAt,
 	List<DeliveryRouteResponse> routeHistory
 ) {
+
+
 	public record DeliveryRouteResponse(
 		UUID waypointId,
 		long sequence,
@@ -33,7 +38,8 @@ public record ReadDeliveryResponse(
 		long estimatedTime,
 		double actualDistance,
 		long actualTime,
-		LocalDateTime updatedAt
+		LocalDateTime updatedAt,
+		LocalDateTime createdAt
 	) {
 		public static DeliveryRouteResponse from(DeliveryRouteHistory waypoint) {
 			return new DeliveryRouteResponse(
@@ -47,7 +53,8 @@ public record ReadDeliveryResponse(
 				waypoint.getEstimatedTime(),
 				waypoint.getActualDistance(),
 				waypoint.getActualTime(),
-				waypoint.getUpdatedAt()
+				waypoint.getUpdatedAt(),
+				waypoint.getCreatedAt()
 			);
 		}
 	}
@@ -64,10 +71,15 @@ public record ReadDeliveryResponse(
 			delivery.getReceiverSlackId(),
 			delivery.getDeliveredAt(),
 			delivery.getDeliverId(),
+			delivery.getCreatedAt(),
 			delivery.getDeliveryHistories().stream()
 				.map(DeliveryRouteResponse::from)
 				.toList()
 		);
 	}
 
+	public static PageResponse<ReadDeliveryResponse> pageOf(Page<Delivery> pagingData) {
+		Page<ReadDeliveryResponse> responses = pagingData.map(ReadDeliveryResponse::from);
+		return PageResponse.of(responses);
+	}
 }
