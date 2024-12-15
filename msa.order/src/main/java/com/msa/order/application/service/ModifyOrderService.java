@@ -1,0 +1,145 @@
+package com.msa.order.application.service;
+
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.msa.order.application.client.DeliveryManager;
+import com.msa.order.application.client.ProductManager;
+import com.msa.order.application.client.UserManager;
+import com.msa.order.application.client.dto.DeliveryData;
+import com.msa.order.application.client.dto.ProductStockData;
+import com.msa.order.application.client.dto.ProductStockRequest;
+import com.msa.order.application.client.dto.UserData;
+import com.msa.order.domain.entity.Order;
+import com.msa.order.domain.entity.enums.UserRole;
+import com.msa.order.domain.repository.OrderRepository;
+import com.msa.order.exception.BusinessException.FeignException;
+import com.msa.order.exception.BusinessException.OrderException;
+import com.msa.order.exception.BusinessException.OrderNotFoundException;
+import com.msa.order.exception.BusinessException.ProductStockException;
+import com.msa.order.exception.BusinessException.UnauthorizedException;
+import com.msa.order.exception.ErrorCode;
+import com.msa.order.presentation.request.UpdateOrderRequest;
+
+@Service
+@Transactional(readOnly = true)
+public class ModifyOrderService {
+
+	private final OrderRepository orderRepository;
+	private final ProductManager productManager;
+	private final DeliveryManager deliveryManager;
+	private final UserManager userManager;
+
+	public ModifyOrderService(OrderRepository orderRepository,
+		@Qualifier("productClient") ProductManager productManager,
+		@Qualifier("deliveryClient") DeliveryManager deliveryManager,
+		@Qualifier("userClient") UserManager userManager) {
+		this.orderRepository = orderRepository;
+		this.productManager = productManager;
+		this.deliveryManager = deliveryManager;
+		this.userManager = userManager;
+	}
+
+	@Transactional
+	public void updateOrder(UUID orderId, UpdateOrderRequest request, String userId, UserRole role) {
+		Order savedOrder = findOrder(orderId);
+		UserData userData = getUserData(userId);
+		validateUserAccess(role, savedOrder, userData);
+		DeliveryData deliveryData = getDeliveryData(orderId);
+		savedOrder.validateChangeOrder(deliveryData.status());
+		changeProductStock(savedOrder, request);
+		savedOrder.updateItemInfo(request.itemId(), request.quantity());
+	}
+
+	@Transactional
+	public void cancelOrder(UUID orderId, String userId, UserRole role) {
+		Order savedOrder = findOrder(orderId);
+		UserData userData = getUserData(userId);
+		validateUserAccess(role, savedOrder, userData);
+		DeliveryData deliveryData = getDeliveryData(orderId);
+		savedOrder.validateChangeOrder(deliveryData.status());
+		restoreProductStock(savedOrder.getItemId(), savedOrder.getQuantity());
+		savedOrder.cancelOrder(userId);
+	}
+
+	@Transactional
+	public void deleteOrder(UUID orderId, String userId, UserRole role) {
+		Order savedOrder = findOrder(orderId);
+		UserData userData = getUserData(userId);
+		validateUserAccess(role, savedOrder, userData);
+		DeliveryData deliveryData = getDeliveryData(orderId);
+		savedOrder.validateChangeOrder(deliveryData.status());
+		restoreProductStock(savedOrder.getItemId(), savedOrder.getQuantity());
+		savedOrder.deleteOrder(userId);
+	}
+
+	private Order findOrder(UUID orderId) {
+		return orderRepository.findByIdAndIsDeletedFalse(orderId)
+			.orElseThrow(OrderNotFoundException::new);
+	}
+
+	private UserData getUserData(String userId) {
+		// TODO user 서비스 연동 필요
+		UserData userData = userManager.getUserInfo(Long.parseLong(userId));
+		if (userData.id() == null) {
+			throw new FeignException();
+		}
+		return userData;
+	}
+
+	private static void validateUserAccess(UserRole role, Order savedOrder, UserData userData) {
+		switch (role) {
+			case HUB_MANAGER -> {
+				if (!savedOrder.getDepartureHubId().equals(userData.hubId())) {
+					throw new UnauthorizedException();
+				}
+			}
+			case COMPANY_MANAGER -> {
+				if (!savedOrder.getReceiverCompanyId().equals(userData.companyId())) {
+					throw new UnauthorizedException();
+				}
+			}
+		}
+	}
+
+	private DeliveryData getDeliveryData(UUID orderId) {
+		 DeliveryData deliveryData = deliveryManager.getDeliveryInfo(orderId);
+		if (deliveryData.deliveryId() == null) {
+			throw new OrderException(ErrorCode.DELIVERY_NOT_FOUND);
+		}
+
+		return deliveryData;
+	}
+
+	private void changeProductStock(Order savedOrder, UpdateOrderRequest request) {
+		if (savedOrder.getItemId().equals(request.itemId())) {
+			reduceProductStock(request.itemId(), request.quantity());
+		} else {
+			restoreProductStock(savedOrder.getItemId(), savedOrder.getQuantity());
+			reduceProductStock(request.itemId(), request.quantity());
+		}
+	}
+
+	private void reduceProductStock(UUID itemId, int quantity) {
+		// Todo 상품 서비스 연동 테스트 필요
+		ProductStockData stockData = productManager.reduceStock(itemId, new ProductStockRequest(quantity));
+
+		if (stockData.id() == null) {
+			throw new ProductStockException(ErrorCode.STOCK_REDUCTION_FAILED);
+		}
+	}
+
+	private void restoreProductStock(UUID itemId, int quantity) {
+		// Todo 상품 서비스 연동 테스트 필요
+		ProductStockData stockData = productManager.restoreStock(itemId, new ProductStockRequest(quantity));
+
+		if (stockData.id() == null) {
+			throw new ProductStockException(ErrorCode.STOCK_RESTORE_FAILED);
+		}
+
+	}
+
+}

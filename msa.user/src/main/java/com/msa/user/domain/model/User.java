@@ -37,17 +37,36 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name="role")
     private Role role;
+    @Column(name="belong_hub_id")
+    private String belongHubId;
+    @Column(name = "belong_company_id")
+    private String belongCompanyId;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private User(String username, String password, String email, String slackId, Role role) {
+    private User(String username, String password, String email, String slackId, Role role, String belongHubId, String belongCompanyId) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.slackId = slackId;
         this.role = role;
+        this.belongHubId = belongHubId;
+        this.belongCompanyId = belongCompanyId;
     }
 
-    public static User createBy(String username, String password, String email, String slackId, Role role) {
+    public void update(String username, String password, String email, String slackId) {
+        if (username!=null) this.username = username;
+        if (password!=null) this.password = password;
+        if (email!=null) this.email = email;
+        if (slackId!=null) this.slackId = slackId;
+    }
+
+    public void setBelongHub(String belongHubId) {
+        this.belongHubId = belongHubId;
+    }
+
+    public static User createBy(
+            String username, String password, String email, String slackId, Role role
+    ) {
         return User.builder()
                 .username(username)
                 .password(password)

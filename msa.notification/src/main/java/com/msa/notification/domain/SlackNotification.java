@@ -33,7 +33,8 @@ public class SlackNotification {
     private UUID id;
 
     @Column(nullable = false)
-    private String receiptId;
+    private String slackRecipientId;
+
 
     @Column(nullable = false)
     private String message;
@@ -42,4 +43,8 @@ public class SlackNotification {
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime sentAt;
+
+    public void updateMessage(String message) {
+        this.message = message;
+    }
 }

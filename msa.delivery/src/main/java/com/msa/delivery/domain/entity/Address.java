@@ -1,14 +1,14 @@
 package com.msa.delivery.domain.entity;
 
-import org.springframework.util.Assert;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
@@ -22,10 +22,10 @@ public class Address {
 	private String district;
 
 	@Column(nullable = false)
-	private String streetName;
+	private String streetname;
 
 	@Column(nullable = false)
-	private String streetNum;
+	private String streetnum;
 
 	private String detail;
 
@@ -35,8 +35,8 @@ public class Address {
 		return Address.builder()
 			.city(city.trim())
 			.district(district.trim())
-			.streetName(streetName.trim())
-			.streetNum(streetNum.trim())
+			.streetname(streetName.trim())
+			.streetnum(streetNum.trim())
 			.detail(detail != null ? detail.trim() : null)
 			.build();
 	}

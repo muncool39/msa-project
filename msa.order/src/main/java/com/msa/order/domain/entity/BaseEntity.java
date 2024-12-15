@@ -20,27 +20,27 @@ import lombok.Getter;
 public abstract class BaseEntity {
 
 	@CreatedDate
-	@Column(updatable = false)
+	@Column(updatable = false, name = "created_at")
 	private LocalDateTime createdAt;
 
 	@CreatedBy
-	@Column(updatable = false)
+	@Column(updatable = false, name = "created_by")
 	private String createdBy;
 
 	@LastModifiedDate
+	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
 	@LastModifiedBy
+	@Column(name = "update_by")
 	private String updatedBy;
 
 	private LocalDateTime deletedAt;
 
 	private String deletedBy;
 
-	@LastModifiedDate
 	private LocalDateTime canceledAt;
 
-	@LastModifiedBy
 	private String canceledBy;
 
 	private Boolean isDeleted = false;
@@ -49,6 +49,11 @@ public abstract class BaseEntity {
 		this.isDeleted = true;
 		this.deletedAt = LocalDateTime.now();
 		this.deletedBy = deleteBy;
+	}
+
+	protected void cancelOrder(String canceledBy) {
+		this.canceledAt = LocalDateTime.now();
+		this.canceledBy = canceledBy;
 	}
 
 }

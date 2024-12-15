@@ -1,7 +1,7 @@
 package com.msa.order.infrastructure;
 
-import com.msa.order.application.service.dto.CreateDeliveryRequest;
-import com.msa.order.application.service.dto.DeliveryData;
+import com.msa.order.application.client.dto.CreateDeliveryRequest;
+import com.msa.order.application.client.dto.DeliveryData;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,11 +13,14 @@ public class DeliveryClientFallback implements DeliveryClient {
   @Override
   public DeliveryData createDelivery(CreateDeliveryRequest request) {
     log.error("Created Deliver Service failed");
-    return new DeliveryData(null, null,null,null, null, null, null, null, null);
+    return new DeliveryData(null, null,null,null, null, null);
+
   }
 
   @Override
   public DeliveryData getDeliveryInfo(UUID orderId) {
-    return null;
+    log.error("Get Deliver Service failed");
+    return new DeliveryData(null, null,null,null, null, null);
   }
+
 }

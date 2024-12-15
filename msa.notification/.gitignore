@@ -19,6 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 .xml
+*.xml
 .idea
 *.iws
 *.iml
@@ -36,3 +37,5 @@ out/
 
 ### VS Code ###
 .vscode/
+
+.env
