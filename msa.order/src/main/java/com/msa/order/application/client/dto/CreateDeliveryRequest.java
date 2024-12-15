@@ -8,7 +8,7 @@ public record CreateDeliveryRequest(
     String receiverName,
     String receiverSlackId,
     Address address,
-    UUID supplierCompanyId,
+    UUID receiveCompanyId,
     UUID departureHubId,
 	UUID destinationHubId
 ) {
