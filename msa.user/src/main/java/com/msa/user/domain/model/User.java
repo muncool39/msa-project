@@ -53,6 +53,13 @@ public class User extends BaseEntity {
         this.belongCompanyId = belongCompanyId;
     }
 
+    public void update(String username, String password, String email, String slackId) {
+        if (username!=null) this.username = username;
+        if (password!=null) this.password = password;
+        if (email!=null) this.email = email;
+        if (slackId!=null) this.slackId = slackId;
+    }
+
     public void setBelongHub(String belongHubId) {
         this.belongHubId = belongHubId;
     }
