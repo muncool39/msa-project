@@ -2,6 +2,8 @@ package com.msa.delivery.application.service;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +17,16 @@ import com.msa.delivery.domain.entity.Delivery;
 import com.msa.delivery.domain.entity.enums.UserRole;
 import com.msa.delivery.domain.repository.DeliveryRepository;
 import com.msa.delivery.exception.BusinessException.DeliveryNotFoundException;
+import com.msa.delivery.exception.BusinessException.FeignException;
 import com.msa.delivery.exception.BusinessException.UnauthorizedException;
 import com.msa.delivery.exception.ErrorCode;
+import com.msa.delivery.presentation.response.ApiResponse;
 
 @Service
 @Transactional(readOnly = true)
 public class ReadDeliveryService {
 
+	private static final Logger log = LoggerFactory.getLogger(ReadDeliveryService.class);
 	private final DeliveryRepository deliveryRepository;
 	private final UserManager userManager;
 
@@ -56,7 +61,7 @@ public class ReadDeliveryService {
 				return delivery;
 			}
 			case COMPANY_MANAGER -> {
-				if (!delivery.getDestinationHubId().equals(userData.hubId())) {
+				if (!delivery.getDestinationHubId().equals(userData.belongHubId())) {
 					throw new UnauthorizedException(ErrorCode.NOT_ALLOWED_COMPANY_MANAGER);
 				}
 				return delivery;
@@ -78,7 +83,7 @@ public class ReadDeliveryService {
 			case HUB_MANAGER -> {
 				// 담당 허브내의 배송 내역만 조회할 수 잇음.
 				// 출발허드 도착허브 아무거나 일치하면
-				return deliveryRepository.searchDeliveriesByHubId(pageable, search, userData.hubId());
+				return deliveryRepository.searchDeliveriesByHubId(pageable, search, userData.belongHubId());
 			}
 			case DELIVERY_MANAGER -> {
 				// 담당할 배송 내역만 조회할 수 있음.
@@ -90,7 +95,7 @@ public class ReadDeliveryService {
 			}
 			case COMPANY_MANAGER -> {
 				// 본인의 주문에 관한 배송내역만 조회할 수 있음
-				return deliveryRepository.searchDeliveriesByReceiveCompanyId(pageable, search, userData.companyId());
+				return deliveryRepository.searchDeliveriesByReceiveCompanyId(pageable, search, userData.belongCompanyId());
 			}
 		}
 
@@ -114,7 +119,7 @@ public class ReadDeliveryService {
 	}
 
 	private static void validateHubManagerAccess(UserData userData, Delivery delivery) {
-		UUID hubId = userData.hubId();
+		UUID hubId = userData.belongHubId();
 		boolean isManagedHub = delivery.getDeliveryHistories().stream()
 			.anyMatch(route -> route.getDepartureHubId().equals(hubId));
 
@@ -129,13 +134,12 @@ public class ReadDeliveryService {
 	}
 
 	private UserData getUserData(UserDetailImpl userDetail) {
-		// TODO user 서비스 연동 필요
-		// UserData userData = userManager.getUserInfo(Long.parseLong(userDetail.userId()));
-		// if (userData.id() == null) {
-		// 	throw new FeignException();
-		// }
-		// return userData;
-		return new UserData(1L, "test user", "test@mail.com", "testslackId", UserRole.COMPANY_MANAGER, "COMPANY", UUID.randomUUID(), UUID.fromString("c5013a5f-9193-4d6a-8e9d-2ce06de491d7"));
+		ApiResponse<UserData> response = userManager.getUserInfo(Long.parseLong(userDetail.userId()));
+		UserData userData = response.data();
+		if (userData.id() == null) {
+			throw new FeignException(ErrorCode.USER_SERVICE_ERROR);
+		}
+		return userData;
 	}
 
 
