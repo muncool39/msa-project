@@ -1,6 +1,7 @@
 package com.msa.company.presentation.controller;
 
 import com.msa.company.application.service.ProductService;
+import com.msa.company.presentation.request.StockRequest;
 import com.msa.company.presentation.request.UpdateProductRequest;
 import com.msa.company.presentation.response.ApiResponse;
 import com.msa.company.presentation.response.ProductDetailResponse;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,6 +57,20 @@ public class ProductController {
                                            @AuthenticationPrincipal Long userId,
                                            @AuthenticationPrincipal String role) {
         productService.deleteProduct(id, userId, role);
+        return ApiResponse.success();
+    }
+
+    // 상품 재고 감소
+    @PostMapping("/products/{id}/reduce-stock")
+    public ApiResponse<Void> decreaseStock(@PathVariable("id") UUID id, @RequestBody StockRequest stockRequest) {
+        productService.decreaseStock(id, stockRequest.getStock());
+        return ApiResponse.success();
+    }
+
+    // 상품 재고 복원
+    @PostMapping("/products/{id}/restore-stock")
+    public ApiResponse<Void> restoreStock(@PathVariable("id") UUID id, @RequestBody StockRequest stockRequest) {
+        productService.restoreStock(id, stockRequest.getStock());
         return ApiResponse.success();
     }
 }

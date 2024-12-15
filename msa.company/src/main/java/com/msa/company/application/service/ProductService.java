@@ -1,5 +1,7 @@
 package com.msa.company.application.service;
 
+import static com.msa.company.exception.ErrorCode.PRODUCT_OUT_OF_STOCK;
+
 import com.msa.company.domain.entity.Product;
 import com.msa.company.domain.repository.ProductRepository;
 import com.msa.company.exception.CompanyException;
@@ -56,6 +58,25 @@ public class ProductService {
     public void deleteProduct(UUID id, Long userId, String role) {
         Product product = getProduct(id);
         product.setIsDeleted(userId);
+    }
+
+    // 상품 재고 감소
+    @Transactional
+    public void decreaseStock(UUID id, Long stock) {
+        Product product = getProduct(id);
+        if (product.getStock() < stock) {
+            throw new CompanyException(PRODUCT_OUT_OF_STOCK);
+        }
+        product.setStock(product.getStock() - stock);
+        productRepository.save(product);
+    }
+
+    // 상품 재고 복원
+    @Transactional
+    public void restoreStock(UUID id, Long stock) {
+        Product product = getProduct(id);
+        product.setStock(product.getStock() + stock);
+        productRepository.save(product);
     }
 
     // 상품 확인
