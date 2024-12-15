@@ -4,6 +4,7 @@ import static com.msa.notification.exception.ErrorCode.NOT_FOUND_AI_REQUEST;
 
 import com.msa.notification.applicaiton.dto.AiMessageRequest;
 import com.msa.notification.applicaiton.dto.AiMessageResponse;
+import com.msa.notification.applicaiton.dto.DeleteAiMessageResponse;
 import com.msa.notification.domain.AiRequest;
 import com.msa.notification.domain.repository.AiRequestRepository;
 import com.msa.notification.exception.businessException.AiRequestApiException;
@@ -56,12 +57,21 @@ public class AiRequestService {
     public AiMessageResponse getAiRequest(UUID id) {
         AiRequest aiRequest = aiRequestRepository.findById(id)
                 .orElseThrow(() -> new AiRequestApiException(NOT_FOUND_AI_REQUEST));
-        return AiMessageResponse
-                .fromEntity(aiRequest);
+        return AiMessageResponse.fromEntity(aiRequest);
     }
 
     public Page<AiMessageResponse> getAiRequestList(Pageable pageable) {
         return aiRequestRepository.getAiRequestList(pageable);
+    }
+
+    public DeleteAiMessageResponse deleteAiRequest(UUID id) {
+
+        AiRequest aiRequest = aiRequestRepository.findById(id)
+                .orElseThrow(() -> new AiRequestApiException(NOT_FOUND_AI_REQUEST));
+
+        aiRequest.updateDeletedHistory(aiRequest.getId().toString());
+
+        return DeleteAiMessageResponse.fromEntity(aiRequest);
     }
 
 
