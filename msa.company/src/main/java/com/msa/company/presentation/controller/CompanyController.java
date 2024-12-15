@@ -74,9 +74,8 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER')")
     public ApiResponse<Void> deleteCompany(@PathVariable UUID id,
-                                           @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = Long.valueOf(userDetails.getUsername());
-        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+                                           @AuthenticationPrincipal Long userId,
+                                           @AuthenticationPrincipal String role) {
         companyService.deleteCompany(id, userId, role);
         return ApiResponse.success();
     }
