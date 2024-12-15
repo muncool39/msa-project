@@ -14,9 +14,11 @@ import com.msa.order.config.UserDetailImpl;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.entity.enums.UserRole;
 import com.msa.order.domain.repository.OrderRepository;
+import com.msa.order.exception.BusinessException.FeignException;
 import com.msa.order.exception.BusinessException.OrderException;
 import com.msa.order.exception.BusinessException.UnauthorizedException;
 import com.msa.order.exception.ErrorCode;
+import com.msa.order.presentation.response.ApiResponse;
 
 @Service
 @Transactional(readOnly = true)
@@ -43,7 +45,7 @@ public class ReadOrderService {
 				return order;
 			}
 			case HUB_MANAGER -> {
-				if (!order.getDepartureHubId().equals(userData.hubId())) {
+				if (!order.getDepartureHubId().equals(userData.belongHubId())) {
 					throw new UnauthorizedException();
 				}
 				return order;
@@ -55,7 +57,7 @@ public class ReadOrderService {
 				return order;
 			}
 			case COMPANY_MANAGER -> {
-				if (!order.getReceiverCompanyId().equals(userData.companyId())) {
+				if (!order.getReceiverCompanyId().equals(userData.belongCompanyId())) {
 					throw new UnauthorizedException();
 				}
 				return order;
@@ -75,7 +77,7 @@ public class ReadOrderService {
 				return orderRepository.searchOrders(pageable, search);
 			}
 			case HUB_MANAGER -> {
-				return orderRepository.searchOrdersByDepartureHubId(pageable, search, userData.hubId());
+				return orderRepository.searchOrdersByDepartureHubId(pageable, search, userData.belongHubId());
 			}
 			case DELIVERY_MANAGER -> {
 				if ("COMPANY".equals(userData.type())) {
@@ -85,7 +87,7 @@ public class ReadOrderService {
 				}
 			}
 			case COMPANY_MANAGER -> {
-				return orderRepository.searchOrdersByReceiveCompanyId(pageable, search, userData.companyId());
+				return orderRepository.searchOrdersByReceiveCompanyId(pageable, search, userData.belongCompanyId());
 			}
 
 			default -> throw new UnauthorizedException();
@@ -99,13 +101,11 @@ public class ReadOrderService {
 	}
 
 	private UserData getUserData(UserDetailImpl userDetail) {
-		// TODO user 서비스 연동 필요
-		// UserData userData = userManager.getUserInfo(Long.parseLong(userDetail.userId()));
-		// if (userData.id() == null) {
-		// 	throw new FeignException();
-		// }
-		// return userData;
-		return new UserData(1L, "test user", "test@mail.com", "testslackId", UserRole.COMPANY_MANAGER, null, UUID.randomUUID(),
-			UUID.randomUUID());
+		ApiResponse<UserData> response = userManager.getUserInfo(Long.parseLong(userDetail.userId()));
+		UserData userData = response.data();
+		if (userData.id() == null) {
+			throw new FeignException(ErrorCode.USER_SERVICE_ERROR);
+		}
+		return userData;
 	}
 }
