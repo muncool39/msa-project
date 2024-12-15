@@ -40,7 +40,6 @@ public class CompanyService {
         UUID hubId = createCompanyRequest.hubId();
         if ("MASTER".equals(role)) {
             if (!hubClient.isHubExists(hubId)) {
-                System.out.println("Is hub exists: " + hubId);
                 throw new CompanyException(HUB_NOT_FOUND);
             }
         }
@@ -55,7 +54,7 @@ public class CompanyService {
                 createCompanyRequest.type(),
                 createCompanyRequest.address().toEntity()
         );
-       companyRepository.save(company);
+        companyRepository.save(company);
     }
 
     // 업체 전체 조회
@@ -108,7 +107,7 @@ public class CompanyService {
         // TODO: 마스터(전체), 허브 관리자(본인 허브만) 추후 개발
 
         Company company = getCompany(id);
-        company.setIsDeleted(userId, true);
+        company.setIsDeleted(userId);
     }
 
     // id 존재 확인
