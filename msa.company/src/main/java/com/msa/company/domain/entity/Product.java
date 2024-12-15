@@ -1,6 +1,6 @@
 package com.msa.company.domain.entity;
 
-import com.msa.company.presentation.request.ProductRequest;
+import com.msa.company.presentation.request.CreateProductRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
@@ -32,6 +33,7 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
+    @Setter
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -48,14 +50,12 @@ public class Product extends BaseEntity {
         this.isOutOfStock = this.stock == 0;
     }
 
-    public static Product create(ProductRequest productRequest, Company company, Long userId) {
-        Product product = Product.builder()
+    public static Product create(CreateProductRequest productRequest, Company company, Long userId) {
+        return Product.builder()
                 .company(company)
                 .name(productRequest.name())
                 .stock(productRequest.stock())
                 .isOutOfStock(false)
                 .build();
-        product.initAuditInfo(userId);
-        return product;
     }
 }
