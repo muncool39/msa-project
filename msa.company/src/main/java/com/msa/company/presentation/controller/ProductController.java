@@ -1,15 +1,19 @@
 package com.msa.company.presentation.controller;
 
 import com.msa.company.application.service.ProductService;
-import com.msa.company.domain.entity.Product;
+import com.msa.company.presentation.request.UpdateProductRequest;
 import com.msa.company.presentation.response.ApiResponse;
 import com.msa.company.presentation.response.ProductDetailResponse;
 import com.msa.company.presentation.response.ProductListResponse;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,5 +34,16 @@ public class ProductController {
     public ApiResponse<ProductDetailResponse> getDetailProduct(@PathVariable("id") UUID id) {
         ProductDetailResponse product = productService.getDetailProduct(id);
         return ApiResponse.success(product);
+    }
+
+    // 상품 수정
+    @PatchMapping("/products/{id}")
+    @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER','COMPANY_MANAGER')")
+    public ApiResponse<Void> updateProduct(@PathVariable("id") UUID id,
+                                           @RequestBody UpdateProductRequest request,
+                                           @AuthenticationPrincipal Long userId,
+                                           @AuthenticationPrincipal String role) {
+        productService.updateProduct(id, request, userId, role);
+        return ApiResponse.success();
     }
 }

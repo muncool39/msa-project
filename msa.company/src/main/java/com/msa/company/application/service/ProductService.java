@@ -5,6 +5,7 @@ import com.msa.company.domain.repository.ProductRepository;
 import com.msa.company.exception.CompanyException;
 import com.msa.company.exception.ErrorCode;
 import com.msa.company.infrastructure.HubClient;
+import com.msa.company.presentation.request.UpdateProductRequest;
 import com.msa.company.presentation.response.ProductDetailResponse;
 import com.msa.company.presentation.response.ProductListResponse;
 import java.util.List;
@@ -34,6 +35,20 @@ public class ProductService {
     public ProductDetailResponse getDetailProduct(UUID id) {
         Product product = getProduct(id);
         return ProductDetailResponse.from(product);
+    }
+
+    // 상품 수정
+    @Transactional
+    public void updateProduct(UUID id, UpdateProductRequest request,
+                              Long userId, String role) {
+        Product product = getProduct(id);
+
+        if (request.name() != null) {
+            product.setName(request.name());
+        }
+        if (request.stock() != null) {
+            product.setStock(request.stock());
+        }
     }
 
     // 상품 확인
