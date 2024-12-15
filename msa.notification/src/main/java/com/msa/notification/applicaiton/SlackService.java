@@ -2,15 +2,14 @@ package com.msa.notification.applicaiton;
 
 import static com.msa.notification.exception.ErrorCode.*;
 
+import com.msa.notification.applicaiton.dto.DeleteSlackResponse;
 import com.msa.notification.applicaiton.dto.SlackNotificationRequest;
 import com.msa.notification.applicaiton.dto.SlackNotificationResponse;
 import com.msa.notification.applicaiton.dto.UpdateSlackRequest;
 import com.msa.notification.domain.SlackNotification;
-import com.msa.notification.exception.ErrorCode;
 import com.msa.notification.exception.businessException.NotificationApiException;
 import com.msa.notification.infrastructure.SlackClientRequestDto;
 import com.msa.notification.domain.repository.SlackNotificationRepository;
-import com.slack.api.methods.SlackApiException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,6 +44,7 @@ public class SlackService {
                         slackNotificationId)
                 .orElseThrow(() -> new NotificationApiException(NOT_FOUND_SLACK_NOTIFICATION));
 
+        validateDeleted(slackNotification);
         return SlackNotificationResponse.fromEntity(slackNotification);
     }
 
@@ -61,22 +61,32 @@ public class SlackService {
                         slackNotificationId)
                 .orElseThrow(() -> new NotificationApiException(NOT_FOUND_SLACK_NOTIFICATION));
 
+        validateDeleted(slackNotification);
+
         slackNotification.updateMessage(request.message());
+        slackNotification.updateHistory(slackNotification.getSlackRecipientId());
 
         return SlackNotificationResponse.fromEntity(slackNotification);
     }
 
     @Transactional
-    public SlackNotificationResponse deleteSlackMessage(UUID slackNotificationId) {
+    public DeleteSlackResponse deleteSlackMessage(UUID slackNotificationId) {
 
         SlackNotification slackNotification = slackNotificationRepository.findById(
                         slackNotificationId)
                 .orElseThrow(() -> new NotificationApiException(NOT_FOUND_SLACK_NOTIFICATION));
 
-        //TODO: BaseEntity 적용 후 소프트 델리트로 수정
-        slackNotificationRepository.delete(slackNotification);
+        validateDeleted(slackNotification);
 
-        return SlackNotificationResponse.fromEntity(slackNotification);
+        slackNotification.updateDeletedHistory(slackNotification.getSlackRecipientId());
+
+        return DeleteSlackResponse.fromEntity(slackNotification);
+    }
+
+    private void validateDeleted(SlackNotification slackNotification) {
+        if (slackNotification.isDeleted()) {
+            throw new NotificationApiException(DELETED_SLACK_HISTORY);
+        }
     }
 
 }

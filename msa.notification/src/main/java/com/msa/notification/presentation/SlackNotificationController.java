@@ -1,6 +1,7 @@
 package com.msa.notification.presentation;
 
 import com.msa.notification.applicaiton.SlackService;
+import com.msa.notification.applicaiton.dto.DeleteSlackResponse;
 import com.msa.notification.applicaiton.dto.SlackNotificationResponse;
 import com.msa.notification.presentation.request.SlackCreateRequest;
 import com.msa.notification.presentation.request.SlackUpdateRequest;
@@ -65,7 +66,7 @@ public class SlackNotificationController {
 
     @PreAuthorize("hasAuthority('MASTER')")
     @DeleteMapping("/{slackNotificationId}")
-    public ApiResponse<SlackNotificationResponse> deleteSlackNotification(
+    public ApiResponse<DeleteSlackResponse> deleteSlackNotification(
             @PathVariable UUID slackNotificationId) {
         return ApiResponse.success(slackService.deleteSlackMessage(slackNotificationId));
     }
