@@ -51,6 +51,13 @@ public class ProductService {
         }
     }
 
+    // 상품 삭제
+    @Transactional
+    public void deleteProduct(UUID id, Long userId, String role) {
+        Product product = getProduct(id);
+        product.setIsDeleted(userId);
+    }
+
     // 상품 확인
     private Product getProduct(UUID id) {
         return productRepository.findById(id)

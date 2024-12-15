@@ -10,6 +10,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,16 @@ public class ProductController {
                                            @AuthenticationPrincipal Long userId,
                                            @AuthenticationPrincipal String role) {
         productService.updateProduct(id, request, userId, role);
+        return ApiResponse.success();
+    }
+
+    // 상품 삭제
+    @DeleteMapping("/products/{id}")
+    @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER')")
+    public ApiResponse<Void> deleteProduct(@PathVariable("id") UUID id,
+                                           @AuthenticationPrincipal Long userId,
+                                           @AuthenticationPrincipal String role) {
+        productService.deleteProduct(id, userId, role);
         return ApiResponse.success();
     }
 }
