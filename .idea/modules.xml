@@ -3,11 +3,25 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/2. 물류시스템.iml" filepath="$PROJECT_DIR$/.idea/2. 물류시스템.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-739737170/company.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-739737170/company.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-33784605/delivery.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-33784605/delivery.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-305194330/hub.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-305194330/hub.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1227594561/order.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1227594561/order.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-870704070/user.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-870704070/user.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-739737170/company.iml" filepath="$PROJECT_DIR$/.idea/modules/-739737170/company.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-739737170/company.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-739737170/company.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-33784605/delivery.iml" filepath="$PROJECT_DIR$/.idea/modules/-33784605/delivery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-33784605/delivery.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-33784605/delivery.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1879340171/gateway.iml" filepath="$PROJECT_DIR$/.idea/modules/-1879340171/gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1879340171/gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1879340171/gateway.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1879340171/gateway.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1879340171/gateway.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-305194330/hub.iml" filepath="$PROJECT_DIR$/.idea/modules/-305194330/hub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-305194330/hub.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-305194330/hub.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2061097562/notification.iml" filepath="$PROJECT_DIR$/.idea/modules/2061097562/notification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2061097562/notification.main.iml" filepath="$PROJECT_DIR$/.idea/modules/2061097562/notification.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2061097562/notification.test.iml" filepath="$PROJECT_DIR$/.idea/modules/2061097562/notification.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1227594561/order.iml" filepath="$PROJECT_DIR$/.idea/modules/-1227594561/order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1227594561/order.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1227594561/order.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/702218226/server.iml" filepath="$PROJECT_DIR$/.idea/modules/702218226/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/702218226/server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/702218226/server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/702218226/server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/702218226/server.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-870704070/user.iml" filepath="$PROJECT_DIR$/.idea/modules/-870704070/user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-870704070/user.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-870704070/user.test.iml" />
     </modules>
   </component>
 </project>

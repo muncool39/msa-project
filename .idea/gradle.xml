@@ -10,7 +10,7 @@
         <option name="gradleJvm" value="17" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msa.company" />
+            <option value="$PROJECT_DIR$/../../팀프로젝트/msa-project/msa.company" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -54,7 +54,7 @@
         <option name="gradleJvm" value="17" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msa.notification" />
+            <option value="$PROJECT_DIR$/../../팀프로젝트/msa-project/msa.notification" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -76,7 +76,7 @@
         <option name="gradleJvm" value="17" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/msa.server" />
+            <option value="$PROJECT_DIR$/../../팀프로젝트/msa-project/msa.server" />
           </set>
         </option>
       </GradleProjectSettings>
