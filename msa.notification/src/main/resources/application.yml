@@ -30,3 +30,4 @@ eureka:
 service:
   slack:
     request-url: "slack.com/api"
+
