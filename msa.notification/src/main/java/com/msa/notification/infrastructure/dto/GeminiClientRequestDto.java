@@ -7,11 +7,9 @@ import lombok.Getter;
 public record GeminiClientRequestDto(
         List<Content> contents
 ) {
-    @Getter
         public record Content(List<Part> parts) {
     }
 
-    @Getter
         public record Part(String text) {
     }
 

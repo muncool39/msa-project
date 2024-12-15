@@ -3,7 +3,6 @@ package com.msa.notification.applicaiton.dto;
 import com.msa.notification.domain.AiRequest;
 import com.querydsl.core.annotations.QueryProjection;
 import java.util.UUID;
-import lombok.Builder;
 
 public record AiMessageResponse(
         UUID aiRequestId,

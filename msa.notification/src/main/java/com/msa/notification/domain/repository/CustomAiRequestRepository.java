@@ -4,7 +4,7 @@ import com.msa.notification.applicaiton.dto.AiMessageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface AiRequestRepositoryCustom {
-    Page<AiMessageResponse> searchAiMessages(String username, Pageable pageable);
+public interface CustomAiRequestRepository {
+    Page<AiMessageResponse> getAiRequestList(Pageable pageable);
 
 }

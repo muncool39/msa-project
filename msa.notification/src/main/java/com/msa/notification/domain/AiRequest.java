@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Table(name = "p_ai_request")
-public class AiRequest {
+public class AiRequest extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

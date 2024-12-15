@@ -1,13 +1,19 @@
 package com.msa.notification.applicaiton;
 
+import static com.msa.notification.exception.ErrorCode.NOT_FOUND_AI_REQUEST;
+
 import com.msa.notification.applicaiton.dto.AiMessageRequest;
 import com.msa.notification.applicaiton.dto.AiMessageResponse;
 import com.msa.notification.domain.AiRequest;
 import com.msa.notification.domain.repository.AiRequestRepository;
+import com.msa.notification.exception.businessException.AiRequestApiException;
 import com.msa.notification.infrastructure.dto.GeminiClientRequestDto;
 import com.msa.notification.infrastructure.dto.GeminiClientResponseDto;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +51,17 @@ public class AiRequestService {
         aiRequestRepository.save(aiRequest);
 
         return AiMessageResponse.fromEntity(aiRequest);
+    }
 
+    public AiMessageResponse getAiRequest(UUID id) {
+        AiRequest aiRequest = aiRequestRepository.findById(id)
+                .orElseThrow(() -> new AiRequestApiException(NOT_FOUND_AI_REQUEST));
+        return AiMessageResponse
+                .fromEntity(aiRequest);
+    }
+
+    public Page<AiMessageResponse> getAiRequestList(Pageable pageable) {
+        return aiRequestRepository.getAiRequestList(pageable);
     }
 
 

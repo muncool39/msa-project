@@ -26,7 +26,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 @Table(name="p_slack_notification")
-public class SlackNotification {
+public class SlackNotification extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.UUID)
