@@ -84,12 +84,14 @@ public class OrderController {
 		return ApiResponse.success();
 	}
 
+	@PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER', 'COMPANY_MANAGER')")
 	@PatchMapping("/cancel/{id}")
 	public ApiResponse<Void> cancelOrder(@PathVariable(name = "id") UUID orderId,
 		@AuthenticationPrincipal UserDetailImpl userDetail) {
 
 		String userId = userDetail.getUsername();
-		modifyOrderService.cancelOrder(orderId, userId);
+		UserRole role = userDetail.getUserRole();
+		modifyOrderService.cancelOrder(orderId, userId, role);
 		return ApiResponse.success();
 	}
 

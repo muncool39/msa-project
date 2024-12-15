@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.UUID;
 
 import com.msa.delivery.domain.entity.enums.DeliveryStatus;
+import com.msa.delivery.exception.BusinessException.DeliveryRouteNotFoundException;
+import com.msa.delivery.exception.BusinessException.UnauthorizedException;
+import com.msa.delivery.exception.ErrorCode;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -63,7 +67,7 @@ public class Delivery extends BaseEntity {
 
 	private Long deliveredBy;
 
-	@OneToMany(mappedBy = "delivery")
+	@OneToMany(mappedBy = "delivery", fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<DeliveryRouteHistory> deliveryHistories = new ArrayList<>();
 
@@ -92,11 +96,41 @@ public class Delivery extends BaseEntity {
 		history.setDelivery(this);
 	}
 
-	public void assignCompanyDeliveryWorker(Long deliverId) {
+	public void assignCompanyDeliver(Long deliverId) {
 		this.deliverId = deliverId;
 	}
 
+	public DeliveryRouteHistory findCurrentRoute(UUID routeId) {
+		return deliveryHistories.stream()
+			.filter(route -> route.getId().equals(routeId))
+			.findFirst()
+			.orElseThrow(DeliveryRouteNotFoundException::new);
+	}
 
+	public void completeHubDelivery(DeliveryRouteHistory currentRoute, String userId, Double actualDistance,
+		Long actualTime) {
+		currentRoute.completeDelivery(userId, actualDistance, actualTime);
+	}
 
+	public void completeDelivery(Long deliverId) {
+		validateCompanyDeliveryUpdate();
+		this.deliverId = deliverId;
+		this.status = DeliveryStatus.DELIVERED;
+		this.deliveredAt = LocalDateTime.now();
+	}
 
+	private void validateCompanyDeliveryUpdate() {
+		boolean allRoutesCompleted = deliveryHistories.stream()
+			.allMatch(route -> route.getStatus() == DeliveryStatus.HUB_ARRIVED);
+
+		if (!allRoutesCompleted) {
+			throw new IllegalStateException("모든 허브 경로가 완료되어야 최종 배송 완료가 가능합니다.");
+		}
+	}
+
+	public void validateCompanyDeliverAccess(Long deliverId) {
+		if (this.deliverId != null && !this.deliverId.equals(deliverId)) {
+			throw new UnauthorizedException(ErrorCode.NOT_ALLOWED_COMPANY_DELIVER);
+		}
+	}
 }

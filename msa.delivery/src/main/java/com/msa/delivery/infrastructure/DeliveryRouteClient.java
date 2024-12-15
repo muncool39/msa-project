@@ -6,8 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.msa.delivery.application.dto.DeliveryRoutesData;
-import com.msa.delivery.application.service.DeliveryRouteManager;
+import com.msa.delivery.application.client.dto.DeliveryRoutesData;
+import com.msa.delivery.application.client.DeliveryRouteManager;
 import com.msa.delivery.config.FeignConfiguration;
 
 @FeignClient(

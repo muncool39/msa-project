@@ -13,8 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.msa.delivery.application.dto.DeliveryRoutesData;
-import com.msa.delivery.application.dto.DeliveryWorkersData;
+import com.msa.delivery.application.client.DeliveryRouteManager;
+import com.msa.delivery.application.client.UserManager;
+import com.msa.delivery.application.client.dto.DeliveryRoutesData;
+import com.msa.delivery.application.client.dto.DeliveryWorkersData;
 import com.msa.delivery.domain.entity.Address;
 import com.msa.delivery.domain.entity.Delivery;
 import com.msa.delivery.domain.repository.DeliveryRepository;
@@ -30,7 +32,7 @@ class CreateDeliveryServiceTest {
 	private DeliveryRouteManager deliveryRouteManager;
 
 	@Mock
-	private DeliveryAssigner deliveryAssigner;
+	private UserManager deliveryAssigner;
 
 	private CreateDeliveryService createDeliveryService;
 

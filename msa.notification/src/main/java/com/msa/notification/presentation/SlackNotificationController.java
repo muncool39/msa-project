@@ -36,7 +36,6 @@ public class SlackNotificationController {
         return ApiResponse.success(slackService.createSlackMessage(request.toDTO()));
     }
 
-
     @PreAuthorize("hasAuthority('MASTER')")
     @GetMapping("/{slackRecipientId}")
     public ApiResponse<SlackNotificationResponse> getSlackNotification(

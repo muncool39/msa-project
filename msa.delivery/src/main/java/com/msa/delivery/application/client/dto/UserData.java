@@ -1,8 +1,8 @@
-package com.msa.order.application.client.dto;
+package com.msa.delivery.application.client.dto;
 
 import java.util.UUID;
 
-import com.msa.order.domain.entity.enums.UserRole;
+import com.msa.delivery.domain.entity.enums.UserRole;
 
 public record UserData( // #49 응답객체 참고
 	Long id,

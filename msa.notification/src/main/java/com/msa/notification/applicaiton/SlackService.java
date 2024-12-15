@@ -45,6 +45,7 @@ public class SlackService {
                 .orElseThrow(() -> new NotificationApiException(NOT_FOUND_SLACK_NOTIFICATION));
 
         validateDeleted(slackNotification);
+
         return SlackNotificationResponse.fromEntity(slackNotification);
     }
 
@@ -62,15 +63,16 @@ public class SlackService {
                 .orElseThrow(() -> new NotificationApiException(NOT_FOUND_SLACK_NOTIFICATION));
 
         validateDeleted(slackNotification);
-
         slackNotification.updateMessage(request.message());
         slackNotification.updateHistory(slackNotification.getSlackRecipientId());
+
 
         return SlackNotificationResponse.fromEntity(slackNotification);
     }
 
     @Transactional
     public DeleteSlackResponse deleteSlackMessage(UUID slackNotificationId) {
+
 
         SlackNotification slackNotification = slackNotificationRepository.findById(
                         slackNotificationId)
@@ -88,5 +90,4 @@ public class SlackService {
             throw new NotificationApiException(DELETED_SLACK_HISTORY);
         }
     }
-
 }
