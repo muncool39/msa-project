@@ -6,6 +6,8 @@ import com.msa.company.exception.CompanyException;
 import com.msa.company.exception.ErrorCode;
 import com.msa.company.infrastructure.HubClient;
 import com.msa.company.presentation.request.UpdateProductRequest;
+import com.msa.company.presentation.response.ApiResponse;
+import com.msa.company.presentation.response.HubResponse;
 import com.msa.company.presentation.response.ProductDetailResponse;
 import com.msa.company.presentation.response.ProductListResponse;
 import com.msa.company.presentation.response.StockResponse;
@@ -56,6 +58,13 @@ public class ProductService {
     @Transactional
     public void deleteProduct(UUID id, Long userId, String role) {
         Product product = getProductAndCheckDeletion(id);
+
+        if ("HUB_MANAGER".equals(role)) {
+            ApiResponse<HubResponse> hubResponse = hubClient.findHub(product.getHubId().toString());
+            if (hubResponse == null || !hubResponse.data().managerId().equals(userId)) {
+                throw new CompanyException(ErrorCode.HUB_ACCESS_DENIED);
+            }
+        }
         product.setIsDeleted(userId);
     }
 
