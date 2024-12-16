@@ -36,20 +36,8 @@ public class CompanyProductService {
         // 1. 회사 존재 여부 확인
         Company company = getCompanyAndCheckDeletion(companyId);
 
-        // 2. HUB_MANAGER - 본인이 관리하는 허브인지 확인
-        if ("HUB_MANAGER".equals(role)) {
-            ApiResponse<HubResponse> hubResponse = hubClient.findHub(company.getHubId().toString());
-            if (!hubResponse.data().managerId().equals(userId)) {
-                throw new CompanyException(ErrorCode.HUB_ACCESS_DENIED);
-            }
-        }// 3. COMPANY_MANAGER - 본인이 관리하는 업체인지 확인
-        else if ("COMPANY_MANAGER".equals(role)) {
-            ApiResponse<UserResponse> userResponse = userClient.findUser(userId);
-            if (userResponse == null || userResponse.data() == null
-                    ||!userResponse.data().companyId().equals(companyId.toString())) {
-                throw new CompanyException(ErrorCode.COMPANY_ACCESS_DENIED);
-            }
-        }
+        // 2. 권한 확인
+        checkCreatePermission(companyId, userId, role, company);
 
         Product product = Product.create(productRequest, company);
         productRepository.save(product);
@@ -87,5 +75,23 @@ public class CompanyProductService {
         }
 
         return company;
+    }
+
+    // 권한별 확인 로직
+    private void checkCreatePermission(UUID companyId, Long userId, String role, Company company) {
+        // HUB_MANAGER - 본인이 관리하는 허브인지 확인
+        if ("HUB_MANAGER".equals(role)) {
+            ApiResponse<HubResponse> hubResponse = hubClient.findHub(company.getHubId().toString());
+            if (!hubResponse.data().managerId().equals(userId)) {
+                throw new CompanyException(ErrorCode.HUB_ACCESS_DENIED);
+            }
+        }// COMPANY_MANAGER - 본인이 관리하는 업체인지 확인
+        else if ("COMPANY_MANAGER".equals(role)) {
+            ApiResponse<UserResponse> userResponse = userClient.findUser(userId);
+            if (userResponse == null || userResponse.data() == null
+                    ||!userResponse.data().companyId().equals(companyId.toString())) {
+                throw new CompanyException(ErrorCode.COMPANY_ACCESS_DENIED);
+            }
+        }
     }
 }
