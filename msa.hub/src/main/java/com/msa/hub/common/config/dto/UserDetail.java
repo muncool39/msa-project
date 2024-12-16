@@ -1,4 +1,4 @@
-package com.msa.hub.config.dto;
+package com.msa.hub.common.config.dto;
 
 import java.util.Collection;
 import java.util.List;
