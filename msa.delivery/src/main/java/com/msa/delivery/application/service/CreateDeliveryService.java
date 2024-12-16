@@ -41,7 +41,7 @@ public class CreateDeliveryService {
 		UUID destinationHubId = request.destinationHubId();
 
 		// 1. 배송요청 생성
-		Delivery delivery = Delivery.create(request.orderId(), departureHubId, destinationHubId,
+		Delivery delivery = Delivery.create(request.orderId(), request.receiveCompanyId(), departureHubId, destinationHubId,
 			request.address(), request.receiverName(), request.receiverSlackId());
 
 		// 2. 배송경로 생성 요청

@@ -15,3 +15,11 @@ VALUES
     ('8b6d92e1-3a99-4657-b21d-2f4f5935d241', '냉장고', 30, 'f08430f1-2c5e-4b95-bd74-d4ae8d07b4a7', false,NOW(), 1, NOW(), 1,false),
     ('1c625b88-dc82-4b0c-9f61-b0e545ed26b1', '의류 셔츠', 200, 'b04e2f9d-11d9-48fe-9eb2-8d8f99f17eb9', false,NOW(), 1, NOW(), 1,false),
     ('d76f6fdb-ff98-4648-bff5-0eab7c12f9c0', '책', 500, 'ff5d7908-02c6-42e6-8e2d-3ab2f89fc4cd', false,NOW(), 1, NOW(), 1,false);
+
+INSERT INTO p_hub (
+    id, name, city, district, street_name, street_number, address_detail, latitude, longitude, manager_id, created_at, created_by, updated_at, updated_by, is_deleted
+) VALUES
+      ('d23457cd-7f75-4cd4-b150-03bb557a3f72', '서울특별시 센터', '서울특별시', '송파구', '송파대로', '55', '송파대로 55', 37.514, 127.112, 1, now(), 1,now(),1, false),
+      ('d23457cd-7f75-4cd4-b150-03bb557a3f74', '부산광역시 센터', '부산광역시', '동구', '중앙대로', '206', '중앙대로 206', 35.114, 129.042, 4, now(), 1, now(),1, false),
+      ('d23457cd-7f75-4cd4-b150-03bb557a3f75', '대구광역시 센터', '대구광역시', '북구', '태평로', '161', '태평로 161', 35.877, 128.594, 5, now(), 1,now(),1, false),
+      ('d23457cd-7f75-4cd4-b150-03bb557a3f76', '광주광역시 센터', '광주광역시', '서구', '내방로', '111', '내방로 111', 35.150, 126.890, 7, now(), 1,now(),1, false)

@@ -1,5 +1,6 @@
 package com.msa.order.config;
 
+import feign.Logger;
 import feign.RequestInterceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import okhttp3.OkHttpClient;
@@ -29,5 +30,10 @@ public class FeignConfiguration {
 				requestTemplate.header("X-User-Role", role);
 			}
 		};
+	}
+
+	@Bean
+	Logger.Level feignLoggerLevel() {
+		return Logger.Level.FULL;
 	}
 }

@@ -1,12 +1,16 @@
 package com.msa.user.application.service;
 
 import com.msa.user.application.dto.UserDetailResponse;
+import com.msa.user.application.dto.UserBasicResponse;
+import com.msa.user.domain.model.Role;
 import com.msa.user.domain.model.User;
 import com.msa.user.domain.repository.UserRepository;
 import com.msa.user.common.exception.ErrorCode;
 import com.msa.user.common.exception.UserException;
 import com.msa.user.presentation.request.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +28,14 @@ public class UserService {
     public UserDetailResponse getUser(final Long userId) {
         User user = getUserOrException(userId);
         return UserDetailResponse.from(user);
+    }
+
+    public Page<UserBasicResponse> findUsers(
+            Pageable pageable, String username, Role role, String belongHudId, String belongCompanyId
+    ) {
+        return userRepository
+                .findUsersWith(pageable, username, role, belongHudId, belongCompanyId)
+                .map(UserBasicResponse::toUserPageResponse);
     }
 
     @Transactional
@@ -49,6 +61,12 @@ public class UserService {
         }
         user.setBelongHub(hubId);
         hubService.postManager(hubId, userId);
+    }
+
+    @Transactional
+    public void deleteUser(final Long userId) {
+        User user = getUserOrException(userId);
+        user.deleteBase(userId);
     }
 
     private User getUserOrException(final Long userId) {

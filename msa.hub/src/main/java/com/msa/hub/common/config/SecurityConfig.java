@@ -1,4 +1,4 @@
-package com.msa.hub.config;
+package com.msa.hub.common.config;
 
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;

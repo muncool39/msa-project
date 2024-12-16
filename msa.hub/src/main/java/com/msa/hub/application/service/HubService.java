@@ -1,14 +1,16 @@
 package com.msa.hub.application.service;
 
 
+import com.msa.hub.application.dto.HubBasicResponse;
 import com.msa.hub.application.dto.HubDetailResponse;
-import com.msa.hub.application.dto.Role;
 import com.msa.hub.domain.model.Hub;
 import com.msa.hub.domain.repository.HubRepository;
-import com.msa.hub.exception.ErrorCode;
-import com.msa.hub.exception.HubException;
+import com.msa.hub.common.exception.ErrorCode;
+import com.msa.hub.common.exception.HubException;
 import com.msa.hub.presentation.request.HubCreateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,14 @@ public class HubService {
                 hubRepository.findByIdAndIsDeleted(id, false)
                         .orElseThrow(()->new HubException(ErrorCode.HUB_NOT_FOUND))
         );
+    }
+
+    public Page<HubBasicResponse> findHubs(
+            Pageable pageable, String name, String city, String district, String streetName
+    ) {
+        return hubRepository
+                .findHubsWith(pageable, name, city, district, streetName)
+                .map(HubBasicResponse::fromEntity);
     }
 
     @Transactional
