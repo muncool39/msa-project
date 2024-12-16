@@ -6,8 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.msa.delivery.application.client.dto.DeliveryRoutesData;
 import com.msa.delivery.application.client.DeliveryRouteManager;
+import com.msa.delivery.application.client.dto.DeliveryRoutesData;
 import com.msa.delivery.config.FeignConfiguration;
 
 @FeignClient(
@@ -17,8 +17,8 @@ import com.msa.delivery.config.FeignConfiguration;
 	configuration = FeignConfiguration.class)
 public interface DeliveryRouteClient extends DeliveryRouteManager {
 
-	@GetMapping("/hub-routes")
-	DeliveryRoutesData getDeliveryRoutes( // TODO 응답형태 확인
+	@GetMapping("/hub-routes/delivery")
+	DeliveryRoutesData getDeliveryRoutes(
 		@RequestParam("sourceHubId") UUID sourceHubId,
 		@RequestParam("destinationHubId") UUID destinationHubId);
 
