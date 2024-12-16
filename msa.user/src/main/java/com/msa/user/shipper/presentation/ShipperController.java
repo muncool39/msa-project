@@ -1,11 +1,14 @@
 package com.msa.user.shipper.presentation;
 
 import com.msa.user.shipper.application.dto.DeleteShipperResponse;
+import com.msa.user.shipper.application.dto.ShipperAssignResponseDto;
 import com.msa.user.shipper.application.dto.ShipperResponse;
 import com.msa.user.shipper.application.ShipperService;
 import com.msa.user.shipper.presentation.request.CreateShipperRequest;
+import com.msa.user.shipper.presentation.request.ShipperAssignRequestDto;
 import com.msa.user.shipper.presentation.request.UpdateShipperRequest;
 import com.msa.user.presentation.response.ApiResponse;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +31,15 @@ public class ShipperController {
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @PostMapping
-    public ApiResponse<ShipperResponse> createShipper(@RequestBody CreateShipperRequest request) {
+    public ApiResponse<ShipperResponse> createShipper(
+            @Valid @RequestBody CreateShipperRequest request) {
         return ApiResponse.success(shipperService.createShipper(request));
     }
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @PatchMapping("/{shipperId}")
     public ApiResponse<ShipperResponse> updateShipper(@PathVariable UUID shipperId,
-                                                      @RequestBody UpdateShipperRequest request
+                                                      @Valid @RequestBody UpdateShipperRequest request
     ) {
         return ApiResponse.success(shipperService.updateShipper(shipperId, request));
     }
@@ -43,7 +47,7 @@ public class ShipperController {
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER','DELIVERY_MANAGER')")
     @GetMapping("/{shipperId}")
-    public ApiResponse<ShipperResponse> getShipper(UUID shipperId) {
+    public ApiResponse<ShipperResponse> getShipper(@PathVariable UUID shipperId) {
         return ApiResponse.success(shipperService.getShipper(shipperId));
     }
 
@@ -59,5 +63,12 @@ public class ShipperController {
         return ApiResponse.success(shipperService.deleteShipper(shipperId));
     }
 
+    @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
+    @PostMapping("/assign")
+    public ApiResponse<ShipperAssignResponseDto> assignShippers(
+            @Valid @RequestBody ShipperAssignRequestDto request) {
+        System.out.println("assignShippers");
+        return ApiResponse.success(shipperService.assignShippers(request));
+    }
 
 }
