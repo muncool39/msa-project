@@ -8,6 +8,7 @@ import com.msa.hub.domain.repository.HubRepository;
 import com.msa.hub.common.exception.ErrorCode;
 import com.msa.hub.common.exception.HubException;
 import com.msa.hub.presentation.request.HubCreateRequest;
+import com.msa.hub.presentation.request.HubUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -61,6 +62,16 @@ public class HubService {
 
     @Transactional
     @CacheEvict(cacheNames = "hub_list_cache", allEntries = true)
+    public void updateHub(final String hubId, final HubUpdateRequest request) {
+        Hub hub = getHubOrException(hubId);
+        hub.update(
+                request.name(), request.city(),
+                request.district(), request.streetName(), request.streetNumber(), request.addressDetail(),
+                request.latitude(), request.longitude()
+        );
+    }
+
+    @Transactional
     public void updateHubManager(final String hubId, final Long userId) {
         Hub hub = getHubOrException(hubId);
         hub.setManager(userId);

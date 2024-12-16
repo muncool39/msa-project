@@ -31,7 +31,11 @@ public class SecurityConfig {
         )
         .authorizeHttpRequests(auth ->
             auth.anyRequest().authenticated()
-        ).addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+        )
+        .exceptionHandling(e -> e.authenticationEntryPoint((request, response, authException) ->
+            response.sendError(response.getStatus())
+            ))
+        .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
 

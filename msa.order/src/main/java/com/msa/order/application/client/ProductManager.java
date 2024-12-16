@@ -2,15 +2,17 @@ package com.msa.order.application.client;
 
 import com.msa.order.application.client.dto.CompanyData;
 import com.msa.order.application.client.dto.ProductStockRequest;
-import com.msa.order.application.client.dto.ProductStockData;
+import com.msa.order.application.client.dto.ProductData;
+import com.msa.order.presentation.response.ApiResponse;
+
 import java.util.UUID;
 
 public interface ProductManager {
 
-	ProductStockData reduceStock(UUID itemId, ProductStockRequest stock);
+	ApiResponse<ProductData> reduceStock(UUID itemId, ProductStockRequest stock);
 
-	ProductStockData restoreStock(UUID itemId, ProductStockRequest stock);
+	ApiResponse<ProductData> restoreStock(UUID itemId, ProductStockRequest stock);
 
-	CompanyData getCompanyInfo(UUID companyId);
+	ApiResponse<CompanyData> getCompanyInfo(UUID companyId);
 
 }
