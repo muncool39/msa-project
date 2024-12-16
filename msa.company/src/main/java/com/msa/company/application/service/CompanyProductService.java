@@ -1,7 +1,5 @@
 package com.msa.company.application.service;
 
-import static com.msa.company.exception.ErrorCode.COMPANY_NOT_FOUND;
-
 import com.msa.company.domain.entity.Company;
 import com.msa.company.domain.entity.Product;
 import com.msa.company.domain.repository.CompanyRepository;
@@ -31,7 +29,8 @@ public class CompanyProductService {
     public void createProduct(UUID companyId, CreateProductRequest productRequest,
                               Long userId, String role) {
         // 1. 회사 존재 여부 확인
-        Company company = getCompany(companyId);
+        Company company = getCompanyAndCheckDeletion(companyId);
+
 
         /* TODO 1. HUB_MANAGER: 본인이 관리하는 허브인지 확인
         if ("HUB_MANAGER".equals(role)) {
@@ -42,8 +41,7 @@ public class CompanyProductService {
 
         Product product = Product.create(
                 productRequest,
-                company,
-                userId
+                company
         );
         productRepository.save(product);
     }
@@ -52,7 +50,7 @@ public class CompanyProductService {
     @Transactional(readOnly = true)
     public List<ProductListResponse> getProductsByCompany(UUID companyId) {
         // 1. 업체 존재 여부 확인
-        getCompany(companyId);
+        getCompanyAndCheckDeletion(companyId);
 
         List<Product> products = productRepository.findByCompany_Id(companyId);
 
@@ -66,9 +64,19 @@ public class CompanyProductService {
                 .collect(Collectors.toList());
     }
 
-    // 업체 존재 여부 확인
-    private Company getCompany(UUID companyId) {
-        return companyRepository.findById(companyId)
-                .orElseThrow(() -> new CompanyException(COMPANY_NOT_FOUND));
+    // 확인 메서드 ------------------------------------------------------------------
+
+    // 업체 존재와 삭제 여부 확인
+    private Company getCompanyAndCheckDeletion(UUID companyId) {
+        // 회사 조회
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new CompanyException(ErrorCode.COMPANY_NOT_FOUND));
+
+        // 삭제 여부 확인
+        if (company.getIsDeleted()) {
+            throw new CompanyException(ErrorCode.DELETED_COMPANY);
+        }
+
+        return company;
     }
 }
