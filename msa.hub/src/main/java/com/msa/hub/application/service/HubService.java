@@ -9,6 +9,8 @@ import com.msa.hub.common.exception.ErrorCode;
 import com.msa.hub.common.exception.HubException;
 import com.msa.hub.presentation.request.HubCreateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class HubService {
     private final HubRepository hubRepository;
 
     @Transactional
+    @CacheEvict(cacheNames = "hub_list_cache", allEntries = true)
     public void createHub(final HubCreateRequest request) {
         if(existsHub(request.name())) {
             throw new HubException(ErrorCode.DUPLICATE_HUB_NAME);
@@ -47,6 +50,7 @@ public class HubService {
         );
     }
 
+    @Cacheable(cacheNames = "hub_list_cache")
     public Page<HubBasicResponse> findHubs(
             Pageable pageable, String name, String city, String district, String streetName
     ) {
@@ -56,6 +60,7 @@ public class HubService {
     }
 
     @Transactional
+    @CacheEvict(cacheNames = "hub_list_cache", allEntries = true)
     public void updateHubManager(final String hubId, final Long userId) {
         Hub hub = getHubOrException(hubId);
         hub.setManager(userId);
