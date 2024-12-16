@@ -16,7 +16,8 @@ import com.msa.order.application.client.dto.response.UserData;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.entity.enums.UserRole;
 import com.msa.order.domain.repository.OrderRepository;
-import com.msa.order.exception.BusinessException.FeignException;
+import com.msa.order.exception.BusinessException.CustomFeignException;
+import com.msa.order.exception.BusinessException.CustomForbiddenException;
 import com.msa.order.exception.BusinessException.OrderException;
 import com.msa.order.exception.BusinessException.OrderNotFoundException;
 import com.msa.order.exception.BusinessException.ProductStockException;
@@ -86,7 +87,7 @@ public class ModifyOrderService {
 		ApiResponse<UserData> response = userManager.getUserInfo(Long.parseLong(userId));
 		UserData userData = response.data();
 		if (userData.id() == null) {
-			throw new FeignException(ErrorCode.USER_SERVICE_ERROR);
+			throw new CustomFeignException();
 		}
 		return userData;
 	}
@@ -95,12 +96,12 @@ public class ModifyOrderService {
 		switch (role) {
 			case HUB_MANAGER -> {
 				if (!savedOrder.getDepartureHubId().equals(userData.belongHubId())) {
-					throw new UnauthorizedException();
+					throw new CustomForbiddenException();
 				}
 			}
 			case COMPANY_MANAGER -> {
 				if (!savedOrder.getReceiverCompanyId().equals(userData.belongCompanyId())) {
-					throw new UnauthorizedException();
+					throw new CustomForbiddenException();
 				}
 			}
 		}
@@ -124,7 +125,7 @@ public class ModifyOrderService {
 		}
 	}
 
-	private void reduceProductStock(UUID itemId, int quantity) {
+	private void reduceProductStock(UUID itemId, Long quantity) {
 		ApiResponse<ProductData> response = productManager.reduceStock(itemId, new ProductStockRequest(quantity));
 		ProductData productData = response.data();
 
@@ -133,7 +134,7 @@ public class ModifyOrderService {
 		}
 	}
 
-	private void restoreProductStock(UUID itemId, int quantity) {
+	private void restoreProductStock(UUID itemId, Long quantity) {
 		ApiResponse<ProductData> response = productManager.restoreStock(itemId, new ProductStockRequest(quantity));
 		ProductData productData = response.data();
 

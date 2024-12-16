@@ -16,6 +16,6 @@ public record UpdateOrderRequest(
     String itemName,
 
     @NotNull @Min(1)
-    int quantity) {
+    Long quantity) {
 
 }

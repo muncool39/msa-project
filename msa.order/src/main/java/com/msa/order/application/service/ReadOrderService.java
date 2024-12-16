@@ -14,7 +14,8 @@ import com.msa.order.application.config.security.UserDetailImpl;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.entity.enums.UserRole;
 import com.msa.order.domain.repository.OrderRepository;
-import com.msa.order.exception.BusinessException.FeignException;
+import com.msa.order.exception.BusinessException.CustomFeignException;
+import com.msa.order.exception.BusinessException.CustomForbiddenException;
 import com.msa.order.exception.BusinessException.OrderException;
 import com.msa.order.exception.BusinessException.UnauthorizedException;
 import com.msa.order.exception.ErrorCode;
@@ -46,19 +47,19 @@ public class ReadOrderService {
 			}
 			case HUB_MANAGER -> {
 				if (!order.getDepartureHubId().equals(userData.belongHubId())) {
-					throw new UnauthorizedException();
+					throw new CustomForbiddenException();
 				}
 				return order;
 			}
 			case DELIVERY_MANAGER -> {
 				if (userData.type().equals("COMPANY") && !order.getDeliveryId().equals(userId)) {
-					throw new UnauthorizedException();
+					throw new CustomForbiddenException();
 				}
 				return order;
 			}
 			case COMPANY_MANAGER -> {
 				if (!order.getReceiverCompanyId().equals(userData.belongCompanyId())) {
-					throw new UnauthorizedException();
+					throw new CustomForbiddenException();
 				}
 				return order;
 			}
@@ -104,7 +105,7 @@ public class ReadOrderService {
 		ApiResponse<UserData> response = userManager.getUserInfo(Long.parseLong(userDetail.userId()));
 		UserData userData = response.data();
 		if (userData.id() == null) {
-			throw new FeignException(ErrorCode.USER_SERVICE_ERROR);
+			throw new CustomFeignException();
 		}
 		return userData;
 	}
