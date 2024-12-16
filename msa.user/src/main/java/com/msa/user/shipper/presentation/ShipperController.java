@@ -1,5 +1,6 @@
 package com.msa.user.shipper.presentation;
 
+import com.msa.user.shipper.application.dto.DeleteShipperResponse;
 import com.msa.user.shipper.application.dto.ShipperResponse;
 import com.msa.user.shipper.application.ShipperService;
 import com.msa.user.shipper.presentation.request.CreateShipperRequest;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +51,12 @@ public class ShipperController {
     @GetMapping
     public ApiResponse<List<ShipperResponse>> getShipperList() {
         return ApiResponse.success(shipperService.getShippers());
+    }
+
+    @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
+    @DeleteMapping
+    public ApiResponse<DeleteShipperResponse> deleteShipper(UUID shipperId) {
+        return ApiResponse.success(shipperService.deleteShipper(shipperId));
     }
 
 

@@ -72,7 +72,15 @@ public class ShipperService {
         return ShipperResponse.fromEntity(shipper);
     }
 
+    @Transactional
+    public DeleteShipperResponse deleteShipper(UUID shipperId) {
+        Shipper shipper = shipperRepository.findById(shipperId)
+                .orElseThrow(() -> new ShipperException(SHIPPER_NOT_FOUND));
 
+        shipper.delete();
+
+        return DeleteShipperResponse.fromEntity(shipper);
+    }
 
 
 
