@@ -1,4 +1,4 @@
-package com.msa.order.infrastructure;
+package com.msa.order.infrastructure.client.impl;
 
 import java.util.UUID;
 
@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.msa.order.application.client.ProductManager;
-import com.msa.order.application.client.dto.CompanyData;
-import com.msa.order.application.client.dto.ProductData;
-import com.msa.order.application.client.dto.ProductStockRequest;
-import com.msa.order.config.FeignConfiguration;
+import com.msa.order.application.client.dto.response.CompanyData;
+import com.msa.order.application.client.dto.response.ProductData;
+import com.msa.order.application.client.dto.request.ProductStockRequest;
+import com.msa.order.infrastructure.config.feign.FeignConfiguration;
+import com.msa.order.infrastructure.client.fallback.ProductClientFallback;
 import com.msa.order.presentation.response.ApiResponse;
 
 @FeignClient(

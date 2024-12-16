@@ -44,7 +44,7 @@ public class Delivery extends BaseEntity {
 	private UUID orderId;
 
 	@Column(nullable = false)
-	private UUID receiveCompanyId;
+	private UUID receiverCompanyId;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -76,12 +76,12 @@ public class Delivery extends BaseEntity {
 	private List<DeliveryRouteHistory> deliveryHistories = new ArrayList<>();
 
 
-	public static Delivery create(UUID orderId, UUID receiveCompanyId, UUID departureHubId, UUID destinationHubId,
+	public static Delivery create(UUID orderId, UUID receiverCompanyId, UUID departureHubId, UUID destinationHubId,
 		Address address, String receiverName, String receiverSlackId) {
 
 		return Delivery.builder()
 			.orderId(orderId)
-			.receiveCompanyId(receiveCompanyId)
+			.receiverCompanyId(receiverCompanyId)
 			.status(DeliveryStatus.HUB_WAITING)
 			.departureHubId(departureHubId)
 			.destinationHubId(destinationHubId)

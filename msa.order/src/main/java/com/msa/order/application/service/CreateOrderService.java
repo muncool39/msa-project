@@ -3,12 +3,12 @@ package com.msa.order.application.service;
 import com.msa.order.application.client.DeliveryManager;
 import com.msa.order.application.client.ProductManager;
 import com.msa.order.application.client.UserManager;
-import com.msa.order.application.client.dto.CompanyData;
-import com.msa.order.application.client.dto.CreateDeliveryRequest;
-import com.msa.order.application.client.dto.DeliveryData;
-import com.msa.order.application.client.dto.ProductData;
-import com.msa.order.application.client.dto.ProductStockRequest;
-import com.msa.order.application.client.dto.UserData;
+import com.msa.order.application.client.dto.response.CompanyData;
+import com.msa.order.application.client.dto.request.CreateDeliveryRequest;
+import com.msa.order.application.client.dto.response.DeliveryData;
+import com.msa.order.application.client.dto.response.ProductData;
+import com.msa.order.application.client.dto.request.ProductStockRequest;
+import com.msa.order.application.client.dto.response.UserData;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.repository.OrderRepository;
 import com.msa.order.exception.BusinessException.FeignException;
@@ -45,13 +45,10 @@ public class CreateOrderService {
 		this.userManager = userManager;
 	}
 
-	// TODO 유저,상품,배송 서비스 연동 전 임시 하드 코딩
-	final UUID deliveryId = UUID.randomUUID();
-
 	@Transactional
 	public void createOrder(CreateOrderRequest request) {
 		ProductData productData = reduceProductStock(request);
-		CompanyData receiveCompanyData = getCompanyData(request.receiveCompanyId());
+		CompanyData receiveCompanyData = getCompanyData(request.receiverCompanyId());
 		UserData receiveCompanyManagerData = getUserData(receiveCompanyData);
 		Order savedOrder = saveOrder(request, productData);
 		CreateDeliveryRequest deliveryRequest = createDeliveryRequest(productData, savedOrder, receiveCompanyData, receiveCompanyManagerData);
@@ -69,8 +66,8 @@ public class CreateOrderService {
 		return productData;
 	}
 
-	private CompanyData getCompanyData(UUID receiveCompanyId) {
-		ApiResponse<CompanyData> response = productManager.getCompanyInfo(receiveCompanyId);
+	private CompanyData getCompanyData(UUID receiverCompanyId) {
+		ApiResponse<CompanyData> response = productManager.getCompanyInfo(receiverCompanyId);
 		CompanyData companyData = response.data();
 		if (companyData.id() == null) {
 			throw new FeignException(ErrorCode.COMPANY_SERVICE_ERROR);
@@ -89,7 +86,7 @@ public class CreateOrderService {
 
 	private Order saveOrder(CreateOrderRequest request, ProductData productData) {
 
-		Order order = Order.create(productData.companyId(), request.receiveCompanyId(),
+		Order order = Order.create(productData.companyId(), request.receiverCompanyId(),
 			request.itemId(), request.itemName(), request.quantity(), request.description(),
 			request.city(), request.district(), request.streetName(), request.streetNum(), request.detail(),
 			productData.hubId());

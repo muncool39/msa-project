@@ -26,7 +26,6 @@ import com.msa.delivery.presentation.response.ApiResponse;
 @Transactional(readOnly = true)
 public class ReadDeliveryService {
 
-	private static final Logger log = LoggerFactory.getLogger(ReadDeliveryService.class);
 	private final DeliveryRepository deliveryRepository;
 	private final UserManager userManager;
 
@@ -95,7 +94,7 @@ public class ReadDeliveryService {
 			}
 			case COMPANY_MANAGER -> {
 				// 본인의 주문에 관한 배송내역만 조회할 수 있음
-				return deliveryRepository.searchDeliveriesByReceiveCompanyId(pageable, search, userData.belongCompanyId());
+				return deliveryRepository.searchDeliveriesByReceiverCompanyId(pageable, search, userData.belongCompanyId());
 			}
 		}
 
