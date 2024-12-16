@@ -62,6 +62,11 @@ public class HubRoute extends BaseEntity {
                 .build();
     }
 
+    public void updateTotalDetail(Double totalDistance, Long totalDuration) {
+        if (totalDistance != null) this.totalDistance = totalDistance;
+        if (totalDuration != null) this.totalDuration = totalDuration;
+    }
+
     public void updateWaypoints(List<Waypoint> waypoints) {
         this.waypoints = waypoints;
     }
