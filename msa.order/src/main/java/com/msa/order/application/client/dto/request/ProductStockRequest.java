@@ -1,5 +1,5 @@
 package com.msa.order.application.client.dto.request;
 
-public record ProductStockRequest(int stock) {
+public record ProductStockRequest(Long stock) {
 
 }
