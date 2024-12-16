@@ -50,7 +50,7 @@ public class HubRouteCustomRepositoryImpl implements HubRouteCustomRepository {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(eqDestinationHub(destinationHubId));
         builder.and(eqSourceHub(sourceHubId));
-        //builder.and(hubRoute.isDeleted.eq(false));
+        builder.and(hubRoute.isDeleted.eq(false));
         return builder;
     }
 
