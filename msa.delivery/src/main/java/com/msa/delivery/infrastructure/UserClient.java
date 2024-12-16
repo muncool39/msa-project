@@ -9,6 +9,7 @@ import com.msa.delivery.application.client.dto.DeliveryWorkersData;
 import com.msa.delivery.application.client.dto.GetDeliveryWorkersRequest;
 import com.msa.delivery.application.client.dto.UserData;
 import com.msa.delivery.config.FeignConfiguration;
+import com.msa.delivery.presentation.response.ApiResponse;
 
 @FeignClient(
 	name = "user-service",
@@ -18,8 +19,8 @@ import com.msa.delivery.config.FeignConfiguration;
 )
 public interface UserClient extends UserManager {
 
-	@GetMapping("/users/{id}")
-	UserData getUserInfo(@PathVariable(name = "id") Long userId);
+	@GetMapping("/users/{userId}")
+	ApiResponse<UserData> getUserInfo(@PathVariable(name = "userId") Long userId);
 
 	@GetMapping("/users") // TODO URL 설정 필요
 	DeliveryWorkersData assignDeliveryWorkers(GetDeliveryWorkersRequest request);
