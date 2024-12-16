@@ -63,8 +63,10 @@ public class Hub extends BaseEntity {
     private List<HubRoute> destinationHubRoutes = new ArrayList<>();
 
     @Builder(access = AccessLevel.PRIVATE)
-    private Hub(String name, String city, String district, String streetName, String streetNumber, String addressDetail,
-               Double latitude, Double longitude, Long managerId) {
+    private Hub(
+            String name,
+            String city, String district, String streetName, String streetNumber, String addressDetail,
+            Double latitude, Double longitude, Long managerId) {
         this.name = name;
         this.city = city;
         this.district = district;
@@ -96,5 +98,21 @@ public class Hub extends BaseEntity {
                 .longitude(longitude)
                 .build();
     }
+
+    public void update(
+            String name,
+            String city, String district, String streetName, String streetNumber, String addressDetail,
+            Double latitude, Double longitude
+    ) {
+        if (name != null) this.name = name;
+        if (city != null) this.city = city;
+        if (district != null) this.district = district;
+        if (streetName != null) this.streetName = streetName;
+        if (streetNumber != null) this.streetNumber = streetNumber;
+        if (addressDetail != null) this.addressDetail = addressDetail;
+        if (latitude != null) this.latitude = latitude;
+        if (longitude != null) this.longitude = longitude;
+    }
+
 
 }

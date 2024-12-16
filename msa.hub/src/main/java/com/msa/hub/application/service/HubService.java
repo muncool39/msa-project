@@ -8,6 +8,7 @@ import com.msa.hub.domain.repository.HubRepository;
 import com.msa.hub.common.exception.ErrorCode;
 import com.msa.hub.common.exception.HubException;
 import com.msa.hub.presentation.request.HubCreateRequest;
+import com.msa.hub.presentation.request.HubUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,6 +54,16 @@ public class HubService {
         return hubRepository
                 .findHubsWith(pageable, name, city, district, streetName)
                 .map(HubBasicResponse::fromEntity);
+    }
+
+    @Transactional
+    public void updateHub(final String hubId, final HubUpdateRequest request) {
+        Hub hub = getHubOrException(hubId);
+        hub.update(
+                request.name(), request.city(),
+                request.district(), request.streetName(), request.streetNumber(), request.addressDetail(),
+                request.latitude(), request.longitude()
+        );
     }
 
     @Transactional
