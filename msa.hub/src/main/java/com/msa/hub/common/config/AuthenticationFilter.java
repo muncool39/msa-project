@@ -1,7 +1,7 @@
-package com.msa.hub.config;
+package com.msa.hub.common.config;
 
 
-import com.msa.hub.config.dto.UserDetail;
+import com.msa.hub.common.config.dto.UserDetail;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

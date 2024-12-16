@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HubRepository extends JpaRepository<Hub, String> {
+public interface HubRepository extends JpaRepository<Hub, String>, HubCustomRepository {
     Optional<Hub> findByIdAndIsDeleted(String id, boolean isDeleted);
     boolean existsByName(String name);
 }

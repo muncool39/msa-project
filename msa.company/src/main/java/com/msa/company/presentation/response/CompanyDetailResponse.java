@@ -17,9 +17,7 @@ public record CompanyDetailResponse(
         LocalDateTime createdAt,
         Long createdBy,
         LocalDateTime updateAt,
-        Long updateBy,
-        LocalDateTime deletedAt,
-        Long deletedBy
+        Long updateBy
 ) {
     public static CompanyDetailResponse from(Company company) {
         return new CompanyDetailResponse(
@@ -34,9 +32,7 @@ public record CompanyDetailResponse(
                 company.getCreatedAt(),
                 company.getCreatedBy(),
                 company.getUpdatedAt(),
-                company.getUpdatedBy(),
-                company.getDeletedAt(),
-                company.getDeletedBy()
+                company.getUpdatedBy()
         );
     }
 }
