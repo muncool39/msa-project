@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.msa.order.application.client.UserManager;
-import com.msa.order.application.client.dto.UserData;
-import com.msa.order.config.UserDetailImpl;
+import com.msa.order.application.client.dto.response.UserData;
+import com.msa.order.application.config.security.UserDetailImpl;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.entity.enums.UserRole;
 import com.msa.order.domain.repository.OrderRepository;
@@ -87,7 +87,7 @@ public class ReadOrderService {
 				}
 			}
 			case COMPANY_MANAGER -> {
-				return orderRepository.searchOrdersByReceiveCompanyId(pageable, search, userData.belongCompanyId());
+				return orderRepository.searchOrdersByReceiverCompanyId(pageable, search, userData.belongCompanyId());
 			}
 
 			default -> throw new UnauthorizedException();

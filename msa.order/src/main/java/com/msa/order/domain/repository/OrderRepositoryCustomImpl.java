@@ -115,7 +115,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 	}
 
 	@Override
-	public Page<Order> searchOrdersByReceiveCompanyId(Pageable pageable, String search, UUID companyId) {
+	public Page<Order> searchOrdersByReceiverCompanyId(Pageable pageable, String search, UUID companyId) {
 		BooleanBuilder builder = new BooleanBuilder();
 		builder.and(order.isDeleted.eq(false));
 		builder.and(order.receiverCompanyId.eq(companyId));

@@ -1,4 +1,4 @@
-package com.msa.order.application.client.dto;
+package com.msa.order.application.client.dto.request;
 
 import com.msa.order.domain.entity.Address;
 import java.util.UUID;
@@ -8,7 +8,7 @@ public record CreateDeliveryRequest(
     String receiverName,
     String receiverSlackId,
     Address address,
-    UUID receiveCompanyId,
+    UUID receiverCompanyId,
     UUID departureHubId,
 	UUID destinationHubId
 ) {

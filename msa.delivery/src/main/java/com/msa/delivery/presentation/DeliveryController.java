@@ -53,7 +53,6 @@ public class DeliveryController {
 	@PreAuthorize("hasAuthority('MASTER')")
 	@PostMapping
 	public ApiResponse<CreateDeliveryResponse> createDelivery(@Valid @RequestBody CreateDeliveryRequest request) {
-		log.info("배송 컨트롤러 들어옴 ");
 		Delivery delivery = createDeliveryService.createDelivery(request);
 		CreateDeliveryResponse response = CreateDeliveryResponse.from(delivery);
 		return ApiResponse.success(response);

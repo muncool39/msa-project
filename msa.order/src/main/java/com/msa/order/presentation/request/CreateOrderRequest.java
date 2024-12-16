@@ -18,7 +18,7 @@ public record CreateOrderRequest(
 	String description,
 
 	@NotNull
-	UUID receiveCompanyId,
+	UUID receiverCompanyId,
 
 	@NotNull
 	String receiverName,

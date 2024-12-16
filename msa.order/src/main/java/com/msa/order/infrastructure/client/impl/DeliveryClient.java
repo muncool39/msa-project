@@ -1,4 +1,4 @@
-package com.msa.order.infrastructure;
+package com.msa.order.infrastructure.client.impl;
 
 import java.util.UUID;
 
@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.msa.order.application.client.DeliveryManager;
-import com.msa.order.application.client.dto.CreateDeliveryRequest;
-import com.msa.order.application.client.dto.DeliveryData;
-import com.msa.order.config.FeignConfiguration;
+import com.msa.order.application.client.dto.request.CreateDeliveryRequest;
+import com.msa.order.application.client.dto.response.DeliveryData;
+import com.msa.order.infrastructure.config.feign.FeignConfiguration;
+import com.msa.order.infrastructure.client.fallback.DeliveryClientFallback;
 import com.msa.order.presentation.response.ApiResponse;
 
 @FeignClient(

@@ -12,7 +12,7 @@ public record CreateDeliveryRequest(
 	UUID orderId,
 
 	@NotNull
-	UUID receiveCompanyId,
+	UUID receiverCompanyId,
 
     @NotNull
     UUID departureHubId,
