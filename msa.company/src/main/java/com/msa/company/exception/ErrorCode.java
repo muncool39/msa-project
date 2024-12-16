@@ -14,7 +14,9 @@ public enum ErrorCode {
     DELETED_PRODUCT(HttpStatus.NOT_FOUND, "삭제된 상품입니다."),
     EXTERNAL_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "외부 서비스 호출에 문제가 발생했습니다."),
     HUB_NOT_FOUND(HttpStatus.NOT_FOUND, "허브를 찾을 수 없습니다."),
-    PRODUCT_NOT_FOUND_IN_COMPANY(HttpStatus.NOT_FOUND, "이 업체에는 상품이 존재하지 않습니다.");
+    PRODUCT_NOT_FOUND_IN_COMPANY(HttpStatus.NOT_FOUND, "이 업체에는 상품이 존재하지 않습니다."),
+    HUB_ID_REQUIRED(HttpStatus.BAD_REQUEST, "허브 ID는 필수 입력 값입니다."),
+    USER_NOT_ASSIGNED_TO_HUB(HttpStatus.NOT_FOUND, "소속된 hubId가 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
