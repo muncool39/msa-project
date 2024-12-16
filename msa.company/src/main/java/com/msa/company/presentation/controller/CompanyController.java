@@ -51,7 +51,7 @@ public class CompanyController {
 
     // 업체 상세 조회
     @GetMapping("/{id}")
-    public ApiResponse<CompanyDetailResponse> getDetailCompany(@PathVariable UUID id) {
+    public ApiResponse<CompanyDetailResponse> getDetailCompany(@PathVariable("id") UUID id) {
         CompanyDetailResponse company = companyService.getDetailCompany(id);
         return ApiResponse.success(company);
     }
@@ -59,7 +59,7 @@ public class CompanyController {
     // 업체 수정
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER','COMPANY_MANAGER')")
-    public ApiResponse<Void> updateCompany(@PathVariable UUID id,
+    public ApiResponse<Void> updateCompany(@PathVariable("id") UUID id,
                                            @RequestBody UpdateCompanyRequest updateCompanyRequest,
                                            @AuthenticationPrincipal UserDetails userDetails) {
         Long userId = Long.valueOf(userDetails.getUsername());
@@ -73,7 +73,7 @@ public class CompanyController {
     // 업체 삭제
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER')")
-    public ApiResponse<Void> deleteCompany(@PathVariable UUID id,
+    public ApiResponse<Void> deleteCompany(@PathVariable("id") UUID id,
                                            @AuthenticationPrincipal Long userId,
                                            @AuthenticationPrincipal String role) {
         companyService.deleteCompany(id, userId, role);
