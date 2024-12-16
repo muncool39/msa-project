@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,8 +33,9 @@ public class ShipperController {
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @PostMapping
     public ApiResponse<ShipperResponse> createShipper(
-            @Valid @RequestBody CreateShipperRequest request) {
-        return ApiResponse.success(shipperService.createShipper(request));
+            @Valid @RequestBody CreateShipperRequest request,
+            @AuthenticationPrincipal Long userId) {
+        return ApiResponse.success(shipperService.createShipper(request, userId));
     }
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")

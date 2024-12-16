@@ -21,6 +21,9 @@ public enum ErrorCode {
     COMPANY_SHIPPER_NOT_FOUND(HttpStatus.NOT_FOUND, "일치하는 업체 배송 담당자 정보가 존재하지 않습니다."),
     COMPANY_SHIPPER_HUB_MISMATCH(HttpStatus.BAD_REQUEST, "업체 배송 담당자와 허브가 일치하지 않습니다."),
     COMPANY_SHIPPER_NOT_AVAILABLE(HttpStatus.BAD_REQUEST, "이용 가능한 업체 배송 담당자가 존재하지 않습니다."),
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, "유효하지 않은 요청입니다."),
+    INSUFFICIENT_DELIVERY_MANAGERS(HttpStatus.NOT_FOUND, "배송 담당자가 부족합니다.")
+
     ;
     private final HttpStatus httpStatus;
     private final String message;

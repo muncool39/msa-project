@@ -30,6 +30,9 @@ public class Shipper extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     @Column(name = "hub_id")
     private String hubId;
 

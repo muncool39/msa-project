@@ -5,23 +5,21 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record ShipperAssignRequestDto(
-    @NotNull
-    List<PathDto> paths,
-
-    @NotBlank
-    String companyDeliverId // 회사 배송자 ID
+        @NotNull
+        List<PathDto> paths
 ) {
     public static record PathDto(
-        @NotBlank
-        String nodeId,
+            @NotBlank
+            String nodeId,
 
-        @NotNull
-        Integer sequence,
+            @NotNull
+            Integer sequence,
 
-        @NotBlank
-        String departureHubId,
+            @NotBlank
+            String departureHubId,
 
-        @NotBlank
-        String destinationHubId
-    ) {}
+            @NotBlank
+            String destinationHubId
+    ) {
+    }
 }

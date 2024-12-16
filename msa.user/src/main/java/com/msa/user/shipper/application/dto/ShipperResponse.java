@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public record ShipperResponse(
         UUID id,
+        Long userId,
         String hubId,
         String type,
         Integer deliveryOrder
@@ -13,6 +14,7 @@ public record ShipperResponse(
     public static ShipperResponse fromEntity(Shipper shipper){
         return new ShipperResponse(
                 shipper.getId(),
+                shipper.getUserId(),
                 shipper.getHubId(),
                 shipper.getType().toString(),
                 shipper.getDeliveryOrder()

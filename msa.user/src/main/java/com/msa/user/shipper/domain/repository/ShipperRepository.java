@@ -1,11 +1,13 @@
 package com.msa.user.shipper.domain.repository;
 
 import com.msa.user.shipper.domain.model.Shipper;
+import com.msa.user.shipper.domain.model.type.ShipperStatus;
 import com.msa.user.shipper.domain.model.type.ShipperType;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ShipperRepository extends JpaRepository<Shipper, UUID> {
 
@@ -13,11 +15,21 @@ public interface ShipperRepository extends JpaRepository<Shipper, UUID> {
     @Query("SELECT MAX(s.deliveryOrder) FROM Shipper s WHERE s.isDeleted = false")
     Integer findMaxDeliveryOrder();
 
-    // 특정 허브와 타입에 맞는 이용 가능한 배송 담당자 검색
-    @Query("SELECT s FROM Shipper s "
-            + "WHERE s.hubId = :hubId AND s.type = :type "
-            + "AND s.isDeleted = false "
-            + "ORDER BY s.deliveryOrder ASC")
-    List<Shipper> findAvailableShippers(UUID hubId, ShipperType type);
+    // 허브 배송 담당자 N명 조회
+    @Query("SELECT s "
+            + "FROM Shipper s "
+            + "WHERE s.type = :type "
+            + "AND s.status = :status "
+            + "ORDER BY s.createdAt ASC LIMIT :limit")
+    List<Shipper> findTopNByTypeAndStatusOrderByCreatedAtAsc(
+            @Param("type") ShipperType type,
+            @Param("status") ShipperStatus status,
+            @Param("limit") int limit);
+
+    // 업체 배송 담당자 1명 조회
+    List<Shipper> findTop1ByTypeAndStatusOrderByCreatedAtAsc(ShipperType type, ShipperStatus status);
+
+
+
 
 }
