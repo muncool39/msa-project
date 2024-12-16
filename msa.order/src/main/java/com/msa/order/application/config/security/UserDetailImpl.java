@@ -1,4 +1,4 @@
-package com.msa.order.config;
+package com.msa.order.application.config.security;
 
 import java.util.Collection;
 import java.util.List;

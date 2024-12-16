@@ -22,5 +22,5 @@ public interface DeliveryRepositoryCustom {
 
 	Page<Delivery> searchDeliveriesByCompanyDeliveryId(Pageable pageable, String search, Long userId);
 
-	Page<Delivery> searchDeliveriesByReceiveCompanyId(Pageable pageable, String search, UUID companyId);
+	Page<Delivery> searchDeliveriesByReceiverCompanyId(Pageable pageable, String search, UUID companyId);
 }

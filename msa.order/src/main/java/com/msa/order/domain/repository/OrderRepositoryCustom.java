@@ -17,5 +17,5 @@ public interface OrderRepositoryCustom {
 
 	Page<Order> searchOrdersByDeliveryId(Pageable pageable, @Param("search") String search, Long userId);
 
-	Page<Order> searchOrdersByReceiveCompanyId(Pageable pageable, @Param("search") String search, UUID companyId);
+	Page<Order> searchOrdersByReceiverCompanyId(Pageable pageable, @Param("search") String search, UUID companyId);
 }

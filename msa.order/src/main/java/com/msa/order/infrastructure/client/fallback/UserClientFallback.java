@@ -1,8 +1,9 @@
-package com.msa.order.infrastructure;
+package com.msa.order.infrastructure.client.fallback;
 
 import org.springframework.stereotype.Component;
 
-import com.msa.order.application.client.dto.UserData;
+import com.msa.order.application.client.dto.response.UserData;
+import com.msa.order.infrastructure.client.impl.UserClient;
 import com.msa.order.presentation.response.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;

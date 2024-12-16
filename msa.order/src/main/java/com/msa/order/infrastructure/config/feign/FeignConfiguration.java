@@ -1,4 +1,4 @@
-package com.msa.order.config;
+package com.msa.order.infrastructure.config.feign;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

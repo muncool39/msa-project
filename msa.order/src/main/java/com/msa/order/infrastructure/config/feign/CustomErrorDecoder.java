@@ -1,4 +1,4 @@
-package com.msa.order.config;
+package com.msa.order.infrastructure.config.feign;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

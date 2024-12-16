@@ -1,7 +1,8 @@
-package com.msa.order.infrastructure;
+package com.msa.order.infrastructure.client.fallback;
 
-import com.msa.order.application.client.dto.CreateDeliveryRequest;
-import com.msa.order.application.client.dto.DeliveryData;
+import com.msa.order.application.client.dto.request.CreateDeliveryRequest;
+import com.msa.order.application.client.dto.response.DeliveryData;
+import com.msa.order.infrastructure.client.impl.DeliveryClient;
 import com.msa.order.presentation.response.ApiResponse;
 
 import java.util.UUID;

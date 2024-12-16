@@ -1,4 +1,4 @@
-package com.msa.order.config;
+package com.msa.order.infrastructure.config.jpa;
 
 import java.util.Optional;
 
