@@ -7,8 +7,8 @@ package com.msa.hub.domain.repository;
 import static com.msa.hub.domain.model.QHubRoute.hubRoute;
 
 import com.msa.hub.domain.model.HubRoute;
-import com.msa.hub.exception.ErrorCode;
-import com.msa.hub.exception.HubException;
+import com.msa.hub.common.exception.ErrorCode;
+import com.msa.hub.common.exception.HubException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
