@@ -5,8 +5,6 @@ import com.msa.company.domain.entity.Company;
 import com.msa.company.domain.repository.CompanyRepository;
 import com.msa.company.exception.CompanyException;
 import com.msa.company.exception.ErrorCode;
-import com.msa.company.infrastructure.HubClient;
-import com.msa.company.presentation.request.CreateCompanyRequest;
 import com.msa.company.presentation.request.UpdateCompanyRequest;
 import com.msa.company.presentation.response.CompanyDetailResponse;
 import com.msa.company.presentation.response.CompanyListResponse;
@@ -21,38 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CompanyService {
 
-    private final HubClient hubClient;
     private final CompanyRepository companyRepository;
-
-    // 업체 생성
-    @Transactional
-    public void createCompany(CreateCompanyRequest createCompanyRequest, String userId, String role) {
-
-        // 사업자 번호 중복 검사
-        if (companyRepository.existsByBusinessNumber(createCompanyRequest.businessNumber())) {
-            throw new CompanyException(ErrorCode.DUPLICATE_BUSINESS_NUMBER);
-        }
-
-        // TODO: HubId 존재 여부 확인 - 추후 확인 필요
-        UUID hubId = createCompanyRequest.hubId();
-        if ("MASTER".equals(role)) {
-            if (!hubClient.isHubExists(hubId)) {
-                throw new CompanyException(ErrorCode.HUB_NOT_FOUND);
-            }
-        }
-
-        // TODO: HUB_MANAGER의 경우 소속 hubId를 가져오기 (추후 개발)
-
-        Company company = Company.create(
-                Long.valueOf(userId),
-                createCompanyRequest.hubId(),
-                createCompanyRequest.name(),
-                createCompanyRequest.businessNumber(),
-                createCompanyRequest.type(),
-                createCompanyRequest.address().toEntity()
-        );
-        companyRepository.save(company);
-    }
 
     // 업체 전체 조회
     @Transactional

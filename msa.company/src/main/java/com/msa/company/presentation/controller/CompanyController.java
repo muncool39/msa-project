@@ -1,6 +1,7 @@
 package com.msa.company.presentation.controller;
 
 import com.msa.company.application.service.CompanyService;
+import com.msa.company.application.service.CreateCompanyService;
 import com.msa.company.presentation.request.CreateCompanyRequest;
 import com.msa.company.presentation.request.UpdateCompanyRequest;
 import com.msa.company.presentation.response.ApiResponse;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CompanyController {
 
+    public final CreateCompanyService createCompanyService;
     public final CompanyService companyService;
 
     // 업체 생성
@@ -35,10 +37,9 @@ public class CompanyController {
     public ApiResponse<Void> createCompany(
             @Valid @RequestBody CreateCompanyRequest createCompanyRequest,
             @AuthenticationPrincipal UserDetails userDetails) {
-        String userId = userDetails.getUsername();
+        Long userId = Long.valueOf(userDetails.getUsername());
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
-        System.out.println("User role: " + role);
-        companyService.createCompany(createCompanyRequest, userId, role);
+        createCompanyService.createCompany(createCompanyRequest, userId, role);
         return ApiResponse.success();
     }
 
