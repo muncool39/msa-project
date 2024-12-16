@@ -1,14 +1,11 @@
 package com.msa.hub.domain.repository;
 
 
+import static com.msa.hub.domain.model.QHub.hub;
 
-
-
-import static com.msa.hub.domain.model.QHubRoute.hubRoute;
-
-import com.msa.hub.domain.model.HubRoute;
 import com.msa.hub.common.exception.ErrorCode;
 import com.msa.hub.common.exception.HubException;
+import com.msa.hub.domain.model.Hub;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -22,44 +19,56 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 @RequiredArgsConstructor
-public class HubRouteCustomRepositoryImpl implements HubRouteCustomRepository {
+public class HubRepositoryImpl implements HubCustomRepository {
 
     private final JPAQueryFactory queryFactory;
-    
+
     @Override
-    public Page<HubRoute> findHubRoutesWith(
-            Pageable pageable, String sourceHubId, String destinationHubId
+    public Page<Hub> findHubsWith(
+            Pageable pageable, String name, String city, String district, String streetName
     ) {
-        BooleanBuilder booleanBuilder = toBooleanBuilder(sourceHubId, destinationHubId);
-        List<HubRoute> result = queryFactory.selectFrom(hubRoute)
+        BooleanBuilder booleanBuilder = getBooleanBuilder(name, city, district, streetName);
+        List<Hub> results = queryFactory.selectFrom(hub)
                 .where(booleanBuilder)
                 .orderBy(getOrderSpecifiers(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        JPAQuery<Long> count = queryFactory.select(hubRoute.count())
-                .from(hubRoute)
+        JPAQuery<Long> count = queryFactory.select(hub.count())
+                .from(hub)
                 .where(booleanBuilder);
-        return PageableExecutionUtils.getPage(result, pageable, count::fetchOne);
-
+        return PageableExecutionUtils.getPage(results, pageable, count::fetchOne);
     }
 
-    private BooleanBuilder toBooleanBuilder(String sourceHubId, String destinationHubId) {
+    private BooleanBuilder getBooleanBuilder(
+            String name, String city, String district, String streetName
+    ) {
         BooleanBuilder builder = new BooleanBuilder();
-        builder.and(eqDestinationHub(destinationHubId));
-        builder.and(eqSourceHub(sourceHubId));
-        builder.and(hubRoute.isDeleted.eq(false));
+        builder.and(likeName(name));
+        builder.and(likeCityName(city));
+        builder.and(likeDistrictName(district));
+        builder.and(likeStreetName(streetName));
+        builder.and(hub.isDeleted.eq(false));
         return builder;
     }
 
-    private BooleanExpression eqSourceHub(String sourceHubId) {
-        return sourceHubId != null ? hubRoute.sourceHub.id.eq(sourceHubId) : null;
+    private BooleanExpression likeName(String name) {
+        return hub.name.like("%" + ((name!=null) ? name  : "") + "%");
     }
 
-    private BooleanExpression eqDestinationHub(String destinationHubId) {
-        return destinationHubId != null ? hubRoute.destinationHub.id.eq(destinationHubId) : null;
+    private BooleanExpression likeCityName(String city) {
+        return hub.city.like("%" + ((city!=null) ? city  : "") + "%");
+    }
+
+    private BooleanExpression likeDistrictName(String district) {
+        return hub.district.like("%" + ((district!=null) ? district  : "") + "%");
+    }
+
+    private BooleanExpression likeStreetName(String streetName) {
+        return hub.streetName.like("%" + ((streetName!=null) ? streetName  : "") + "%");
     }
 
     private OrderSpecifier<?>[] getOrderSpecifiers(Pageable pageable) {
@@ -76,14 +85,16 @@ public class HubRouteCustomRepositoryImpl implements HubRouteCustomRepository {
     }
 
     /*
-    HubRoute 정렬 기준 저장
+    Hub 정렬 기준
      */
     private ComparableExpressionBase<?> getSortPath(String property) {
         return switch (property) {
-            case "createdAt" -> hubRoute.createdAt;
-            case "updatedAt" -> hubRoute.updatedAt;
+            case "name" -> hub.name;
+            case "city" -> hub.city;
+            case "district" -> hub.district;
+            case "createdAt" -> hub.createdAt;
+            case "updatedAt" -> hub.updatedAt;
             default -> throw new HubException(ErrorCode.UNSUPPORTED_SORT_TYPE);
         };
     }
-
 }
