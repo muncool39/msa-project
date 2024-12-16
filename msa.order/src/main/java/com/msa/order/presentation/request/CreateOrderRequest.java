@@ -7,9 +7,6 @@ import jakarta.validation.constraints.NotNull;
 public record CreateOrderRequest(
 
 	@NotNull
-	UUID supplierCompanyId,
-
-	@NotNull
 	UUID itemId,
 
 	@NotNull
