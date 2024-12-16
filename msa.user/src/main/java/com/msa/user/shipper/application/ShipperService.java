@@ -45,7 +45,20 @@ public class ShipperService {
         return ShipperResponse.fromEntity(shipper);
     }
 
+    public ShipperResponse getShipper(UUID shipperId) {
+        Shipper shipper = shipperRepository.findById(shipperId)
+                .orElseThrow(() -> new ShipperException(SHIPPER_NOT_FOUND));
 
+        return ShipperResponse.fromEntity(shipper);
+    }
+
+    public List<ShipperResponse> getShippers() {
+        List<Shipper> shippers = shipperRepository.findAll();
+
+        return shippers.stream()
+                .map(ShipperResponse::fromEntity)
+                .toList();
+    }
 
     @Transactional
     public ShipperResponse updateShipper(UUID shipperId, UpdateShipperRequest request) {

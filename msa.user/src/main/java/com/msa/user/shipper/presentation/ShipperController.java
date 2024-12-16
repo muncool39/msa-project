@@ -5,9 +5,11 @@ import com.msa.user.shipper.application.ShipperService;
 import com.msa.user.shipper.presentation.request.CreateShipperRequest;
 import com.msa.user.shipper.presentation.request.UpdateShipperRequest;
 import com.msa.user.presentation.response.ApiResponse;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +38,18 @@ public class ShipperController {
         return ApiResponse.success(shipperService.updateShipper(shipperId, request));
     }
 
+
+    @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER','DELIVERY_MANAGER')")
+    @GetMapping("/{shipperId}")
+    public ApiResponse<ShipperResponse> getShipper(UUID shipperId) {
+        return ApiResponse.success(shipperService.getShipper(shipperId));
+    }
+
+    @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER','DELIVERY_MANAGER')")
+    @GetMapping
+    public ApiResponse<List<ShipperResponse>> getShipperList() {
+        return ApiResponse.success(shipperService.getShippers());
+    }
 
 
 }

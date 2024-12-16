@@ -1,4 +1,4 @@
-package com.msa.user.domain.model.type;
+package com.msa.user.shipper.domain.model.type;
 
 public enum ShipperType {
     HUB,

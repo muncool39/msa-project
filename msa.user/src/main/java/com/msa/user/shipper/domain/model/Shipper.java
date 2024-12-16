@@ -1,7 +1,7 @@
 package com.msa.user.shipper.domain.model;
 
 import com.msa.user.domain.model.BaseEntity;
-import com.msa.user.domain.model.type.ShipperType;
+import com.msa.user.shipper.domain.model.type.ShipperType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
