@@ -63,6 +63,12 @@ public class UserService {
         hubService.postManager(hubId, userId);
     }
 
+    @Transactional
+    public void deleteUser(final Long userId) {
+        User user = getUserOrException(userId);
+        user.deleteBase(userId);
+    }
+
     private User getUserOrException(final Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(()-> new UserException(ErrorCode.USER_NOT_FOUND));
