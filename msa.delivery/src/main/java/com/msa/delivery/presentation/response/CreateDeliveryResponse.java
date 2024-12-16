@@ -13,7 +13,8 @@ public record CreateDeliveryResponse(
     String streetName,
     String streetNum,
     String detail,
-    UUID departureHubId
+    UUID departureHubId,
+	Long companyDeliverId
 ) {
 
 	public static CreateDeliveryResponse from(Delivery delivery) {
@@ -26,7 +27,8 @@ public record CreateDeliveryResponse(
 			delivery.getAddress().getStreetname(),
 			delivery.getAddress().getStreetnum(),
 			delivery.getAddress().getDetail(),
-			delivery.getDepartureHubId()
+			delivery.getDepartureHubId(),
+			delivery.getDeliverId()
 		);
 
 	}
