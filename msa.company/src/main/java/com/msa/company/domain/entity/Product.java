@@ -50,7 +50,7 @@ public class Product extends BaseEntity {
         this.isOutOfStock = this.stock == 0;
     }
 
-    public static Product create(CreateProductRequest productRequest, Company company, Long userId) {
+    public static Product create(CreateProductRequest productRequest, Company company) {
         return Product.builder()
                 .company(company)
                 .name(productRequest.name())

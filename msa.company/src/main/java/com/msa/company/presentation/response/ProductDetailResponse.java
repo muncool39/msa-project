@@ -14,9 +14,7 @@ public record ProductDetailResponse(
         LocalDateTime createdAt,
         Long createdBy,
         LocalDateTime updateAt,
-        Long updateBy,
-        LocalDateTime deletedAt,
-        Long deletedBy
+        Long updateBy
 ) {
     public static ProductDetailResponse from(Product product) {
         return new ProductDetailResponse(
@@ -29,9 +27,7 @@ public record ProductDetailResponse(
                 product.getCreatedAt(),
                 product.getCreatedBy(),
                 product.getUpdatedAt(),
-                product.getUpdatedBy(),
-                product.getDeletedAt(),
-                product.getDeletedBy()
+                product.getUpdatedBy()
         );
     }
 }
