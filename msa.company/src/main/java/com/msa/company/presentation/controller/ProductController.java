@@ -6,6 +6,7 @@ import com.msa.company.presentation.request.UpdateProductRequest;
 import com.msa.company.presentation.response.ApiResponse;
 import com.msa.company.presentation.response.ProductDetailResponse;
 import com.msa.company.presentation.response.ProductListResponse;
+import com.msa.company.presentation.response.StockResponse;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -63,17 +64,17 @@ public class ProductController {
 
     // 상품 재고 감소
     @PatchMapping("/{id}/reduce-stock")
-    public ApiResponse<Void> decreaseStock(@PathVariable("id") UUID id,
-                                           @RequestBody StockRequest stockRequest) {
-        productService.decreaseStock(id, stockRequest.getStock());
-        return ApiResponse.success();
+    public ApiResponse<StockResponse> decreaseStock(@PathVariable("id") UUID id,
+                                                    @RequestBody StockRequest stockRequest) {
+        StockResponse response = productService.decreaseStock(id, stockRequest.getStock());
+        return ApiResponse.success(response);
     }
 
     // 상품 재고 복원
     @PatchMapping("/{id}/restore-stock")
-    public ApiResponse<Void> restoreStock(@PathVariable("id") UUID id,
-                                          @RequestBody StockRequest stockRequest) {
-        productService.restoreStock(id, stockRequest.getStock());
-        return ApiResponse.success();
+    public ApiResponse<StockResponse> restoreStock(@PathVariable("id") UUID id,
+                                                   @RequestBody StockRequest stockRequest) {
+        StockResponse response = productService.restoreStock(id, stockRequest.getStock());
+        return ApiResponse.success(response);
     }
 }
