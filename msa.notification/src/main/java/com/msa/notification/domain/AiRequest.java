@@ -17,21 +17,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name="ai_request")
-public class AiRequest {
+@Table(name = "p_ai_request")
+public class AiRequest extends BaseEntity {
 
-    // AI 요청 데이터
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, columnDefinition = "JSON")
-    private String requestData; // 요청 데이터(JSON)
+    @Column(nullable = false)
+    private String requestData;
 
     @Column(nullable = false)
-    private String answer; // 응답 데이터
-
-    @Column(nullable = false)
-    private Boolean isDeleted = false;
+    private String answer;
 
 }

@@ -4,8 +4,8 @@ import com.msa.order.exception.ErrorCode;
 
 public class FeignException extends BusinessException {
 
-  public FeignException() {
-    super(ErrorCode.EXTERNAL_SERVICE_ERROR);
+  public FeignException(ErrorCode errorCode) {
+    super(errorCode);
   }
 
 }

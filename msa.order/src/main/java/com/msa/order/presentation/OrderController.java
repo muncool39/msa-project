@@ -54,7 +54,7 @@ public class OrderController {
 	public ApiResponse<PageResponse<ReadOrderResponse>> getOrders(
 		@PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable, // 사이즈 10, 30, 50 | 정렬은 생성일순, 수정일순
 		@RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-		@RequestParam(required = false) String search, @AuthenticationPrincipal UserDetailImpl userDetail) {
+		@RequestParam(name = "search", required = false) String search, @AuthenticationPrincipal UserDetailImpl userDetail) {
 
 		int pageSize = pageable.getPageSize();
 		if (pageSize != 10 && pageSize != 30 && pageSize != 50) {pageSize = 10;}

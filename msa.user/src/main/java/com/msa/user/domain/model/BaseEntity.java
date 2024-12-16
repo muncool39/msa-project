@@ -17,9 +17,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @MappedSuperclass
 public abstract class BaseEntity {
-    @Column(name="is_deleted") // 삭제 여부
+    @Column(name="is_deleted", nullable = false)
     @ColumnDefault("false")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @CreatedDate
     @Column(name="created_at", updatable = false)
@@ -47,5 +47,10 @@ public abstract class BaseEntity {
         this.isDeleted = true;
         this.deletedAt = LocalDateTime.now();
         this.deletedBy = deletedBy;
+    }
+    public void deleteBase(Long userId) {
+        this.isDeleted = true;
+        this.deletedAt = LocalDateTime.now();
+        this.deletedBy = String.valueOf(userId);
     }
 }

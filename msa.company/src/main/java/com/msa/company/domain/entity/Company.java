@@ -62,7 +62,7 @@ public class Company extends BaseEntity {
     private Set<Product> products = new HashSet<>();
 
     public static Company create(Long userId, UUID hubId, String name, String businessNumber, CompanyType type, Address address) {
-        Company company = Company.builder()
+        return Company.builder()
                 .userId(userId)
                 .hubId(hubId)
                 .name(name)
@@ -71,7 +71,5 @@ public class Company extends BaseEntity {
                 .type(type)
                 .status(CompanyStatus.PENDING)
                 .build();
-        company.initAuditInfo(userId);
-        return company;
     }
 }

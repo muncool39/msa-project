@@ -1,7 +1,8 @@
 package com.msa.order.application.client;
 
 import com.msa.order.application.client.dto.UserData;
+import com.msa.order.presentation.response.ApiResponse;
 
 public interface UserManager {
-	UserData getUserInfo(Long userId);
+	ApiResponse<UserData> getUserInfo(Long userId);
 }
