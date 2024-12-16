@@ -24,6 +24,11 @@ spring:
   sql:
     init:
       mode: always
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ${REDIS_PASSWORD}
 
 eureka:
   client:
@@ -38,11 +43,4 @@ logging:
     org.springframework.security: DEBUG
     org.hibernate.sql: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
-    com:
-      msa:
-        order:
-          infrastructure:
-            com.msa.order.infrastructure.client.UserClient: DEBUG
-            com.msa.order.infrastructure.client.DeliveryClient: DEBUG
-            com.msa.order.infrastructure.client.ProductClient: DEBUG
-            com.msa.order.infrastructure.client.HubClient: DEBUG
+    com.msa.order.infrastructure.client.impl: TRACE

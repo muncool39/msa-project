@@ -13,7 +13,7 @@ public record CreateOrderRequest(
 	String itemName,
 
 	@NotNull
-	int quantity,
+	Long quantity,
 
 	String description,
 
