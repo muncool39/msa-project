@@ -34,12 +34,17 @@ public class CreateCompanyService {
         String hubId = getHubId(createCompanyRequest, userId, role);
         String city = getCityForHub(hubId);
 
+        // 사업자 번호의 관리자인지 확인
+        Long managerId = createCompanyRequest.userId(); // 사용자가 입력한 관리자의 ID
+        verifyManagerRole(managerId, hubId);
+
         // 주소 설정
         Address address = createCompanyRequest.address().toEntity();
         address.setCity(city);
 
+        // 회사 생성 및 저장
         Company company = Company.create(
-                userId,
+                managerId,
                 UUID.fromString(hubId),
                 createCompanyRequest.name(),
                 createCompanyRequest.businessNumber(),
@@ -59,31 +64,35 @@ public class CreateCompanyService {
 
     // 허브 아이디 얻기 (MASTER / HUB_MANAGER)
     private String getHubId(CreateCompanyRequest createCompanyRequest, Long userId, String role) {
-        String hubId;
-
         if ("MASTER".equals(role)) {
-            // hubId 입력 필수
-            if (createCompanyRequest.hubId() == null) {
-                throw new CompanyException(ErrorCode.HUB_ID_REQUIRED);
-            }
-
-            // hubId 존재 여부 확인
-            ApiResponse<HubResponse> hubResponse = hubClient.findHub(createCompanyRequest.hubId().toString());
-            if (hubResponse == null || hubResponse.data() == null) {
-                throw new CompanyException(ErrorCode.HUB_NOT_FOUND);
-            }
-            hubId = createCompanyRequest.hubId().toString();
-
+            return getHubIdForMaster(createCompanyRequest);
         } else {
-            // HUB_MANAGER - userId로 hubId 존재 확인
-            ApiResponse<UserResponse> userResponse = userClient.findUser(userId);
-            System.out.println("User Client Response: " + userResponse);
-            if (userResponse == null || userResponse.data() == null || userResponse.data().hubId() == null) {
-                throw new CompanyException(ErrorCode.USER_NOT_ASSIGNED_TO_HUB);
-            }
-            hubId = userResponse.data().hubId();
+            return getHubIdForHubManager(userId);
         }
-        return hubId;
+    }
+
+    // MASTER 역할의 허브 ID 처리
+    private String getHubIdForMaster(CreateCompanyRequest createCompanyRequest) {
+        // hubId 입력 필수
+        if (createCompanyRequest.hubId() == null) {
+            throw new CompanyException(ErrorCode.HUB_ID_REQUIRED);
+        }
+
+        // hubId 존재 여부 확인
+        ApiResponse<HubResponse> hubResponse = hubClient.findHub(createCompanyRequest.hubId().toString());
+        if (hubResponse == null || hubResponse.data() == null) {
+            throw new CompanyException(ErrorCode.HUB_NOT_FOUND);
+        }
+        return createCompanyRequest.hubId().toString();
+    }
+
+    // HUB_MANAGER 역할의 허브 ID 처리
+    private String getHubIdForHubManager(Long userId) {
+        ApiResponse<UserResponse> userResponse = userClient.findUser(userId);
+        if (userResponse == null || userResponse.data() == null || userResponse.data().hubId() == null) {
+            throw new CompanyException(ErrorCode.USER_NOT_ASSIGNED_TO_HUB);
+        }
+        return userResponse.data().hubId();
     }
 
     // hubId를 바탕으로 city 가져오기
@@ -93,5 +102,24 @@ public class CreateCompanyService {
             throw new CompanyException(ErrorCode.HUB_NOT_FOUND); // 유효하지 않은 hubId
         }
         return hubResponse.data().city();
+    }
+
+    // 관리자의 역할과 허브 ID 일치 여부 확인
+    private void verifyManagerRole(Long managerId, String hubId) {
+        ApiResponse<UserResponse> userResponse = userClient.findUser(managerId);
+
+        if (userResponse == null || userResponse.data() == null) {
+            throw new CompanyException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // 관리자 역할 확인
+        if (!"COMPANY_MANAGER".equals(userResponse.data().role())) {
+            throw new CompanyException(ErrorCode.COMPANY_MANAGER_MISMATCH);
+        }
+
+        // hubId 일치 여부 확인
+        if (!hubId.equals(userResponse.data().hubId())) {
+            throw new CompanyException(ErrorCode.HUB_ID_MISMATCH);
+        }
     }
 }
