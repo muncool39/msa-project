@@ -47,6 +47,20 @@ public class ShipperService {
 
 
 
+    @Transactional
+    public ShipperResponse updateShipper(UUID shipperId, UpdateShipperRequest request) {
+        Shipper shipper = shipperRepository.findById(shipperId)
+                .orElseThrow(() -> new ShipperException(SHIPPER_NOT_FOUND));
+
+        hubClient.verifyHub(request.hubId());
+
+        shipper.updateShipper(request.hubId(), request.type());
+
+        return ShipperResponse.fromEntity(shipper);
+    }
+
+
+
 
 
 

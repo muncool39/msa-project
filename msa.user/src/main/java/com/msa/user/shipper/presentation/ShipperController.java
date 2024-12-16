@@ -28,6 +28,13 @@ public class ShipperController {
         return ApiResponse.success(shipperService.createShipper(request));
     }
 
+    @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
+    @PatchMapping("/{shipperId}")
+    public ApiResponse<ShipperResponse> updateShipper(@PathVariable UUID shipperId,
+                                                      @RequestBody UpdateShipperRequest request
+    ) {
+        return ApiResponse.success(shipperService.updateShipper(shipperId, request));
+    }
 
 
 
