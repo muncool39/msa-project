@@ -66,7 +66,7 @@ public class CreateOrderService {
 		// return new CreateDeliveryRequest(savedOrder.getId(), receiverName, receiverSlackId, savedOrder.getAddress(),
 		//     request.supplierCompanyId(), productStockData.hubId(), receiveCompany.hubId());
 		return new CreateDeliveryRequest(savedOrder.getId(), receiverName, receiverSlackId, savedOrder.getAddress(),
-			request.supplierCompanyId(), productStockData.hubId(), hubId);
+			request.receiveCompanyId(), productStockData.hubId(), hubId);
 	}
 
 	private Order createAndSaveOrder(CreateOrderRequest request, UUID departureHubId) {

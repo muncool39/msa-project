@@ -43,3 +43,11 @@ logging:
     org.springframework.security: DEBUG
     org.hibernate.sql: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
+    com:
+      msa:
+        order:
+          infrastructure:
+            UserClient: DEBUG
+            DeliveryClient: DEBUG
+            ProductClient: DEBUG
+            HubClient: DEBUG

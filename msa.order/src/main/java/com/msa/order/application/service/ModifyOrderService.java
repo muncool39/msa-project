@@ -23,6 +23,7 @@ import com.msa.order.exception.BusinessException.ProductStockException;
 import com.msa.order.exception.BusinessException.UnauthorizedException;
 import com.msa.order.exception.ErrorCode;
 import com.msa.order.presentation.request.UpdateOrderRequest;
+import com.msa.order.presentation.response.ApiResponse;
 
 @Service
 @Transactional(readOnly = true)
@@ -82,10 +83,10 @@ public class ModifyOrderService {
 	}
 
 	private UserData getUserData(String userId) {
-		// TODO user 서비스 연동 필요
-		UserData userData = userManager.getUserInfo(Long.parseLong(userId));
+		ApiResponse<UserData> response = userManager.getUserInfo(Long.parseLong(userId));
+		UserData userData = response.data();
 		if (userData.id() == null) {
-			throw new FeignException();
+			throw new FeignException(ErrorCode.USER_SERVICE_ERROR);
 		}
 		return userData;
 	}
@@ -93,12 +94,12 @@ public class ModifyOrderService {
 	private static void validateUserAccess(UserRole role, Order savedOrder, UserData userData) {
 		switch (role) {
 			case HUB_MANAGER -> {
-				if (!savedOrder.getDepartureHubId().equals(userData.hubId())) {
+				if (!savedOrder.getDepartureHubId().equals(userData.belongHubId())) {
 					throw new UnauthorizedException();
 				}
 			}
 			case COMPANY_MANAGER -> {
-				if (!savedOrder.getReceiverCompanyId().equals(userData.companyId())) {
+				if (!savedOrder.getReceiverCompanyId().equals(userData.belongCompanyId())) {
 					throw new UnauthorizedException();
 				}
 			}

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.msa.order.application.client.UserManager;
 import com.msa.order.application.client.dto.UserData;
 import com.msa.order.config.FeignConfiguration;
+import com.msa.order.presentation.response.ApiResponse;
 
 @FeignClient(
 	name = "user-service",
@@ -16,6 +17,6 @@ import com.msa.order.config.FeignConfiguration;
 public interface UserClient extends UserManager {
 
 	@GetMapping("/users/{id}")
-	UserData getUserInfo(@PathVariable(name = "id") Long userId);
+	ApiResponse<UserData> getUserInfo(@PathVariable(name = "id") Long userId);
 
 }
