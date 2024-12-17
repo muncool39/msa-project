@@ -1,17 +1,16 @@
 package com.msa.delivery.application.client.dto.request;
 
 import java.util.List;
-import java.util.UUID;
 
 public record GetDeliveryWorkersRequest(
-	List<DeliveryNode> path
+	List<DeliveryNode> paths
 ) {
 
 	public record DeliveryNode(
-		UUID nodeId,
+		String nodeId,
 		long sequence,
-		UUID departureHubId,
-		UUID destinationHubId
+		String departureHubId,
+		String destinationHubId
 	) {
 
 	}
