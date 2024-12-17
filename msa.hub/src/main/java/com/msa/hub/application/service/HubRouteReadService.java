@@ -7,6 +7,7 @@ import com.msa.hub.domain.repository.HubRouteRepository;
 import com.msa.hub.common.exception.ErrorCode;
 import com.msa.hub.common.exception.HubException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class HubRouteReadService {
 
     private final HubRouteRepository hubRouteRepository;
 
+    @Cacheable(cacheNames = "hub_route_cache")
     public HubRouteDetailResponse getHubRouteDetail(String id) {
         return HubRouteDetailResponse.convertToResponse(
                 hubRouteRepository.findById(id)
@@ -26,6 +28,7 @@ public class HubRouteReadService {
         );
     }
 
+    @Cacheable(cacheNames = "hub_routes_cache")
     public Page<HubRouteResponse> findHubRoutes(
             Pageable pageable, String sourceHubId, String destinationHubId
     ) {

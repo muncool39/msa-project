@@ -70,4 +70,11 @@ public class HubRoute extends BaseEntity {
     public void updateWaypoints(List<Waypoint> waypoints) {
         this.waypoints = waypoints;
     }
+
+    public void softDeleteHubRoute(Long userId) {
+        this.deleteBase(userId);
+        for(Waypoint waypoint : this.waypoints) {
+            waypoint.deleteBase(userId);
+        }
+    }
 }

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "p_hub_route_way_point")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Waypoint {
+public class Waypoint extends BaseEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.UUID)
     @Column(name="id")

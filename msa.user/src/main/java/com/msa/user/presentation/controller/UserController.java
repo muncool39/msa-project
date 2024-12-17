@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ApiResponse<UserDetailResponse> findUser(
-            @PathVariable Long userId
+            @PathVariable("userId") Long userId
     ) {
         return ApiResponse.success(userService.getUser(userId));
     }
@@ -80,6 +80,14 @@ public class UserController {
     ) {
         userService.setBelongHub(request.userId(), request.hubId());
         return ApiResponse.success();
+    }
+
+    @DeleteMapping("/belong-hub")
+    public Boolean detachBelongHub(
+            @RequestParam Long userId
+    ) {
+        userService.hubDetach(userId);
+        return true;
     }
 
     @DeleteMapping

@@ -1,29 +1,29 @@
 package com.msa.order.application.service;
 
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.msa.order.application.client.DeliveryManager;
 import com.msa.order.application.client.ProductManager;
 import com.msa.order.application.client.UserManager;
-import com.msa.order.application.client.dto.CompanyData;
-import com.msa.order.application.client.dto.CreateDeliveryRequest;
-import com.msa.order.application.client.dto.DeliveryData;
-import com.msa.order.application.client.dto.ProductData;
-import com.msa.order.application.client.dto.ProductStockRequest;
-import com.msa.order.application.client.dto.UserData;
+import com.msa.order.application.client.dto.request.CreateDeliveryRequest;
+import com.msa.order.application.client.dto.request.ProductStockRequest;
+import com.msa.order.application.client.dto.response.CompanyData;
+import com.msa.order.application.client.dto.response.DeliveryData;
+import com.msa.order.application.client.dto.response.ProductData;
+import com.msa.order.application.client.dto.response.UserData;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.repository.OrderRepository;
-import com.msa.order.exception.BusinessException.FeignException;
+import com.msa.order.exception.BusinessException.CustomFeignException;
 import com.msa.order.exception.BusinessException.OrderException;
 import com.msa.order.exception.ErrorCode;
 import com.msa.order.presentation.request.CreateOrderRequest;
 import com.msa.order.presentation.response.ApiResponse;
 
-import java.util.UUID;
-
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -45,13 +45,10 @@ public class CreateOrderService {
 		this.userManager = userManager;
 	}
 
-	// TODO 유저,상품,배송 서비스 연동 전 임시 하드 코딩
-	final UUID deliveryId = UUID.randomUUID();
-
 	@Transactional
 	public void createOrder(CreateOrderRequest request) {
 		ProductData productData = reduceProductStock(request);
-		CompanyData receiveCompanyData = getCompanyData(request.receiveCompanyId());
+		CompanyData receiveCompanyData = getCompanyData(request.receiverCompanyId());
 		UserData receiveCompanyManagerData = getUserData(receiveCompanyData);
 		Order savedOrder = saveOrder(request, productData);
 		CreateDeliveryRequest deliveryRequest = createDeliveryRequest(productData, savedOrder, receiveCompanyData, receiveCompanyManagerData);
@@ -61,35 +58,22 @@ public class CreateOrderService {
 	private ProductData reduceProductStock(CreateOrderRequest request) {
 		ApiResponse<ProductData> response = productManager.reduceStock(request.itemId(),
 		    new ProductStockRequest(request.quantity()));
-		ProductData productData = response.data();
-		if (productData.productId() == null) {
-		  throw new OrderException(ErrorCode.STOCK_REDUCTION_FAILED);
-		}
-
-		return productData;
+		return response.data();
 	}
 
-	private CompanyData getCompanyData(UUID receiveCompanyId) {
-		ApiResponse<CompanyData> response = productManager.getCompanyInfo(receiveCompanyId);
-		CompanyData companyData = response.data();
-		if (companyData.id() == null) {
-			throw new FeignException(ErrorCode.COMPANY_SERVICE_ERROR);
-		}
-		return companyData;
+	private CompanyData getCompanyData(UUID receiverCompanyId) {
+		ApiResponse<CompanyData> response = productManager.getCompanyInfo(receiverCompanyId);
+		return response.data();
 	}
 
 	private UserData getUserData(CompanyData receiveCompanyData) {
 		ApiResponse<UserData> response = userManager.getUserInfo(receiveCompanyData.userId());
-		UserData userData = response.data();
-		if (userData.id() == null) {
-			throw new FeignException(ErrorCode.USER_SERVICE_ERROR);
-		}
-		return userData;
+		return response.data();
 	}
 
 	private Order saveOrder(CreateOrderRequest request, ProductData productData) {
 
-		Order order = Order.create(productData.companyId(), request.receiveCompanyId(),
+		Order order = Order.create(productData.companyId(), request.receiverCompanyId(),
 			request.itemId(), request.itemName(), request.quantity(), request.description(),
 			request.city(), request.district(), request.streetName(), request.streetNum(), request.detail(),
 			productData.hubId());
@@ -107,7 +91,7 @@ public class CreateOrderService {
 		ApiResponse<DeliveryData> response = deliveryManager.createDelivery(deliveryRequest);
 		DeliveryData deliveryData = response.data();
 		if (deliveryData.deliveryId() == null) {
-			throw new FeignException(ErrorCode.DELIVERY_SERVICE_ERROR);
+			throw new CustomFeignException();
 		}
 		savedOrder.updateDeliveryId(deliveryData.companyDeliverId());
 	}

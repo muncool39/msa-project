@@ -64,6 +64,12 @@ public class UserService {
     }
 
     @Transactional
+    public void hubDetach(final Long userId) {
+        User user = getUserOrException(userId);
+        user.setBelongHub(null);
+    }
+
+    @Transactional
     public void deleteUser(final Long userId) {
         User user = getUserOrException(userId);
         user.deleteBase(userId);

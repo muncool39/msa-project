@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.msa.order.application.service.CreateOrderService;
 import com.msa.order.application.service.ModifyOrderService;
 import com.msa.order.application.service.ReadOrderService;
-import com.msa.order.config.UserDetailImpl;
+import com.msa.order.application.config.security.UserDetailImpl;
 import com.msa.order.domain.entity.Order;
 import com.msa.order.domain.entity.enums.UserRole;
 import com.msa.order.presentation.request.CreateOrderRequest;

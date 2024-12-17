@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.msa.delivery.application.client.UserManager;
-import com.msa.delivery.application.client.dto.UserData;
+import com.msa.delivery.application.client.dto.response.UserData;
 import com.msa.delivery.domain.entity.Delivery;
 import com.msa.delivery.domain.entity.DeliveryRouteHistory;
 import com.msa.delivery.domain.entity.enums.UserRole;

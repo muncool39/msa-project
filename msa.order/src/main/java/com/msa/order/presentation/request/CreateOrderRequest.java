@@ -13,12 +13,12 @@ public record CreateOrderRequest(
 	String itemName,
 
 	@NotNull
-	int quantity,
+	Long quantity,
 
 	String description,
 
 	@NotNull
-	UUID receiveCompanyId,
+	UUID receiverCompanyId,
 
 	@NotNull
 	String receiverName,

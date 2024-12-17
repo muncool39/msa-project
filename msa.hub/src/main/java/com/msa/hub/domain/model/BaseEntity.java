@@ -42,4 +42,9 @@ public abstract class BaseEntity {
     @Column(name="deleted_by")
     private String deletedBy;
 
+    public void deleteBase(Long userId) {
+        this.isDeleted = true;
+        this.deletedAt = LocalDateTime.now();
+        this.deletedBy = String.valueOf(userId);
+    }
 }
