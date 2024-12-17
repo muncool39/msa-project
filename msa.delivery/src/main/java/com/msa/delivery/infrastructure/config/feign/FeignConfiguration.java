@@ -18,20 +18,6 @@ public class FeignConfiguration {
 	public RequestInterceptor requestInterceptor() {
 		return requestTemplate -> {
 
-			// TODO 배송 담당자 서비스 권한 문제 해결시 반영
-			// if (requestTemplate.url().contains("/shippers")) {
-			// 	requestTemplate.header("X-User-Role", "MASTER");
-			// } else {
-			// 	ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-			// 	if (attributes != null) {
-			// 		HttpServletRequest request = attributes.getRequest();
-			// 		final String id = request.getHeader("X-User-Id");
-			// 		final String role = request.getHeader("X-User-Role");
-			// 		requestTemplate.header("X-User-Id", id);
-			// 		requestTemplate.header("X-User-Role", role);
-			// 	}
-			// }
-
 			ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
 			if (attributes != null) {
 				HttpServletRequest request = attributes.getRequest();

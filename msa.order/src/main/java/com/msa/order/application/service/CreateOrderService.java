@@ -56,17 +56,20 @@ public class CreateOrderService {
 	}
 
 	private ProductData reduceProductStock(CreateOrderRequest request) {
+		log.info("상품 재고 서비스 호출");
 		ApiResponse<ProductData> response = productManager.reduceStock(request.itemId(),
 		    new ProductStockRequest(request.quantity()));
 		return response.data();
 	}
 
 	private CompanyData getCompanyData(UUID receiverCompanyId) {
+		log.info("업체 조회 서비스 호출");
 		ApiResponse<CompanyData> response = productManager.getCompanyInfo(receiverCompanyId);
 		return response.data();
 	}
 
 	private UserData getUserData(CompanyData receiveCompanyData) {
+		log.info("유저 조회 서비스 호출");
 		ApiResponse<UserData> response = userManager.getUserInfo(receiveCompanyData.userId());
 		return response.data();
 	}
