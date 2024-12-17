@@ -1,15 +1,18 @@
 package com.msa.company.application.service;
 
 import com.msa.company.domain.model.Company;
+import com.msa.company.domain.model.Product;
 import com.msa.company.domain.repository.company.CompanyRepository;
 import com.msa.company.application.exception.CompanyException;
 import com.msa.company.application.exception.ErrorCode;
+import com.msa.company.domain.repository.product.ProductRepository;
 import com.msa.company.infrastructure.UserClient;
 import com.msa.company.application.dto.response.ApiResponse;
 import com.msa.company.application.dto.response.CompanyDetailResponse;
 import com.msa.company.application.dto.response.CompanyListResponse;
 import com.msa.company.application.dto.response.UserResponse;
 import jakarta.transaction.Transactional;
+import java.util.Set;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
+    private final ProductRepository productRepository;
     private final UserClient userClient;
 
     // 업체 전체 조회
@@ -47,6 +51,11 @@ public class CompanyService {
             validateHubManagerAccess(company, userId);
         }
 
+        Set<Product> products = company.getProducts();
+
+        for (Product product : products) {
+            product.setIsDeleted(userId);
+        }
         company.setIsDeleted(userId);
     }
 

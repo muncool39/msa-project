@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -52,6 +53,11 @@ public class Product extends BaseEntity {
     public void setStock(Long stock) {
         this.stock = stock;
         this.isOutOfStock = this.stock == 0;
+    }
+
+    @PreRemove
+    public void preRemove() {
+        this.setIsDeleted(this.getCreatedBy());
     }
 
     public static Product create(CreateProductRequest productRequest, Company company) {
