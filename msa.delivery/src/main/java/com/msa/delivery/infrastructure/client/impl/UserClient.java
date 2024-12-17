@@ -1,14 +1,15 @@
-package com.msa.delivery.infrastructure;
+package com.msa.delivery.infrastructure.client.impl;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.msa.delivery.application.client.UserManager;
-import com.msa.delivery.application.client.dto.DeliveryWorkersData;
-import com.msa.delivery.application.client.dto.GetDeliveryWorkersRequest;
-import com.msa.delivery.application.client.dto.UserData;
-import com.msa.delivery.config.FeignConfiguration;
+import com.msa.delivery.application.client.dto.response.DeliveryWorkersData;
+import com.msa.delivery.application.client.dto.request.GetDeliveryWorkersRequest;
+import com.msa.delivery.application.client.dto.response.UserData;
+import com.msa.delivery.infrastructure.config.feign.FeignConfiguration;
+import com.msa.delivery.infrastructure.client.fallback.UserClientFallback;
 import com.msa.delivery.presentation.response.ApiResponse;
 
 @FeignClient(

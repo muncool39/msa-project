@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.msa.delivery.application.client.DeliveryRouteManager;
 import com.msa.delivery.application.client.UserManager;
-import com.msa.delivery.application.client.dto.DeliveryRoutesData;
-import com.msa.delivery.application.client.dto.DeliveryWorkersData;
-import com.msa.delivery.application.client.dto.GetDeliveryWorkersRequest;
+import com.msa.delivery.application.client.dto.response.DeliveryRoutesData;
+import com.msa.delivery.application.client.dto.response.DeliveryWorkersData;
+import com.msa.delivery.application.client.dto.request.GetDeliveryWorkersRequest;
 import com.msa.delivery.domain.entity.Delivery;
 import com.msa.delivery.domain.entity.DeliveryRouteHistory;
 import com.msa.delivery.domain.repository.DeliveryRepository;

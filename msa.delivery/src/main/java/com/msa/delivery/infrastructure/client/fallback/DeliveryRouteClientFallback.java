@@ -1,10 +1,11 @@
-package com.msa.delivery.infrastructure;
+package com.msa.delivery.infrastructure.client.fallback;
 
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.msa.delivery.application.client.dto.DeliveryRoutesData;
+import com.msa.delivery.application.client.dto.response.DeliveryRoutesData;
+import com.msa.delivery.infrastructure.client.impl.DeliveryRouteClient;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.msa.delivery.config;
+package com.msa.delivery.application.config.security;
 
 import java.io.IOException;
 

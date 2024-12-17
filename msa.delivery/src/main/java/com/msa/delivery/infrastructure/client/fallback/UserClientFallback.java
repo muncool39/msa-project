@@ -1,10 +1,11 @@
-package com.msa.delivery.infrastructure;
+package com.msa.delivery.infrastructure.client.fallback;
 
 import org.springframework.stereotype.Component;
 
-import com.msa.delivery.application.client.dto.DeliveryWorkersData;
-import com.msa.delivery.application.client.dto.GetDeliveryWorkersRequest;
-import com.msa.delivery.application.client.dto.UserData;
+import com.msa.delivery.application.client.dto.response.DeliveryWorkersData;
+import com.msa.delivery.application.client.dto.request.GetDeliveryWorkersRequest;
+import com.msa.delivery.application.client.dto.response.UserData;
+import com.msa.delivery.infrastructure.client.impl.UserClient;
 import com.msa.delivery.presentation.response.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;
