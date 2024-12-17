@@ -2,6 +2,7 @@ package com.msa.company.application.service;
 
 import com.msa.company.domain.model.Company;
 import com.msa.company.domain.model.Product;
+import com.msa.company.domain.model.enums.CompanyStatus;
 import com.msa.company.domain.repository.company.CompanyRepository;
 import com.msa.company.domain.repository.product.ProductRepository;
 import com.msa.company.application.exception.CompanyException;
@@ -72,6 +73,12 @@ public class CompanyProductService {
         if (company.getIsDeleted()) {
             throw new CompanyException(ErrorCode.DELETED_COMPANY);
         }
+
+        // 업체 상태 확인: APPROVED만 허용
+        if (company.getStatus() != CompanyStatus.APPROVED) {
+            throw new CompanyException(ErrorCode.COMPANY_NOT_APPROVED);
+        }
+
 
         return company;
     }

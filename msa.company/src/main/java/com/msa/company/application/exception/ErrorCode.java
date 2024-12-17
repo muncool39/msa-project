@@ -18,7 +18,7 @@ public enum ErrorCode {
     COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, "업체를 찾을 수 없습니다."),
     DELETED_COMPANY(HttpStatus.NOT_FOUND, "삭제된 업체입니다."),
     PRODUCT_NOT_FOUND_IN_COMPANY(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다."),
-
+    COMPANY_NOT_APPROVED(HttpStatus.BAD_REQUEST, "승인되지 않은 업체입니다."),
     // 상품 관련 에러
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "상품을 찾을 수 없습니다."),
     PRODUCT_OUT_OF_STOCK(HttpStatus.BAD_REQUEST, "상품의 재고가 부족합니다."),
