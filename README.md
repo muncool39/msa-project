@@ -47,4 +47,4 @@
 
 
 ## 🔥 Trouble-Shooting
-
+[트러블슈팅: QueryDSL Q클래스 생성 오류](https://github.com/muncool39/msa-project/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85:-QueryDSL-Q%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%83%9D%EC%84%B1-%EC%98%A4%EB%A5%98)
