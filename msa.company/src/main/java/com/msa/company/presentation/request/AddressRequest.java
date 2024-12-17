@@ -1,6 +1,6 @@
 package com.msa.company.presentation.request;
 
-import com.msa.company.domain.entity.Address;
+import com.msa.company.domain.model.Address;
 import jakarta.validation.constraints.NotBlank;
 
 public record AddressRequest(
