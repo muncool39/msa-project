@@ -39,6 +39,12 @@ MSA 기반 B2B 물류 관리 및 배송 시스템입니다. <br>
 - **인프라** Spring Cloud Eureka, Spring Cloud Gateway, Spring Cloud OpenFeign
 - **버전 관리** Git, GitHub
 
+## 🔥 Trouble-Shooting
+❗️[QueryDSL Q클래스 생성 오류](https://github.com/muncool39/msa-project/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85:-QueryDSL-Q%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%83%9D%EC%84%B1-%EC%98%A4%EB%A5%98)
+<br> 
+❗️[@PathVariable에서 이름 생략하니까 파라미터 인식이 잘 안돼요 😥](https://github.com/muncool39/msa-project/wiki/%5BTrouble-Shooting%5D-@PathVariable%EC%97%90%EC%84%9C-%EC%9D%B4%EB%A6%84-%EC%83%9D%EB%9E%B5%ED%95%98%EB%8B%88%EA%B9%8C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%EC%9D%B8%EC%8B%9D%EC%9D%B4-%EC%9E%98-%EC%95%88%EB%8F%BC%EC%9A%94-%F0%9F%98%A5)
+<br>
+
 ## 🎠 Run
 ### 프로젝트 실행
 
@@ -172,8 +178,3 @@ MSA 기반 B2B 물류 관리 및 배송 시스템입니다. <br>
  7. 주문이 생성 완료됩니다. (상태 : ORDERED)
 
 
-## 🔥 Trouble-Shooting
-❗️[QueryDSL Q클래스 생성 오류](https://github.com/muncool39/msa-project/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85:-QueryDSL-Q%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%83%9D%EC%84%B1-%EC%98%A4%EB%A5%98)
-<br> 
-❗️[@PathVariable에서 이름 생략하니까 파라미터 인식이 잘 안돼요 😥](https://github.com/muncool39/msa-project/wiki/%5BTrouble-Shooting%5D-@PathVariable%EC%97%90%EC%84%9C-%EC%9D%B4%EB%A6%84-%EC%83%9D%EB%9E%B5%ED%95%98%EB%8B%88%EA%B9%8C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%EC%9D%B8%EC%8B%9D%EC%9D%B4-%EC%9E%98-%EC%95%88%EB%8F%BC%EC%9A%94-%F0%9F%98%A5)
-<br>
