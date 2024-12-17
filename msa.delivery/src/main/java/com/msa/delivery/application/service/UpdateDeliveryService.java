@@ -17,6 +17,7 @@ import com.msa.delivery.exception.BusinessException.FeignException;
 import com.msa.delivery.exception.BusinessException.UnauthorizedException;
 import com.msa.delivery.exception.ErrorCode;
 import com.msa.delivery.presentation.request.UpdateDeliveryRequest;
+import com.msa.delivery.presentation.response.ApiResponse;
 
 @Service
 public class UpdateDeliveryService {
@@ -42,7 +43,7 @@ public class UpdateDeliveryService {
 		switch (role) {
 			case MASTER -> { }
 			case HUB_MANAGER -> { // 담당 허브의 배송만 업데이트 가능
-				UUID hubId = userData.hubId();
+				UUID hubId = userData.belongHubId();
 				boolean isManagedHub = delivery.getDeliveryHistories().stream()
 					.anyMatch(route -> route.getDepartureHubId().equals(hubId));
 
@@ -94,14 +95,12 @@ public class UpdateDeliveryService {
 	}
 
 	private UserData getUserData(String userId) {
-		// TODO 유저 연동 필요
-		// UserData userData = userManager.getUserInfo(Long.parseLong(userId));
-		// if (userData.id() == null) {
-		// 	throw new FeignException();
-		// }
-		//
-		// return userData;
-	//	return new UserData(2L, "마스터", "master@master.com", "test", UserRole.MASTER, null, null, null);
-		return new UserData(1L, "업체배송담당자", "master@master.com", "test", UserRole.DELIVERY_MANAGER, "COMPANY", null, UUID.randomUUID());
+		ApiResponse<UserData> response = userManager.getUserInfo(Long.parseLong(userId));
+		UserData userData = response.data();
+		if (userData.id() == null) {
+			throw new FeignException(ErrorCode.USER_SERVICE_ERROR);
+		}
+
+		return userData;
 	}
 }

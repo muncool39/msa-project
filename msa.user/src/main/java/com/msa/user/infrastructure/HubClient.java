@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface HubClient extends HubService {
 
     @GetMapping("/hubs/verify")
-    Boolean verifyHub(@RequestParam String hubId);
+    Boolean verifyHub(@RequestParam("hubId") String hubId);
 
     @PostMapping("/hubs/manager")
     Boolean postManager(
-            @RequestParam String hubId,
-            @RequestParam Long userId
+            @RequestParam("hubId") String hubId,
+            @RequestParam("userId") Long userId
     );
 }

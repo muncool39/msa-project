@@ -1,4 +1,4 @@
-package com.msa.hub.exception;
+package com.msa.hub.common.exception;
 
 
 import lombok.Getter;

@@ -10,7 +10,7 @@ import com.msa.order.application.client.DeliveryManager;
 import com.msa.order.application.client.ProductManager;
 import com.msa.order.application.client.UserManager;
 import com.msa.order.application.client.dto.DeliveryData;
-import com.msa.order.application.client.dto.ProductStockData;
+import com.msa.order.application.client.dto.ProductData;
 import com.msa.order.application.client.dto.ProductStockRequest;
 import com.msa.order.application.client.dto.UserData;
 import com.msa.order.domain.entity.Order;
@@ -23,6 +23,7 @@ import com.msa.order.exception.BusinessException.ProductStockException;
 import com.msa.order.exception.BusinessException.UnauthorizedException;
 import com.msa.order.exception.ErrorCode;
 import com.msa.order.presentation.request.UpdateOrderRequest;
+import com.msa.order.presentation.response.ApiResponse;
 
 @Service
 @Transactional(readOnly = true)
@@ -82,10 +83,10 @@ public class ModifyOrderService {
 	}
 
 	private UserData getUserData(String userId) {
-		// TODO user 서비스 연동 필요
-		UserData userData = userManager.getUserInfo(Long.parseLong(userId));
+		ApiResponse<UserData> response = userManager.getUserInfo(Long.parseLong(userId));
+		UserData userData = response.data();
 		if (userData.id() == null) {
-			throw new FeignException();
+			throw new FeignException(ErrorCode.USER_SERVICE_ERROR);
 		}
 		return userData;
 	}
@@ -93,12 +94,12 @@ public class ModifyOrderService {
 	private static void validateUserAccess(UserRole role, Order savedOrder, UserData userData) {
 		switch (role) {
 			case HUB_MANAGER -> {
-				if (!savedOrder.getDepartureHubId().equals(userData.hubId())) {
+				if (!savedOrder.getDepartureHubId().equals(userData.belongHubId())) {
 					throw new UnauthorizedException();
 				}
 			}
 			case COMPANY_MANAGER -> {
-				if (!savedOrder.getReceiverCompanyId().equals(userData.companyId())) {
+				if (!savedOrder.getReceiverCompanyId().equals(userData.belongCompanyId())) {
 					throw new UnauthorizedException();
 				}
 			}
@@ -124,19 +125,19 @@ public class ModifyOrderService {
 	}
 
 	private void reduceProductStock(UUID itemId, int quantity) {
-		// Todo 상품 서비스 연동 테스트 필요
-		ProductStockData stockData = productManager.reduceStock(itemId, new ProductStockRequest(quantity));
+		ApiResponse<ProductData> response = productManager.reduceStock(itemId, new ProductStockRequest(quantity));
+		ProductData productData = response.data();
 
-		if (stockData.id() == null) {
+		if (productData.productId() == null) {
 			throw new ProductStockException(ErrorCode.STOCK_REDUCTION_FAILED);
 		}
 	}
 
 	private void restoreProductStock(UUID itemId, int quantity) {
-		// Todo 상품 서비스 연동 테스트 필요
-		ProductStockData stockData = productManager.restoreStock(itemId, new ProductStockRequest(quantity));
+		ApiResponse<ProductData> response = productManager.restoreStock(itemId, new ProductStockRequest(quantity));
+		ProductData productData = response.data();
 
-		if (stockData.id() == null) {
+		if (productData.productId() == null) {
 			throw new ProductStockException(ErrorCode.STOCK_RESTORE_FAILED);
 		}
 

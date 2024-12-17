@@ -1,14 +1,21 @@
 package com.msa.company.application.service;
 
-import static com.msa.company.exception.ErrorCode.COMPANY_NOT_FOUND;
-
-import com.msa.company.domain.entity.Company;
 import com.msa.company.domain.entity.Product;
-import com.msa.company.domain.repository.CompanyRepository;
 import com.msa.company.domain.repository.ProductRepository;
 import com.msa.company.exception.CompanyException;
+import com.msa.company.exception.ErrorCode;
 import com.msa.company.infrastructure.HubClient;
-import com.msa.company.presentation.request.ProductRequest;
+import com.msa.company.infrastructure.UserClient;
+import com.msa.company.presentation.request.UpdateProductRequest;
+import com.msa.company.presentation.response.ApiResponse;
+import com.msa.company.presentation.response.HubResponse;
+import com.msa.company.presentation.response.ProductDetailResponse;
+import com.msa.company.presentation.response.ProductListResponse;
+import com.msa.company.presentation.response.StockResponse;
+import com.msa.company.presentation.response.UserResponse;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,29 +25,107 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final CompanyRepository companyRepository;
     private final HubClient hubClient;
+    private final UserClient userClient;
 
+    // 상품 전체 조회
+    @Transactional(readOnly = true)
+    public List<ProductListResponse> getListProducts() {
+        return productRepository.findAll().stream()
+                .map(ProductListResponse::from)
+                .collect(Collectors.toList());
+    }
 
+    // 상품 단건 조회
+    @Transactional(readOnly = true)
+    public ProductDetailResponse getDetailProduct(UUID id) {
+        Product product = getProductAndCheckDeletion(id);
+        return ProductDetailResponse.from(product);
+    }
+
+    // 상품 수정
     @Transactional
-    public void createProduct(ProductRequest productRequest, Long userId, String role) {
+    public void updateProduct(UUID id, UpdateProductRequest request,
+                              Long userId, String role) {
+        Product product = getProductAndCheckDeletion(id);
 
-        // 업체 존재 여부 확인
-        Company company = companyRepository.findById(productRequest.companyId())
-                .orElseThrow(() -> new CompanyException(COMPANY_NOT_FOUND));
+        if ("HUB_MANAGER".equals(role)){
+            checkHubManagerPermission(userId, product);
+        }else if ("COMPANY_MANAGER".equals(role)) {
+            checkCompanyManagerPermission(userId, product);
+        }
 
-        /* TODO 1. HUB_MANAGER: 본인 허브만 생성 가능
+        if (request.name() != null) {
+            product.setName(request.name());
+        }
+        if (request.stock() != null) {
+            product.setStock(request.stock());
+        }
+    }
+
+    // 상품 삭제
+    @Transactional
+    public void deleteProduct(UUID id, Long userId, String role) {
+        Product product = getProductAndCheckDeletion(id);
+
         if ("HUB_MANAGER".equals(role)) {
-            UUID hubId = company.getHubId();
-        } else if ("COMPANY_MANAGER".equals(role)) {
-           TODO 2. COMPANY_MANAGER: 본인 업체만 생성 가능
-        }*/
+            checkHubManagerPermission(userId, product);
+        }
+        product.setIsDeleted(userId);
+    }
 
-        Product product = Product.create(
-                productRequest,
-                company,
-                userId
-        );
+    // 상품 재고 감소
+    @Transactional
+    public StockResponse decreaseStock(UUID id, Long stock) {
+        Product product = getProductAndCheckDeletion(id);
+
+        if (product.getStock() < stock) {
+            throw new CompanyException(ErrorCode.PRODUCT_OUT_OF_STOCK);
+        }
+
+        product.setStock(product.getStock() - stock);
         productRepository.save(product);
+        return StockResponse.from(product);
+    }
+
+    // 상품 재고 복원
+    @Transactional
+    public StockResponse restoreStock(UUID id, Long stock) {
+        Product product = getProductAndCheckDeletion(id);
+        product.setStock(product.getStock() + stock);
+        productRepository.save(product);
+        return StockResponse.from(product);
+    }
+
+    // 확인 메서드 ------------------------------------------------------------------
+
+    // 상품 존재 + 삭제 여부 확인
+    private Product getProductAndCheckDeletion(UUID id) {
+        // 상품 조회
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new CompanyException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        // 삭제 여부 확인
+        if (product.getIsDeleted()) {
+            throw new CompanyException(ErrorCode.DELETED_PRODUCT);
+        }
+
+        return product;
+    }
+
+    // HUB_MANAGER 권한 확인
+    private void checkHubManagerPermission(Long userId, Product product) {
+        ApiResponse<HubResponse> hubResponse = hubClient.findHub(product.getHubId().toString());
+        if (hubResponse == null || !hubResponse.data().managerId().equals(userId)) {
+            throw new CompanyException(ErrorCode.HUB_ACCESS_DENIED);
+        }
+    }
+
+    // Company_MANAGER 권한 확인
+    private void checkCompanyManagerPermission(Long userId, Product product) {
+        ApiResponse<UserResponse> userResponse = userClient.findUser(userId);
+        if (userResponse == null || !userResponse.data().companyId().equals(product.getCompany().getId().toString())) {
+            throw new CompanyException(ErrorCode.COMPANY_ACCESS_DENIED);
+        }
     }
 }

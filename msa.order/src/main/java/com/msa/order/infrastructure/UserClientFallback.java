@@ -3,6 +3,7 @@ package com.msa.order.infrastructure;
 import org.springframework.stereotype.Component;
 
 import com.msa.order.application.client.dto.UserData;
+import com.msa.order.presentation.response.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,7 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserClientFallback implements UserClient {
 
   @Override
-  public UserData getUserInfo(Long userId) {
+  public ApiResponse<UserData> getUserInfo(Long userId) {
+    log.error("[FeignClient] 유저 호출 서비스 에러 발생 ");
     return null;
   }
 }

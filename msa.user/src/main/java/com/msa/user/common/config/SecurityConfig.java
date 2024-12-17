@@ -24,6 +24,7 @@ public class SecurityConfig {
     private final String[] permitPaths = {
             "/auth/sign-up",
             "/auth/sign-in",
+            "/shippers/assign",
     };
 
     @Bean

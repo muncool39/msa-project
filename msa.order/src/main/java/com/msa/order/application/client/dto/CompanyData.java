@@ -4,8 +4,11 @@ import java.util.UUID;
 
 public record CompanyData(
     UUID id,
+	Long userId,
     String name,
-    UUID hubId
+	String businessNumber,
+    UUID hubId,
+	String type
 ) {
 
 }

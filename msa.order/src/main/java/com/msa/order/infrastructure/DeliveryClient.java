@@ -12,6 +12,7 @@ import com.msa.order.application.client.DeliveryManager;
 import com.msa.order.application.client.dto.CreateDeliveryRequest;
 import com.msa.order.application.client.dto.DeliveryData;
 import com.msa.order.config.FeignConfiguration;
+import com.msa.order.presentation.response.ApiResponse;
 
 @FeignClient(
     name = "delivery-service",
@@ -20,8 +21,8 @@ import com.msa.order.config.FeignConfiguration;
 	configuration = FeignConfiguration.class)
 public interface DeliveryClient extends DeliveryManager {
 
-	@PostMapping("/deliveries")
-	DeliveryData createDelivery(@RequestBody CreateDeliveryRequest request);
+	@PostMapping(value = "/deliveries")
+	ApiResponse<DeliveryData> createDelivery(@RequestBody CreateDeliveryRequest request);
 
 	@GetMapping("/deliveries/order/{id}")
 	DeliveryData getDeliveryInfo(@PathVariable(name = "id") UUID orderId);
