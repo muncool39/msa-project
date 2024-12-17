@@ -41,8 +41,15 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         query.where(builder);
 
         // 페이징 처리
-        long totalCount = query.fetchCount();
         List<Product> products = getPagedResult(query, pageable);
+
+        Long totalCount = queryFactory.select(QProduct.product.count())
+                .from(QProduct.product)
+                .where(builder)
+                .fetchOne();
+
+        // fetchOne() = null -> totalCount = 0
+        totalCount = totalCount != null ? totalCount : 0L;
 
         return new PageImpl<>(products, pageable, totalCount);
     }
