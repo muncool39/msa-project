@@ -1,4 +1,4 @@
-package com.msa.user.shipper.application.dto;
+package com.msa.user.application.dto;
 
 public record ShipperAssignDetailDto(
         String nodeId,

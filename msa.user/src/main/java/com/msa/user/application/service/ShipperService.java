@@ -1,24 +1,23 @@
-package com.msa.user.shipper.application;
+package com.msa.user.application.service;
 
 import static com.msa.user.common.exception.ErrorCode.*;
 
-import com.msa.user.shipper.application.dto.DeleteShipperResponse;
-import com.msa.user.shipper.application.dto.ShipperAssignDetailDto;
-import com.msa.user.shipper.application.dto.ShipperAssignResponseDto;
-import com.msa.user.shipper.application.dto.ShipperResponse;
-import com.msa.user.shipper.domain.model.type.ShipperStatus;
-import com.msa.user.shipper.domain.model.type.ShipperType;
-import com.msa.user.shipper.exception.ShipperException;
-import com.msa.user.shipper.domain.model.Shipper;
-import com.msa.user.shipper.domain.repository.ShipperRepository;
+import com.msa.user.application.dto.DeleteShipperResponse;
+import com.msa.user.application.dto.ShipperAssignDetailDto;
+import com.msa.user.application.dto.ShipperAssignResponseDto;
+import com.msa.user.application.dto.ShipperResponse;
+import com.msa.user.domain.model.ShipperStatus;
+import com.msa.user.domain.model.ShipperType;
+import com.msa.user.common.exception.ShipperException;
+import com.msa.user.domain.model.Shipper;
+import com.msa.user.domain.repository.ShipperRepository;
 import com.msa.user.domain.repository.UserRepository;
 import com.msa.user.infrastructure.HubClient;
-import com.msa.user.shipper.presentation.request.CreateShipperRequest;
-import com.msa.user.shipper.presentation.request.ShipperAssignRequest;
-import com.msa.user.shipper.presentation.request.UpdateShipperRequest;
+import com.msa.user.presentation.request.CreateShipperRequest;
+import com.msa.user.presentation.request.ShipperAssignRequest;
+import com.msa.user.presentation.request.UpdateShipperRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

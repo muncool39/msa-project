@@ -1,16 +1,15 @@
-package com.msa.user.shipper.presentation;
+package com.msa.user.presentation.controller;
 
-import com.msa.user.shipper.application.dto.DeleteShipperResponse;
-import com.msa.user.shipper.application.dto.ShipperAssignResponseDto;
-import com.msa.user.shipper.application.dto.ShipperResponse;
-import com.msa.user.shipper.application.ShipperService;
-import com.msa.user.shipper.presentation.request.CreateShipperRequest;
-import com.msa.user.shipper.presentation.request.ShipperAssignRequest;
-import com.msa.user.shipper.presentation.request.UpdateShipperRequest;
+import com.msa.user.application.dto.DeleteShipperResponse;
+import com.msa.user.application.dto.ShipperAssignResponseDto;
+import com.msa.user.application.dto.ShipperResponse;
+import com.msa.user.application.service.ShipperService;
+import com.msa.user.presentation.request.CreateShipperRequest;
+import com.msa.user.presentation.request.ShipperAssignRequest;
+import com.msa.user.presentation.request.UpdateShipperRequest;
 import com.msa.user.presentation.response.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

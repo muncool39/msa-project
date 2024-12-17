@@ -1,4 +1,4 @@
-package com.msa.user.shipper.presentation.request;
+package com.msa.user.presentation.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

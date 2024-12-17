@@ -1,7 +1,6 @@
-package com.msa.user.shipper.application.dto;
+package com.msa.user.application.dto;
 
-import com.msa.user.shipper.domain.model.Shipper;
-import java.util.UUID;
+import com.msa.user.domain.model.Shipper;
 
 public record ShipperResponse(
         Long id,

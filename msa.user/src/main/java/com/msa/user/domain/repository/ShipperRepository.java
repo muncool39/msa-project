@@ -1,8 +1,8 @@
-package com.msa.user.shipper.domain.repository;
+package com.msa.user.domain.repository;
 
-import com.msa.user.shipper.domain.model.Shipper;
-import com.msa.user.shipper.domain.model.type.ShipperStatus;
-import com.msa.user.shipper.domain.model.type.ShipperType;
+import com.msa.user.domain.model.Shipper;
+import com.msa.user.domain.model.ShipperStatus;
+import com.msa.user.domain.model.ShipperType;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

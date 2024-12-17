@@ -1,8 +1,7 @@
-package com.msa.user.shipper.application.dto;
+package com.msa.user.application.dto;
 
-import com.msa.user.shipper.domain.model.Shipper;
+import com.msa.user.domain.model.Shipper;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public record DeleteShipperResponse(
         Long shipperId,
