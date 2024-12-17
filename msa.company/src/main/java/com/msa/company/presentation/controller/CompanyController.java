@@ -1,6 +1,9 @@
 package com.msa.company.presentation.controller;
 
 import com.msa.company.application.service.CompanyService;
+import com.msa.company.application.service.CreateCompanyService;
+import com.msa.company.application.service.UpdateCompanyService;
+import com.msa.company.config.dto.UserDetailImpl;
 import com.msa.company.presentation.request.CreateCompanyRequest;
 import com.msa.company.presentation.request.UpdateCompanyRequest;
 import com.msa.company.presentation.response.ApiResponse;
@@ -12,7 +15,6 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CompanyController {
 
+    public final CreateCompanyService createCompanyService;
+    public final UpdateCompanyService updateCompanyService;
     public final CompanyService companyService;
 
     // 업체 생성
@@ -34,11 +38,10 @@ public class CompanyController {
     @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER')")
     public ApiResponse<Void> createCompany(
             @Valid @RequestBody CreateCompanyRequest createCompanyRequest,
-            @AuthenticationPrincipal UserDetails userDetails) {
-        String userId = userDetails.getUsername();
-        String role = userDetails.getAuthorities().iterator().next().getAuthority();
-        System.out.println("User role: " + role);
-        companyService.createCompany(createCompanyRequest, userId, role);
+            @AuthenticationPrincipal UserDetailImpl userDetails) {
+        Long userId = userDetails.userId();
+        String role = userDetails.role();
+        createCompanyService.createCompany(createCompanyRequest, userId, role);
         return ApiResponse.success();
     }
 
@@ -61,12 +64,10 @@ public class CompanyController {
     @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER','COMPANY_MANAGER')")
     public ApiResponse<Void> updateCompany(@PathVariable("id") UUID id,
                                            @RequestBody UpdateCompanyRequest updateCompanyRequest,
-                                           @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = Long.valueOf(userDetails.getUsername());
-        String role = userDetails.getAuthorities().iterator().next().getAuthority();
-
-        //UUID hubId = userDetails.getHubId();
-        companyService.updateCompany(id, updateCompanyRequest, userId, role);
+                                           @AuthenticationPrincipal UserDetailImpl userDetails) {
+        Long userId = userDetails.userId();
+        String role = userDetails.role();
+        updateCompanyService.updateCompany(id, updateCompanyRequest, userId, role);
         return ApiResponse.success();
     }
 
@@ -74,8 +75,9 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER')")
     public ApiResponse<Void> deleteCompany(@PathVariable("id") UUID id,
-                                           @AuthenticationPrincipal Long userId,
-                                           @AuthenticationPrincipal String role) {
+                                           @AuthenticationPrincipal UserDetailImpl userDetails) {
+        Long userId = userDetails.userId();
+        String role = userDetails.role();
         companyService.deleteCompany(id, userId, role);
         return ApiResponse.success();
     }

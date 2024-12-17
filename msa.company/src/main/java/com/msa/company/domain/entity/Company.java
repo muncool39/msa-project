@@ -45,7 +45,7 @@ public class Company extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(name = "business_number",nullable = false)
+    @Column(name = "business_number",nullable = false, length = 10)
     private String businessNumber;
 
     @Embedded

@@ -7,7 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public record UserDetailImpl(
-        String userId,
+        Long userId,
         String role
 
 ) implements UserDetails {
@@ -24,11 +24,6 @@ public record UserDetailImpl(
 
     @Override
     public String getUsername() {
-        return userId;
-    }
-
-    // 특정 역할 확인 메서드
-    public boolean isRole(String Role) {
-        return this.role.equals(Role);
+        return String.valueOf(userId);
     }
 }
