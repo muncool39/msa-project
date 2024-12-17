@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record DeleteShipperResponse(
-        UUID shipperId,
+        Long shipperId,
         LocalDateTime deletedAt
 ) {
     public static DeleteShipperResponse fromEntity(Shipper shipper) {

@@ -5,7 +5,7 @@ import com.msa.user.shipper.application.dto.ShipperAssignResponseDto;
 import com.msa.user.shipper.application.dto.ShipperResponse;
 import com.msa.user.shipper.application.ShipperService;
 import com.msa.user.shipper.presentation.request.CreateShipperRequest;
-import com.msa.user.shipper.presentation.request.ShipperAssignRequestDto;
+import com.msa.user.shipper.presentation.request.ShipperAssignRequest;
 import com.msa.user.shipper.presentation.request.UpdateShipperRequest;
 import com.msa.user.presentation.response.ApiResponse;
 import jakarta.validation.Valid;
@@ -40,7 +40,7 @@ public class ShipperController {
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @PatchMapping("/{shipperId}")
-    public ApiResponse<ShipperResponse> updateShipper(@PathVariable UUID shipperId,
+    public ApiResponse<ShipperResponse> updateShipper(@PathVariable Long shipperId,
                                                       @Valid @RequestBody UpdateShipperRequest request
     ) {
         return ApiResponse.success(shipperService.updateShipper(shipperId, request));
@@ -49,7 +49,7 @@ public class ShipperController {
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER','DELIVERY_MANAGER')")
     @GetMapping("/{shipperId}")
-    public ApiResponse<ShipperResponse> getShipper(@PathVariable UUID shipperId) {
+    public ApiResponse<ShipperResponse> getShipper(@PathVariable Long shipperId) {
         return ApiResponse.success(shipperService.getShipper(shipperId));
     }
 
@@ -61,14 +61,14 @@ public class ShipperController {
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @DeleteMapping
-    public ApiResponse<DeleteShipperResponse> deleteShipper(UUID shipperId) {
+    public ApiResponse<DeleteShipperResponse> deleteShipper(Long shipperId) {
         return ApiResponse.success(shipperService.deleteShipper(shipperId));
     }
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @PostMapping("/assign")
     public ApiResponse<ShipperAssignResponseDto> assignShippers(
-            @Valid @RequestBody ShipperAssignRequestDto request) {
+            @Valid @RequestBody ShipperAssignRequest request) {
         System.out.println("assignShippers");
         return ApiResponse.success(shipperService.assignShippers(request));
     }

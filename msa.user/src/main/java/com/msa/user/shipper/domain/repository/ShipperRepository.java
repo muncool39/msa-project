@@ -4,12 +4,11 @@ import com.msa.user.shipper.domain.model.Shipper;
 import com.msa.user.shipper.domain.model.type.ShipperStatus;
 import com.msa.user.shipper.domain.model.type.ShipperType;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface ShipperRepository extends JpaRepository<Shipper, UUID> {
+public interface ShipperRepository extends JpaRepository<Shipper, Long> {
 
     // 최대 deliveryOrder 값 조회
     @Query("SELECT MAX(s.deliveryOrder) FROM Shipper s WHERE s.isDeleted = false")

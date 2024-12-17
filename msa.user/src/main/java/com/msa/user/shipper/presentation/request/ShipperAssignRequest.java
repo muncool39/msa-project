@@ -6,10 +6,7 @@ import java.util.List;
 
 public record ShipperAssignRequest(
         @NotNull
-        List<PathDto> paths,
-
-        @NotBlank
-        String companyDeliverId
+        List<PathDto> paths
 ) {
     public static record PathDto(
             @NotBlank

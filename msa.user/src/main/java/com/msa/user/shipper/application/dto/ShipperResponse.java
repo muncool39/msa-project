@@ -4,7 +4,7 @@ import com.msa.user.shipper.domain.model.Shipper;
 import java.util.UUID;
 
 public record ShipperResponse(
-        UUID id,
+        Long id,
         Long userId,
         String hubId,
         String type,
