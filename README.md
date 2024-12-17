@@ -20,6 +20,7 @@
 ## 🛠️ Skills
 
 ## 🌐 Architecture
+![최종인프라](https://github.com/user-attachments/assets/936a4029-9ab4-4111-aa42-f19bfe51fb9e)
 
 ## 🖼 ERD
 
