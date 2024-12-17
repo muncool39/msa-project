@@ -1,6 +1,6 @@
 package com.msa.company.domain.repository.product;
 
-import com.msa.company.domain.entity.Product;
+import com.msa.company.domain.model.Product;
 import com.msa.company.domain.entity.QProduct;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;

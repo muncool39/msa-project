@@ -1,6 +1,6 @@
-package com.msa.company.presentation.response;
+package com.msa.company.application.dto.response;
 
-import com.msa.company.domain.entity.Product;
+import com.msa.company.domain.model.Product;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

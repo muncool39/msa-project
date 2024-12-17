@@ -1,7 +1,7 @@
-package com.msa.company.domain.entity;
+package com.msa.company.domain.model;
 
-import com.msa.company.domain.entity.enums.CompanyStatus;
-import com.msa.company.domain.entity.enums.CompanyType;
+import com.msa.company.domain.model.enums.CompanyStatus;
+import com.msa.company.domain.model.enums.CompanyType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

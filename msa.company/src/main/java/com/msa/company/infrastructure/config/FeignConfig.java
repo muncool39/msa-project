@@ -1,4 +1,4 @@
-package com.msa.company.config;
+package com.msa.company.infrastructure.config;
 
 
 import feign.RequestInterceptor;

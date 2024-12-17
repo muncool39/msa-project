@@ -1,4 +1,4 @@
-package com.msa.company.domain.entity.enums;
+package com.msa.company.domain.model.enums;
 
 import lombok.Getter;
 

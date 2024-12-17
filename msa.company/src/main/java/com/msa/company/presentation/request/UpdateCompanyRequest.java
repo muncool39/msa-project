@@ -1,7 +1,7 @@
 package com.msa.company.presentation.request;
 
-import com.msa.company.domain.entity.enums.CompanyStatus;
-import com.msa.company.domain.entity.enums.CompanyType;
+import com.msa.company.domain.model.enums.CompanyStatus;
+import com.msa.company.domain.model.enums.CompanyType;
 import java.util.UUID;
 import lombok.Builder;
 

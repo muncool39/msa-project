@@ -1,4 +1,4 @@
-package com.msa.company.config.dto;
+package com.msa.company.infrastructure.config.dto;
 
 import java.util.Collection;
 import java.util.List;

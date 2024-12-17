@@ -1,4 +1,4 @@
-package com.msa.company.exception;
+package com.msa.company.application.exception;
 
 import feign.FeignException;
 import org.springframework.http.HttpStatus;

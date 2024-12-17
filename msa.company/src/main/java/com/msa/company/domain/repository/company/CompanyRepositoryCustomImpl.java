@@ -1,9 +1,9 @@
 package com.msa.company.domain.repository.company;
 
-import com.msa.company.domain.entity.Company;
+import com.msa.company.domain.model.Company;
 import com.msa.company.domain.entity.QCompany;
-import com.msa.company.domain.entity.enums.CompanyStatus;
-import com.msa.company.domain.entity.enums.CompanyType;
+import com.msa.company.domain.model.enums.CompanyStatus;
+import com.msa.company.domain.model.enums.CompanyType;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.ComparableExpressionBase;

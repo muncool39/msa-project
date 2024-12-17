@@ -1,7 +1,7 @@
-package com.msa.company.presentation.response;
+package com.msa.company.application.dto.response;
 
-import com.msa.company.domain.entity.Address;
-import com.msa.company.domain.entity.Company;
+import com.msa.company.domain.model.Address;
+import com.msa.company.domain.model.Company;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

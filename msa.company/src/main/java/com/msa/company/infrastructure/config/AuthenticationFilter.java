@@ -1,6 +1,6 @@
-package com.msa.company.config;
+package com.msa.company.infrastructure.config;
 
-import com.msa.company.config.dto.UserDetailImpl;
+import com.msa.company.infrastructure.config.dto.UserDetailImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.msa.company.presentation.response;
+package com.msa.company.application.dto.response;
 
 public record HubResponse(
         String hubId,

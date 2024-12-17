@@ -1,14 +1,14 @@
 package com.msa.company.presentation.controller;
 
 import com.msa.company.application.service.ProductService;
-import com.msa.company.config.dto.UserDetailImpl;
+import com.msa.company.infrastructure.config.dto.UserDetailImpl;
 import com.msa.company.presentation.request.StockRequest;
 import com.msa.company.presentation.request.UpdateProductRequest;
-import com.msa.company.presentation.response.ApiResponse;
-import com.msa.company.presentation.response.PageResponse;
-import com.msa.company.presentation.response.ProductDetailResponse;
-import com.msa.company.presentation.response.ProductListResponse;
-import com.msa.company.presentation.response.StockResponse;
+import com.msa.company.application.dto.response.ApiResponse;
+import com.msa.company.application.dto.response.PageResponse;
+import com.msa.company.application.dto.response.ProductDetailResponse;
+import com.msa.company.application.dto.response.ProductListResponse;
+import com.msa.company.application.dto.response.StockResponse;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

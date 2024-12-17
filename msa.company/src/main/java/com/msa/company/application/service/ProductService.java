@@ -1,18 +1,18 @@
 package com.msa.company.application.service;
 
-import com.msa.company.domain.entity.Product;
+import com.msa.company.domain.model.Product;
 import com.msa.company.domain.repository.product.ProductRepository;
-import com.msa.company.exception.CompanyException;
-import com.msa.company.exception.ErrorCode;
+import com.msa.company.application.exception.CompanyException;
+import com.msa.company.application.exception.ErrorCode;
 import com.msa.company.infrastructure.HubClient;
 import com.msa.company.infrastructure.UserClient;
 import com.msa.company.presentation.request.UpdateProductRequest;
-import com.msa.company.presentation.response.ApiResponse;
-import com.msa.company.presentation.response.HubResponse;
-import com.msa.company.presentation.response.ProductDetailResponse;
-import com.msa.company.presentation.response.ProductListResponse;
-import com.msa.company.presentation.response.StockResponse;
-import com.msa.company.presentation.response.UserResponse;
+import com.msa.company.application.dto.response.ApiResponse;
+import com.msa.company.application.dto.response.HubResponse;
+import com.msa.company.application.dto.response.ProductDetailResponse;
+import com.msa.company.application.dto.response.ProductListResponse;
+import com.msa.company.application.dto.response.StockResponse;
+import com.msa.company.application.dto.response.UserResponse;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

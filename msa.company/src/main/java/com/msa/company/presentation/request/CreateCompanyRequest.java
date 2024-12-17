@@ -1,6 +1,6 @@
 package com.msa.company.presentation.request;
 
-import com.msa.company.domain.entity.enums.CompanyType;
+import com.msa.company.domain.model.enums.CompanyType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

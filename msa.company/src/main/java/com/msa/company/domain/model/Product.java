@@ -1,4 +1,4 @@
-package com.msa.company.domain.entity;
+package com.msa.company.domain.model;
 
 import com.msa.company.presentation.request.CreateProductRequest;
 import jakarta.persistence.Column;

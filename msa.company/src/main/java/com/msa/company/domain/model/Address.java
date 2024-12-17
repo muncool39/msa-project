@@ -1,4 +1,4 @@
-package com.msa.company.domain.entity;
+package com.msa.company.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

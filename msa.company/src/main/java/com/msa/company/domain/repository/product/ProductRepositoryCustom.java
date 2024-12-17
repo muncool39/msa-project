@@ -1,6 +1,6 @@
 package com.msa.company.domain.repository.product;
 
-import com.msa.company.domain.entity.Product;
+import com.msa.company.domain.model.Product;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
