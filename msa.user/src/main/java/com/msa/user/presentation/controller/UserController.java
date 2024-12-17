@@ -82,6 +82,14 @@ public class UserController {
         return ApiResponse.success();
     }
 
+    @DeleteMapping("/belong-hub")
+    public Boolean detachBelongHub(
+            @RequestParam Long userId
+    ) {
+        userService.hubDetach(userId);
+        return true;
+    }
+
     @DeleteMapping
     public ApiResponse<Void> deleteUser(
             Authentication authentication
