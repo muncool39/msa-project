@@ -18,14 +18,26 @@ spring:
         format_sql: true
         use_sql_comments: true
     defer-datasource-initialization: true
-  sql:
-    init:
-      mode: always
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password: ${REDIS_PASSWORD}
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+        alphanumeric-ids:
+          enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 5
+        slowCallRateThreshold: 100
+        slowCallDurationThreshold: 60000
+        failureRateThreshold: 50
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 20s
 
 eureka:
   client:
@@ -38,8 +50,4 @@ logging:
   level:
     org.springframework.web: DEBUG
     org.springframework.security: DEBUG
-    com:
-      msa:
-        delivery:
-          infrastructure:
-            UserClient: DEBUG
+    com.msa.delivery.infrastructure.client.impl: TRACE

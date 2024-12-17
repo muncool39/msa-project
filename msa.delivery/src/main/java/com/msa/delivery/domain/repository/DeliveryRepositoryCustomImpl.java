@@ -139,11 +139,11 @@ public class DeliveryRepositoryCustomImpl implements DeliveryRepositoryCustom {
 	}
 
 	@Override
-	public Page<Delivery> searchDeliveriesByReceiveCompanyId(Pageable pageable, String search, UUID companyId) {
+	public Page<Delivery> searchDeliveriesByReceiverCompanyId(Pageable pageable, String search, UUID companyId) {
 		BooleanBuilder builder = new BooleanBuilder();
 		builder
 			.and(delivery.isDeleted.eq(false))
-			.and(delivery.receiveCompanyId.eq(companyId));
+			.and(delivery.receiverCompanyId.eq(companyId));
 
 		searchCondition(search, builder);
 
@@ -197,10 +197,10 @@ public class DeliveryRepositoryCustomImpl implements DeliveryRepositoryCustom {
 				UUID searchUUID = UUID.fromString(search);
 				builder.and(
 					delivery.orderId.eq(searchUUID)
-						.or(delivery.receiveCompanyId.eq(searchUUID))
+						.or(delivery.receiverCompanyId.eq(searchUUID))
 						.or(delivery.departureHubId.eq(searchUUID))
 						.or(delivery.destinationHubId.eq(searchUUID))
-						.or(delivery.receiveCompanyId.eq(searchUUID))
+						.or(delivery.receiverCompanyId.eq(searchUUID))
 						.or(deliveryRouteHistory.departureHubId.eq(searchUUID))
 						.or(deliveryRouteHistory.destinationHubId.eq(searchUUID))
 				);

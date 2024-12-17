@@ -17,7 +17,7 @@ public record ReadOrderResponse(
     OrderStatus status,
     UUID itemId,
     String itemName,
-    int quantity,
+    Long quantity,
     String description,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,

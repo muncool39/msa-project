@@ -7,4 +7,8 @@ public class UnauthorizedException extends BusinessException{
   public UnauthorizedException(ErrorCode errorCode) {
     super(errorCode);
   }
+
+  public UnauthorizedException(String source) {
+    super(ErrorCode.UNAUTHORIZED, source);
+  }
 }
