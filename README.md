@@ -17,7 +17,6 @@
 | [문시원](https://github.com/muncool39) | [안재희](https://github.com/jhbreeze) |  [하남규](https://github.com/Namgyu11)   | [홍유진](https://github.com/Hujin0322) |
 | `팀장` `유저` `허브` `허브경로` |  `주문` `배송` `배송경로` |  `배송자` `알림` `AI` | `업체` `상품` |
 
-## 🛠️ Skills
 
 ## 🌐 Architecture
 ![최종인프라](https://github.com/user-attachments/assets/936a4029-9ab4-4111-aa42-f19bfe51fb9e)
@@ -25,8 +24,25 @@
 ## 🖼 ERD
 ![논리ERD](https://github.com/user-attachments/assets/2a6cade8-700c-495f-8a0f-5b57f3f62f8d)
 
+## 🛠️ Skills
+- Java17
+- Spring Boot 3.3.x
+- **데이터베이스** PostgreSQL, Redis
+- **빌드** Gradle
+- **인프라** Spring Cloud Eureka, Spring Cloud Gateway 
+- **버전 관리** Git, GitHub
 
 ## 🎠 Run
+### 프로젝트 실행
+
+### 회원 가입 및 로그인
+
+### 허브 생성
+
+### 업체 생성
+
+### 주문 생성
+
 
 ## 🔥 Trouble-Shooting
 
