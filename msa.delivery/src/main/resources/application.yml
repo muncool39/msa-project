@@ -19,12 +19,6 @@ spring:
         use_sql_comments: true
     defer-datasource-initialization: true
 
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password: ${REDIS_PASSWORD}
-
 eureka:
   client:
     service-url:
@@ -40,4 +34,4 @@ logging:
       msa:
         delivery:
           infrastructure:
-            UserClient: DEBUG
+            com.msa.delivery.infrastructure.client.impl.UserClient: DEBUG
