@@ -2,8 +2,8 @@ package com.msa.company.application.service;
 
 import com.msa.company.domain.entity.Company;
 import com.msa.company.domain.entity.Product;
-import com.msa.company.domain.repository.CompanyRepository;
-import com.msa.company.domain.repository.ProductRepository;
+import com.msa.company.domain.repository.company.CompanyRepository;
+import com.msa.company.domain.repository.product.ProductRepository;
 import com.msa.company.exception.CompanyException;
 import com.msa.company.exception.ErrorCode;
 import com.msa.company.infrastructure.HubClient;
@@ -13,10 +13,10 @@ import com.msa.company.presentation.response.ApiResponse;
 import com.msa.company.presentation.response.HubResponse;
 import com.msa.company.presentation.response.ProductListResponse;
 import com.msa.company.presentation.response.UserResponse;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,20 +45,19 @@ public class CompanyProductService {
 
     // 업체 내 상품 조회
     @Transactional(readOnly = true)
-    public List<ProductListResponse> getProductsByCompany(UUID companyId) {
+    public Page<ProductListResponse> getProductsByCompany(
+            UUID companyId, String name, String isOutOfStock,  Pageable pageable) {
         // 1. 업체 존재 여부 확인
         getCompanyAndCheckDeletion(companyId);
 
-        List<Product> products = productRepository.findByCompany_Id(companyId);
+        Page<Product> products = productRepository.findByCompanyId(companyId, name, isOutOfStock, pageable);
 
         // 2. 업체에 상품이 없는 경우
         if (products.isEmpty()) {
             throw new CompanyException(ErrorCode.PRODUCT_NOT_FOUND_IN_COMPANY);
         }
 
-        return products.stream()
-                .map(ProductListResponse::from)
-                .collect(Collectors.toList());
+        return products.map(ProductListResponse::from);
     }
 
     // 확인 메서드 ------------------------------------------------------------------
