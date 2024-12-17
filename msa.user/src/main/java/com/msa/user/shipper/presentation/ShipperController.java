@@ -65,7 +65,6 @@ public class ShipperController {
         return ApiResponse.success(shipperService.deleteShipper(shipperId));
     }
 
-    @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @PostMapping("/assign")
     public ApiResponse<ShipperAssignResponseDto> assignShippers(
             @Valid @RequestBody ShipperAssignRequest request) {
