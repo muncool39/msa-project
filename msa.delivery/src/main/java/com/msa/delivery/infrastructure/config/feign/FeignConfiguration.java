@@ -1,4 +1,4 @@
-package com.msa.delivery.config;
+package com.msa.delivery.infrastructure.config.feign;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.msa.delivery.config;
+package com.msa.delivery.infrastructure.config.jpa;
 
 import java.util.Optional;
 

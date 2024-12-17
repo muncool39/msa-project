@@ -1,4 +1,4 @@
-package com.msa.delivery.infrastructure;
+package com.msa.delivery.infrastructure.client.impl;
 
 import java.util.UUID;
 
@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.msa.delivery.application.client.DeliveryRouteManager;
-import com.msa.delivery.application.client.dto.DeliveryRoutesData;
-import com.msa.delivery.config.FeignConfiguration;
+import com.msa.delivery.application.client.dto.response.DeliveryRoutesData;
+import com.msa.delivery.infrastructure.config.feign.FeignConfiguration;
+import com.msa.delivery.infrastructure.client.fallback.DeliveryRouteClientFallback;
 
 @FeignClient(
 	name = "hub-service",

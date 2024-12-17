@@ -1,4 +1,4 @@
-package com.msa.delivery.application.client.dto;
+package com.msa.delivery.application.client.dto.request;
 
 import java.util.List;
 import java.util.UUID;

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.msa.delivery.application.service.CreateDeliveryService;
 import com.msa.delivery.application.service.ReadDeliveryService;
 import com.msa.delivery.application.service.UpdateDeliveryService;
-import com.msa.delivery.config.UserDetailImpl;
+import com.msa.delivery.application.config.security.UserDetailImpl;
 import com.msa.delivery.domain.entity.Delivery;
 import com.msa.delivery.domain.entity.enums.UserRole;
 import com.msa.delivery.presentation.request.CreateDeliveryRequest;

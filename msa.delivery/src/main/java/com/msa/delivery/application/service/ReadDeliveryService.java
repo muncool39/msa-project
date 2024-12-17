@@ -2,8 +2,6 @@ package com.msa.delivery.application.service;
 
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.msa.delivery.application.client.UserManager;
-import com.msa.delivery.application.client.dto.UserData;
-import com.msa.delivery.config.UserDetailImpl;
+import com.msa.delivery.application.client.dto.response.UserData;
+import com.msa.delivery.application.config.security.UserDetailImpl;
 import com.msa.delivery.domain.entity.Delivery;
 import com.msa.delivery.domain.entity.enums.UserRole;
 import com.msa.delivery.domain.repository.DeliveryRepository;
