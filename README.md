@@ -28,6 +28,9 @@ MSA 기반 B2B 물류 관리 및 배송 시스템입니다. <br>
 ## 🖼 ERD
 ![논리ERD](https://github.com/user-attachments/assets/2a6cade8-700c-495f-8a0f-5b57f3f62f8d)
 
+## 📃 API Docs
+⛓[API 명세서 링크](https://www.notion.so/teamsparta/API-14b2dc3ef514813d8ea2c363f6cb3c5e)
+
 ## 🛠️ Skills
 - Java17 
 - Spring Boot 3.3.x
@@ -40,6 +43,7 @@ MSA 기반 B2B 물류 관리 및 배송 시스템입니다. <br>
 ### 프로젝트 실행
 
 ### 회원 가입 및 로그인
+
 
 ### 허브 생성
 
