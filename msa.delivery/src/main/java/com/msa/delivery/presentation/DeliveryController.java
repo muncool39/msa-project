@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.msa.delivery.application.service.CreateDeliveryService;
 import com.msa.delivery.application.service.ReadDeliveryService;
 import com.msa.delivery.application.service.UpdateDeliveryService;
-import com.msa.delivery.config.UserDetailImpl;
+import com.msa.delivery.application.config.security.UserDetailImpl;
 import com.msa.delivery.domain.entity.Delivery;
 import com.msa.delivery.domain.entity.enums.UserRole;
 import com.msa.delivery.presentation.request.CreateDeliveryRequest;
@@ -53,7 +53,6 @@ public class DeliveryController {
 	@PreAuthorize("hasAuthority('MASTER')")
 	@PostMapping
 	public ApiResponse<CreateDeliveryResponse> createDelivery(@Valid @RequestBody CreateDeliveryRequest request) {
-		log.info("배송 컨트롤러 들어옴 ");
 		Delivery delivery = createDeliveryService.createDelivery(request);
 		CreateDeliveryResponse response = CreateDeliveryResponse.from(delivery);
 		return ApiResponse.success(response);

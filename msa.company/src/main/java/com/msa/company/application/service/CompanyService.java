@@ -1,19 +1,19 @@
 package com.msa.company.application.service;
 
-import com.msa.company.domain.entity.Company;
-import com.msa.company.domain.repository.CompanyRepository;
-import com.msa.company.exception.CompanyException;
-import com.msa.company.exception.ErrorCode;
+import com.msa.company.domain.model.Company;
+import com.msa.company.domain.repository.company.CompanyRepository;
+import com.msa.company.application.exception.CompanyException;
+import com.msa.company.application.exception.ErrorCode;
 import com.msa.company.infrastructure.UserClient;
-import com.msa.company.presentation.response.ApiResponse;
-import com.msa.company.presentation.response.CompanyDetailResponse;
-import com.msa.company.presentation.response.CompanyListResponse;
-import com.msa.company.presentation.response.UserResponse;
+import com.msa.company.application.dto.response.ApiResponse;
+import com.msa.company.application.dto.response.CompanyDetailResponse;
+import com.msa.company.application.dto.response.CompanyListResponse;
+import com.msa.company.application.dto.response.UserResponse;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,10 +25,10 @@ public class CompanyService {
 
     // 업체 전체 조회
     @Transactional
-    public List<CompanyListResponse> getListCompanies() {
-        return companyRepository.findAll().stream()
-                .map(CompanyListResponse::from)
-                .collect(Collectors.toList());
+    public Page<CompanyListResponse> getListCompanies(String hubId, String name, String type, String status, String address, Pageable pageable) {
+        Page<Company> companies = companyRepository.getListCompanies(hubId, name, type, status, address, pageable);
+
+        return companies.map(CompanyListResponse::from);
     }
 
     // 업체 상세 조회

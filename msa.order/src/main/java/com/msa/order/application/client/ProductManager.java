@@ -1,8 +1,8 @@
 package com.msa.order.application.client;
 
-import com.msa.order.application.client.dto.CompanyData;
-import com.msa.order.application.client.dto.ProductStockRequest;
-import com.msa.order.application.client.dto.ProductData;
+import com.msa.order.application.client.dto.response.CompanyData;
+import com.msa.order.application.client.dto.request.ProductStockRequest;
+import com.msa.order.application.client.dto.response.ProductData;
 import com.msa.order.presentation.response.ApiResponse;
 
 import java.util.UUID;

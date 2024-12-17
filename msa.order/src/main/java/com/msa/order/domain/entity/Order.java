@@ -50,7 +50,7 @@ public class Order extends BaseEntity {
 	private String itemName;
 
 	@Column(nullable = false)
-	private int quantity;
+	private Long quantity;
 
 	private String description;
 
@@ -64,7 +64,7 @@ public class Order extends BaseEntity {
 
 
 	public static Order create(UUID supplierCompanyId, UUID receiverCompanyId, UUID itemId,
-		String itemName, int quantity, String description, String city, String district, String streetName,
+		String itemName, Long quantity, String description, String city, String district, String streetName,
 		String streetNum, String detail, UUID departureHubId) {
 
 		Address address = Address.of(city, district, streetName, streetNum, detail);
@@ -87,7 +87,7 @@ public class Order extends BaseEntity {
 		this.deliveryId = deliveryId;
 	}
 
-	public void updateItemInfo(UUID itemId, int quantity) {
+	public void updateItemInfo(UUID itemId, Long quantity) {
 		this.itemId = itemId;
 		this.quantity = quantity;
 	}
