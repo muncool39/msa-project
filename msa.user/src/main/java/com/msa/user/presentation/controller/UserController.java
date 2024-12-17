@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ApiResponse<UserDetailResponse> findUser(
-            @PathVariable Long userId
+            @PathVariable("userId") Long userId
     ) {
         return ApiResponse.success(userService.getUser(userId));
     }
