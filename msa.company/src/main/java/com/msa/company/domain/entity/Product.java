@@ -43,7 +43,7 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private Long stock;
 
-    // 품절 상태 확인
+    @Builder.Default
     @Column(nullable = false)
     private Boolean isOutOfStock = false;
 

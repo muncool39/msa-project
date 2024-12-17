@@ -55,9 +55,11 @@ public class Company extends BaseEntity {
     @Column(nullable = false)
     private CompanyType type;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private CompanyStatus status = CompanyStatus.PENDING;
 
+    @Builder.Default
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private Set<Product> products = new HashSet<>();
 
