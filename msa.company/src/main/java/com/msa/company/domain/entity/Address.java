@@ -30,4 +30,8 @@ public class Address {
     @Column(length = 100)
     private String addressDetail;
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
 }

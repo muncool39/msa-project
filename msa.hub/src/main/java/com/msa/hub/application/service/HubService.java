@@ -8,7 +8,10 @@ import com.msa.hub.domain.repository.HubRepository;
 import com.msa.hub.common.exception.ErrorCode;
 import com.msa.hub.common.exception.HubException;
 import com.msa.hub.presentation.request.HubCreateRequest;
+import com.msa.hub.presentation.request.HubUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ public class HubService {
     private final HubRepository hubRepository;
 
     @Transactional
+    @CacheEvict(cacheNames = "hub_list_cache", allEntries = true)
     public void createHub(final HubCreateRequest request) {
         if(existsHub(request.name())) {
             throw new HubException(ErrorCode.DUPLICATE_HUB_NAME);
@@ -47,12 +51,24 @@ public class HubService {
         );
     }
 
+    @Cacheable(cacheNames = "hub_list_cache")
     public Page<HubBasicResponse> findHubs(
             Pageable pageable, String name, String city, String district, String streetName
     ) {
         return hubRepository
                 .findHubsWith(pageable, name, city, district, streetName)
                 .map(HubBasicResponse::fromEntity);
+    }
+
+    @Transactional
+    @CacheEvict(cacheNames = "hub_list_cache", allEntries = true)
+    public void updateHub(final String hubId, final HubUpdateRequest request) {
+        Hub hub = getHubOrException(hubId);
+        hub.update(
+                request.name(), request.city(),
+                request.district(), request.streetName(), request.streetNumber(), request.addressDetail(),
+                request.latitude(), request.longitude()
+        );
     }
 
     @Transactional

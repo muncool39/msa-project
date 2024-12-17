@@ -3,6 +3,7 @@ package com.msa.company.presentation.request;
 import com.msa.company.domain.entity.enums.CompanyType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.util.UUID;
 import lombok.Builder;
 
@@ -15,9 +16,9 @@ public record CreateCompanyRequest(
     String name,
 
     @NotBlank(message = "사업자 번호를 필수로 입력해주세요.")
+    @Pattern(regexp = "^[0-9]{10}$", message = "사업자 번호는 10자리 숫자여야 합니다.")
     String businessNumber,
 
-    @NotNull(message = "허브 아이디를 필수로 입력해주세요.")
     UUID hubId,
 
     @NotNull(message = "주소 정보를 필수로 입력해주세요.")

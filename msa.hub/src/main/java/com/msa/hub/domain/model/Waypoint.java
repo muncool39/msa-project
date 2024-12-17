@@ -33,7 +33,7 @@ public class Waypoint {
     @Column(name="distance_from_previous", nullable=false)
     private double distanceFromPrevious;
 
-    @Column(name="duration_from_previuos", nullable=false)
+    @Column(name="duration_from_previous", nullable=false)
     private int durationFromPrevious;
 
     @Column(name="sequence", nullable=false)
@@ -56,6 +56,11 @@ public class Waypoint {
                 .durationFromPrevious(durationFromPrevious)
                 .sequence(sequence)
                 .build();
+    }
+
+    public void updateDetail(Double distanceFromPrevious, Integer durationFromPrevious) {
+        if (distanceFromPrevious != null) this.distanceFromPrevious = distanceFromPrevious;
+        if (durationFromPrevious != null) this.durationFromPrevious = durationFromPrevious;
     }
 
 }

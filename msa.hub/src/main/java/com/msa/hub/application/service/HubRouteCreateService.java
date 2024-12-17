@@ -13,6 +13,7 @@ import com.msa.hub.common.exception.HubException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class HubRouteCreateService {
     private final WaypointSelector waypointSelector;
 
     @Transactional
+    @CacheEvict(cacheNames = "hub_routes_cache", allEntries = true)
     public void createRoute(final String sourceId, final String destinationId) {
         Hub source = getHubOrException(sourceId);
         Hub destination = getHubOrException(destinationId);

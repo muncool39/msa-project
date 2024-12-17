@@ -1,6 +1,7 @@
 package com.msa.company.presentation.controller;
 
 import com.msa.company.application.service.ProductService;
+import com.msa.company.config.dto.UserDetailImpl;
 import com.msa.company.presentation.request.StockRequest;
 import com.msa.company.presentation.request.UpdateProductRequest;
 import com.msa.company.presentation.response.ApiResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,8 +48,9 @@ public class ProductController {
     @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER','COMPANY_MANAGER')")
     public ApiResponse<Void> updateProduct(@PathVariable("id") UUID id,
                                            @RequestBody UpdateProductRequest request,
-                                           @AuthenticationPrincipal Long userId,
-                                           @AuthenticationPrincipal String role) {
+                                           @AuthenticationPrincipal UserDetailImpl userDetails) {
+        Long userId = userDetails.userId();
+        String role = userDetails.role();
         productService.updateProduct(id, request, userId, role);
         return ApiResponse.success();
     }
@@ -56,14 +59,15 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('MASTER', 'HUB_MANAGER')")
     public ApiResponse<Void> deleteProduct(@PathVariable("id") UUID id,
-                                           @AuthenticationPrincipal Long userId,
-                                           @AuthenticationPrincipal String role) {
+                                           @AuthenticationPrincipal UserDetailImpl userDetails) {
+        Long userId = userDetails.userId();
+        String role = userDetails.role();
         productService.deleteProduct(id, userId, role);
         return ApiResponse.success();
     }
 
     // 상품 재고 감소
-    @PatchMapping("/{id}/reduce-stock")
+    @PostMapping("/{id}/reduce-stock")
     public ApiResponse<StockResponse> decreaseStock(@PathVariable("id") UUID id,
                                                     @RequestBody StockRequest stockRequest) {
         StockResponse response = productService.decreaseStock(id, stockRequest.getStock());
@@ -71,7 +75,7 @@ public class ProductController {
     }
 
     // 상품 재고 복원
-    @PatchMapping("/{id}/restore-stock")
+    @PostMapping("/{id}/restore-stock")
     public ApiResponse<StockResponse> restoreStock(@PathVariable("id") UUID id,
                                                    @RequestBody StockRequest stockRequest) {
         StockResponse response = productService.restoreStock(id, stockRequest.getStock());

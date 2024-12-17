@@ -5,10 +5,14 @@ import com.msa.company.domain.repository.ProductRepository;
 import com.msa.company.exception.CompanyException;
 import com.msa.company.exception.ErrorCode;
 import com.msa.company.infrastructure.HubClient;
+import com.msa.company.infrastructure.UserClient;
 import com.msa.company.presentation.request.UpdateProductRequest;
+import com.msa.company.presentation.response.ApiResponse;
+import com.msa.company.presentation.response.HubResponse;
 import com.msa.company.presentation.response.ProductDetailResponse;
 import com.msa.company.presentation.response.ProductListResponse;
 import com.msa.company.presentation.response.StockResponse;
+import com.msa.company.presentation.response.UserResponse;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,6 +26,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final HubClient hubClient;
+    private final UserClient userClient;
 
     // 상품 전체 조회
     @Transactional(readOnly = true)
@@ -44,6 +49,12 @@ public class ProductService {
                               Long userId, String role) {
         Product product = getProductAndCheckDeletion(id);
 
+        if ("HUB_MANAGER".equals(role)){
+            checkHubManagerPermission(userId, product);
+        }else if ("COMPANY_MANAGER".equals(role)) {
+            checkCompanyManagerPermission(userId, product);
+        }
+
         if (request.name() != null) {
             product.setName(request.name());
         }
@@ -56,6 +67,10 @@ public class ProductService {
     @Transactional
     public void deleteProduct(UUID id, Long userId, String role) {
         Product product = getProductAndCheckDeletion(id);
+
+        if ("HUB_MANAGER".equals(role)) {
+            checkHubManagerPermission(userId, product);
+        }
         product.setIsDeleted(userId);
     }
 
@@ -96,5 +111,21 @@ public class ProductService {
         }
 
         return product;
+    }
+
+    // HUB_MANAGER 권한 확인
+    private void checkHubManagerPermission(Long userId, Product product) {
+        ApiResponse<HubResponse> hubResponse = hubClient.findHub(product.getHubId().toString());
+        if (hubResponse == null || !hubResponse.data().managerId().equals(userId)) {
+            throw new CompanyException(ErrorCode.HUB_ACCESS_DENIED);
+        }
+    }
+
+    // Company_MANAGER 권한 확인
+    private void checkCompanyManagerPermission(Long userId, Product product) {
+        ApiResponse<UserResponse> userResponse = userClient.findUser(userId);
+        if (userResponse == null || !userResponse.data().companyId().equals(product.getCompany().getId().toString())) {
+            throw new CompanyException(ErrorCode.COMPANY_ACCESS_DENIED);
+        }
     }
 }

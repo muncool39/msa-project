@@ -23,6 +23,7 @@ public enum ErrorCode {
 
   DELIVERY_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "배송 서비스 호출에 문제가 발생했습니다. "),
   USER_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "유저 서비스 호출에 문제가 발생했습니다. "),
+  COMPANY_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "업체 서비스 호출에 문제가 발생했습니다. "),
   EXTERNAL_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "외부 서비스 호출에 문제가 발생했습니다. ");
 
 

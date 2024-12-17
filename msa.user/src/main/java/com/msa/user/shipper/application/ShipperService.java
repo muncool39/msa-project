@@ -102,6 +102,7 @@ public class ShipperService {
     @Transactional
     public ShipperAssignResponseDto assignShippers(ShipperAssignRequest request) {
         for (ShipperAssignRequest.PathDto path : request.paths()) {
+
             hubClient.verifyHub(path.departureHubId());
             hubClient.verifyHub(path.destinationHubId());
         }
