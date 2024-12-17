@@ -7,6 +7,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import feign.Logger;
 import feign.RequestInterceptor;
+import feign.codec.ErrorDecoder;
 import jakarta.servlet.http.HttpServletRequest;
 import okhttp3.OkHttpClient;
 
@@ -37,4 +38,8 @@ public class FeignConfiguration {
 		return Logger.Level.FULL;
 	}
 
+	@Bean
+	public ErrorDecoder errorDecoder() {
+		return new CustomErrorDecoder();
+	}
 }

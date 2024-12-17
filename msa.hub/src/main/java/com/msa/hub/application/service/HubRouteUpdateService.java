@@ -1,11 +1,11 @@
 package com.msa.hub.application.service;
 
+import com.msa.hub.common.exception.ErrorCode;
+import com.msa.hub.common.exception.HubException;
 import com.msa.hub.domain.model.HubRoute;
 import com.msa.hub.domain.model.Waypoint;
 import com.msa.hub.domain.repository.HubRouteRepository;
 import com.msa.hub.domain.repository.WaypointRepository;
-import com.msa.hub.exception.ErrorCode;
-import com.msa.hub.exception.HubException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

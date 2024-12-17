@@ -30,8 +30,4 @@ logging:
   level:
     org.springframework.web: DEBUG
     org.springframework.security: DEBUG
-    com:
-      msa:
-        delivery:
-          infrastructure:
-            com.msa.delivery.infrastructure.client.impl.UserClient: DEBUG
+    com.msa.delivery.infrastructure.client.impl: TRACE

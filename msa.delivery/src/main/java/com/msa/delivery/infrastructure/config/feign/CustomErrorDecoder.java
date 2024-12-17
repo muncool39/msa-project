@@ -1,12 +1,12 @@
-package com.msa.order.infrastructure.config.feign;
+package com.msa.delivery.infrastructure.config.feign;
 
 import org.springframework.stereotype.Component;
 
-import com.msa.order.exception.BusinessException.CustomBadRequestException;
-import com.msa.order.exception.BusinessException.CustomFeignException;
-import com.msa.order.exception.BusinessException.CustomForbiddenException;
-import com.msa.order.exception.BusinessException.NotFoundException;
-import com.msa.order.exception.BusinessException.UnauthorizedException;
+import com.msa.delivery.exception.BusinessException.CustomBadRequestException;
+import com.msa.delivery.exception.BusinessException.CustomFeignException;
+import com.msa.delivery.exception.BusinessException.CustomForbiddenException;
+import com.msa.delivery.exception.BusinessException.NotFoundException;
+import com.msa.delivery.exception.BusinessException.UnauthorizedException;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
@@ -21,12 +21,8 @@ public class CustomErrorDecoder implements ErrorDecoder {
 		log.error("Feign error occurred - methodKey: {}, url: {}, status: {}", methodKey, response.request().url(), response.status());
 
 		String errorPrefix = "";
-		if (methodKey.contains("DeliveryClient")) {
-			errorPrefix = "[배송서비스] ";
-		} else if (methodKey.contains("HubClient")) {
+		if (methodKey.contains("HubClient")) {
 			errorPrefix = "[허브서비스] ";
-		} else if (methodKey.contains("ProductClient")) {
-			errorPrefix = "[상품서비스] ";
 		} else if (methodKey.contains("UserClient")) {
 			errorPrefix = "[유저서비스] ";
 		}
