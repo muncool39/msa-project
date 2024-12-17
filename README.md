@@ -98,7 +98,7 @@ MSA 기반 B2B 물류 관리 및 배송 시스템입니다. <br>
 ```json
   {
   "userId": "매니저 ID",
-  "name": "ㅅㅅ전자",
+  "name": "튼튼전자",
   "businessNumber": "3948573806",
   "hubId": "d23457cd-7f75-4cd4-b150-03bb557a3f72",
   "address": {
