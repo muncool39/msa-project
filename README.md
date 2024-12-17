@@ -6,7 +6,11 @@
 </div>
 
 ## 🗨️ About Project
-프로젝트 설명
+MSA 기반 B2B 물류 관리 및 배송 시스템입니다. <br>
+대한민국 지역마다 하나씩 허브가 있으며(총 17개 허브), 시스템에 등록된 업체는 하나의 허브에 반드시 등록이 됩니다. 허브를 통해 재고 관리와 배송 처리가 가능합니다. <br>
+<p>비즈니스는 다음과 같은 흐름을 가집니다. <br>
+부산의 A업체가 서울의 B업체 물품 요청 -> B업체가 소속된 서울 허브에서 배송 출발 -> N개의 경유지를 거쳐 부산 허브에 도착 -> 부산 허브에서 A업체로 업체 배송 시작 -> 배송완료 </p>
+
 
 ### 프로젝트 기간
 - `2024.12.05 ~ 2024.12.18`
@@ -84,10 +88,50 @@
 ```
   
 
-### 주문 생성
-
-### 배송 생성
+### 주문 생성 및 배송 생성 POST /orders
+1. 주문할 상품정보(상품아이디, 상품이름, 수량), 배송지정보, 요구사항, 수령업체id, 수령자 이름을 담아서 요청을 보냅니다.
+	```json
+	{
+	"itemId": "0f6c285e-b268-4b3f-83bb-02082a2ad35b",
+	"itemName": "스마트폰",
+	"quantity": 2,
+	"description": null,
+	"receiverCompanyId" : "f08430f1-2c5e-4b95-bd74-d4ae8d07b4a7",
+	"receiverName": "부산",
+	"city": "서울",
+	"district": "종로구",
+	"streetName": "경희궁",
+	"streetNum": "35",
+	"detail": "D타워 3층"
+	}
+	```
+ 2. 상품 서비스 호출을 통해 재고 감소 처리를 합니다.
+ 3. 주문이 생성(상태: ORDER_REQUEST)되며 서버 내부적으로 배송 생성 서비스 호출이 진행됩니다. <br> 생성된 주문 id, 수령업체 id, 출발허브 id, 최종 도착허브 id, 배송지정보, 수령자이름, 수령자슬랙id를 담아서 요청을 보냅니다.
+	```json
+	{
+	"orderId": "b03d26c0-890a-4af4-956c-28a22d465736",
+	"receiverCompanyId": "f08430f1-2c5e-4b95-bd74-d4ae8d07b4a7",
+	"departureHubId": "123e4567-e89b-12d3-a456-426614174001",
+	"destinationHubId": "123e4567-e89b-12d3-a456-426614174004",
+	"address": {
+	"city": "부산",
+	"district": "수영구",
+	"streetname": "광안로",
+	"streetnum": "35",
+	"detail": "3층"
+	},
+	"receiverSlackId": "부산아이",
+	"receiverName": "부산아이"
+	}
+	```
+ 4. 배송 서비스에서 허브 서비스를 호출하여 배송 경로를 생성합니다.
+ 5. 생성된 배송 경로를 바탕으로 배송담당자 서비스를 호출하여 배송담당자를 할당 받습니다.
+ 6. 생성된 경로와 배송담당자를 매칭하여 배송과 배송 경로를 성공적으로 기록합니다.
+ 7. 주문이 생성 완료됩니다. (상태 : ORDERED)
 
 
 ## 🔥 Trouble-Shooting
-[트러블슈팅: QueryDSL Q클래스 생성 오류](https://github.com/muncool39/msa-project/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85:-QueryDSL-Q%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%83%9D%EC%84%B1-%EC%98%A4%EB%A5%98)
+❗️[QueryDSL Q클래스 생성 오류](https://github.com/muncool39/msa-project/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85:-QueryDSL-Q%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%83%9D%EC%84%B1-%EC%98%A4%EB%A5%98)
+<br> 
+❗️[@PathVariable에서 이름 생략하니까 파라미터 인식이 잘 안돼요 😥](https://github.com/muncool39/msa-project/wiki/%5BTrouble-Shooting%5D-@PathVariable%EC%97%90%EC%84%9C-%EC%9D%B4%EB%A6%84-%EC%83%9D%EB%9E%B5%ED%95%98%EB%8B%88%EA%B9%8C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%EC%9D%B8%EC%8B%9D%EC%9D%B4-%EC%9E%98-%EC%95%88%EB%8F%BC%EC%9A%94-%F0%9F%98%A5)
+<br>
