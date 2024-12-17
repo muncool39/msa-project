@@ -25,11 +25,11 @@
 ![논리ERD](https://github.com/user-attachments/assets/2a6cade8-700c-495f-8a0f-5b57f3f62f8d)
 
 ## 🛠️ Skills
-- Java17
+- Java17 
 - Spring Boot 3.3.x
-- **데이터베이스** PostgreSQL, Redis
+- **데이터베이스** PostgreSQL, Redis, Spring Data JPA
 - **빌드** Gradle
-- **인프라** Spring Cloud Eureka, Spring Cloud Gateway 
+- **인프라** Spring Cloud Eureka, Spring Cloud Gateway, Spring Cloud OpenFeign
 - **버전 관리** Git, GitHub
 
 ## 🎠 Run
@@ -42,6 +42,8 @@
 ### 업체 생성
 
 ### 주문 생성
+
+### 배송 생성
 
 
 ## 🔥 Trouble-Shooting
