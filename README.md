@@ -1,8 +1,8 @@
 <div align="center">
 
-  # Team 인피니티엔진
+  # 물류 관리 및 배송 시스템을 위한 MSA 기반 플랫폼
   
-  ### 물류 관리 및 배송 시스템을 위한 MSA 기반 플랫폼
+  ### 팀 인피니티 엔진
 </div>
 
 ## 🗨️ About Project
@@ -42,10 +42,48 @@ MSA 기반 B2B 물류 관리 및 배송 시스템입니다. <br>
 ## 🎠 Run
 ### 프로젝트 실행
 
-### 회원 가입 및 로그인
+### 회원 가입 및 로그인: /auth
+- 요청 예시
+```Json
+{
+  "username": "company12",
+  "password": "imsiPassword12!",
+  "email": "email@gmail.com",
+  "slackId": "1234567",
+  "role": "COMPANY_MANAGER"
+}
+```
+- 요청 예시
+```Json
+{
+  "username": "company12",
+  "password": "imsiPassword12!"
+}
+```
 
+### 허브 및 허브 경로 생성: /hubs, /hub-routes
+- 요청 예시
+```Json
+{
+  "name" : "부산광역시 센터",
+  "city" : "부산",
+  "district": "동구",
+  "streetName": "중앙대로",
+  "streetNumber": "206",
+  "addressDetail": "1층",
+  "latitude": 35.117605126596,
+  "longitude": 129.045060216345,
+  "managerId": "1"
+}
+```
+- 요청 예시
+```Json
+{
+  "sourceHubId" : "a811fdf3-4337-47ec-9e2a-6aaf519ca3e1",
+  "destinationHubId" : "f789cefd-3574-42bc-b797-b4ffbf79371c"
+}
+```
 
-### 허브 생성
 
 ### 🏭 업체 생성 (Company) "/companies"
 >업체 생성 시 허브 ID를 확인하고, 관련된 city 값을 불러옵니다. 이후 userId(=managerId)의 존재 여부와 역할을 확인합니다. 허브 관리자는 본인 소속 허브 ID로 업체를 생성할 수 있으며, 마스터는 업체 상태를 '승인'으로 변경해야만 업체가 생성됩니다. 삭제는 is_delete 필드를 통해 논리적으로 처리됩니다.
