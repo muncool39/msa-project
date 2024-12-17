@@ -1,15 +1,15 @@
 package com.msa.delivery.application.client.dto.response;
 
 import java.util.List;
-import java.util.UUID;
 
 public record DeliveryWorkersData(
-	List<DeliveryPathNode> path,
-	Long companyDeliveryId
+	List<DeliveryPathNode> paths,
+	Long companyDeliverId
 ) {
 	public record DeliveryPathNode(
-		UUID nodeId,
-		Long deliveryId
+		String nodeId,
+		Long hubDeliverId,
+		Long companyDeliverId
 	) {
 	}
 }
