@@ -1,7 +1,7 @@
 package com.msa.company.application.service;
 
 import com.msa.company.domain.entity.Product;
-import com.msa.company.domain.repository.ProductRepository;
+import com.msa.company.domain.repository.product.ProductRepository;
 import com.msa.company.exception.CompanyException;
 import com.msa.company.exception.ErrorCode;
 import com.msa.company.infrastructure.HubClient;
@@ -13,10 +13,10 @@ import com.msa.company.presentation.response.ProductDetailResponse;
 import com.msa.company.presentation.response.ProductListResponse;
 import com.msa.company.presentation.response.StockResponse;
 import com.msa.company.presentation.response.UserResponse;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +30,11 @@ public class ProductService {
 
     // 상품 전체 조회
     @Transactional(readOnly = true)
-    public List<ProductListResponse> getListProducts() {
-        return productRepository.findAll().stream()
-                .map(ProductListResponse::from)
-                .collect(Collectors.toList());
+    public Page<ProductListResponse> getListProducts(
+            String companyId, String companyName, String name, String isOutOfStock, Pageable pageable) {
+        Page<Product> products = productRepository.getListProducts(companyId, companyName, name, isOutOfStock, pageable);
+
+        return products.map(ProductListResponse::from);
     }
 
     // 상품 단건 조회

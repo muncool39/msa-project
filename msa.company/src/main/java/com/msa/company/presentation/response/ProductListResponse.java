@@ -8,6 +8,7 @@ public record ProductListResponse(
         UUID id,
         String name,
         Long stock,
+        UUID companyId,
         String companyName,
         Boolean isOutOfStock,
         LocalDateTime createdAt
@@ -17,6 +18,7 @@ public record ProductListResponse(
                 product.getId(),
                 product.getName(),
                 product.getStock(),
+                product.getCompany().getId(),
                 product.getCompany().getName(),
                 product.getIsOutOfStock(),
                 product.getCreatedAt()

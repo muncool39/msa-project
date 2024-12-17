@@ -5,12 +5,16 @@ import com.msa.company.config.dto.UserDetailImpl;
 import com.msa.company.presentation.request.StockRequest;
 import com.msa.company.presentation.request.UpdateProductRequest;
 import com.msa.company.presentation.response.ApiResponse;
+import com.msa.company.presentation.response.PageResponse;
 import com.msa.company.presentation.response.ProductDetailResponse;
 import com.msa.company.presentation.response.ProductListResponse;
 import com.msa.company.presentation.response.StockResponse;
-import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -31,9 +36,19 @@ public class ProductController {
 
     // 상품 전체 조회
     @GetMapping
-    public ApiResponse<List<ProductListResponse>> getListProducts() {
-        List<ProductListResponse> products = productService.getListProducts();
-        return ApiResponse.success(products);
+    public ApiResponse<PageResponse<ProductListResponse>> getListProducts(
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+            @RequestParam(required = false) String companyId,
+            @RequestParam(required = false) String companyName,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String isOutOfStock) {
+        Pageable page = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by(Sort.Order.desc(sortBy)));
+
+        return ApiResponse.success(PageResponse.of(
+                productService.getListProducts(companyId, companyName, name, isOutOfStock, page))
+        );
     }
 
     // 상품 단건 조회
