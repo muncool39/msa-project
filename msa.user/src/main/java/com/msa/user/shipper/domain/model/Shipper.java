@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "p_shipper")
 public class Shipper extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "user_id")
