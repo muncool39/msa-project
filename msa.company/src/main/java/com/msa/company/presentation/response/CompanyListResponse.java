@@ -1,5 +1,6 @@
 package com.msa.company.presentation.response;
 
+import com.msa.company.domain.entity.Address;
 import com.msa.company.domain.entity.Company;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -7,7 +8,7 @@ import java.util.UUID;
 public record CompanyListResponse(
         UUID id,
         String name,
-        String city,
+        Address address,
         UUID hubId,
         String type,
         String status,
@@ -17,7 +18,7 @@ public record CompanyListResponse(
         return new CompanyListResponse(
                 company.getId(),
                 company.getName(),
-                company.getAddress().getCity(),
+                company.getAddress(),
                 company.getHubId(),
                 company.getType().name(),
                 company.getStatus().name(),
