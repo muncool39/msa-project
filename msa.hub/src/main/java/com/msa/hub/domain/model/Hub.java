@@ -114,5 +114,14 @@ public class Hub extends BaseEntity {
         if (longitude != null) this.longitude = longitude;
     }
 
+    public void softDeleteHub(Long userId) {
+        this.deleteBase(userId);
+        for (HubRoute route : sourceHubRoutes) {
+            route.softDeleteHubRoute(userId);
+        }
+        for (HubRoute route : destinationHubRoutes) {
+            route.softDeleteHubRoute(userId);
+        }
+    }
 
 }

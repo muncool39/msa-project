@@ -19,6 +19,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,6 +90,17 @@ public class HubRouteController {
     ) {
         hubRouteUpdateService.updateWaypointDetail(
                 waypointId, request.distanceFromPrevious(), request.durationFromPrevious());
+        return ApiResponse.success();
+    }
+
+    @DeleteMapping("/{hubRouteId}")
+    @PreAuthorize("hasAuthority('MASTER')")
+    public ApiResponse<Void> deleteHubRoute(
+            @PathVariable String hubRouteId,
+            Authentication authentication
+    ) {
+        hubRouteUpdateService.deleteHubRoute(
+                hubRouteId, Long.valueOf(authentication.getName()));
         return ApiResponse.success();
     }
 

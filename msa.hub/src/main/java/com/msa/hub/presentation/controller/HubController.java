@@ -15,6 +15,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -82,6 +84,16 @@ public class HubController {
     ) {
         hubService.updateHubManager(hubId, userId);
         return true;
+    }
+
+    @DeleteMapping("/{hubId}")
+    @PreAuthorize("hasAuthority('MASTER')")
+    public ApiResponse<Void> deleteHub(
+            @PathVariable String hubId,
+            Authentication authentication
+    ) {
+        hubService.deleteHub(hubId, Long.valueOf(authentication.getName()));
+        return ApiResponse.success();
     }
 
     @GetMapping("/verify")
