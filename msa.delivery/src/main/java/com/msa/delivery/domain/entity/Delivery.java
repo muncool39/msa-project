@@ -10,6 +10,7 @@ import com.msa.delivery.exception.BusinessException.DeliveryRouteNotFoundExcepti
 import com.msa.delivery.exception.BusinessException.UnauthorizedException;
 import com.msa.delivery.exception.ErrorCode;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -70,7 +71,7 @@ public class Delivery extends BaseEntity {
 
 	private Long deliveredBy;
 
-	@OneToMany(mappedBy = "delivery", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "delivery", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Builder.Default
 	private List<DeliveryRouteHistory> deliveryHistories = new ArrayList<>();
 

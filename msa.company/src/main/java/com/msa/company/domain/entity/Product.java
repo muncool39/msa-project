@@ -33,6 +33,9 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
+    @Column(name = "hub_id", nullable = false)
+    private UUID hubId;
+
     @Setter
     @Column(nullable = false, length = 100)
     private String name;
@@ -53,6 +56,7 @@ public class Product extends BaseEntity {
     public static Product create(CreateProductRequest productRequest, Company company) {
         return Product.builder()
                 .company(company)
+                .hubId(company.getHubId())
                 .name(productRequest.name())
                 .stock(productRequest.stock())
                 .isOutOfStock(false)

@@ -38,7 +38,9 @@ import com.msa.delivery.presentation.response.ReadDeliveryResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/deliveries")
 @RequiredArgsConstructor
@@ -51,6 +53,7 @@ public class DeliveryController {
 	@PreAuthorize("hasAuthority('MASTER')")
 	@PostMapping
 	public ApiResponse<CreateDeliveryResponse> createDelivery(@Valid @RequestBody CreateDeliveryRequest request) {
+		log.info("배송 컨트롤러 들어옴 ");
 		Delivery delivery = createDeliveryService.createDelivery(request);
 		CreateDeliveryResponse response = CreateDeliveryResponse.from(delivery);
 		return ApiResponse.success(response);

@@ -1,6 +1,7 @@
 package com.msa.company.presentation.controller;
 
 import com.msa.company.application.service.CompanyProductService;
+import com.msa.company.config.dto.UserDetailImpl;
 import com.msa.company.presentation.request.CreateProductRequest;
 import com.msa.company.presentation.response.ApiResponse;
 import com.msa.company.presentation.response.ProductListResponse;
@@ -31,8 +32,9 @@ public class CompanyProductController {
     public ApiResponse<Void> createProduct(
             @PathVariable("companyId") UUID companyId,
             @RequestBody @Valid CreateProductRequest productRequest,
-            @AuthenticationPrincipal Long userId,
-            @AuthenticationPrincipal String role) {
+            @AuthenticationPrincipal UserDetailImpl userDetails) {
+        Long userId = userDetails.userId();
+        String role = userDetails.role();
         companyProductService.createProduct(companyId, productRequest, userId, role);
         return ApiResponse.success();
     }

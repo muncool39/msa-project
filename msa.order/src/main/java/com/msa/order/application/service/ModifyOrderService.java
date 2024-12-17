@@ -10,7 +10,7 @@ import com.msa.order.application.client.DeliveryManager;
 import com.msa.order.application.client.ProductManager;
 import com.msa.order.application.client.UserManager;
 import com.msa.order.application.client.dto.DeliveryData;
-import com.msa.order.application.client.dto.ProductStockData;
+import com.msa.order.application.client.dto.ProductData;
 import com.msa.order.application.client.dto.ProductStockRequest;
 import com.msa.order.application.client.dto.UserData;
 import com.msa.order.domain.entity.Order;
@@ -125,19 +125,19 @@ public class ModifyOrderService {
 	}
 
 	private void reduceProductStock(UUID itemId, int quantity) {
-		// Todo 상품 서비스 연동 테스트 필요
-		ProductStockData stockData = productManager.reduceStock(itemId, new ProductStockRequest(quantity));
+		ApiResponse<ProductData> response = productManager.reduceStock(itemId, new ProductStockRequest(quantity));
+		ProductData productData = response.data();
 
-		if (stockData.id() == null) {
+		if (productData.productId() == null) {
 			throw new ProductStockException(ErrorCode.STOCK_REDUCTION_FAILED);
 		}
 	}
 
 	private void restoreProductStock(UUID itemId, int quantity) {
-		// Todo 상품 서비스 연동 테스트 필요
-		ProductStockData stockData = productManager.restoreStock(itemId, new ProductStockRequest(quantity));
+		ApiResponse<ProductData> response = productManager.restoreStock(itemId, new ProductStockRequest(quantity));
+		ProductData productData = response.data();
 
-		if (stockData.id() == null) {
+		if (productData.productId() == null) {
 			throw new ProductStockException(ErrorCode.STOCK_RESTORE_FAILED);
 		}
 
