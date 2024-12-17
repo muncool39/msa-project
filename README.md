@@ -23,6 +23,8 @@
 ![최종인프라](https://github.com/user-attachments/assets/936a4029-9ab4-4111-aa42-f19bfe51fb9e)
 
 ## 🖼 ERD
+![논리ERD](https://github.com/user-attachments/assets/2a6cade8-700c-495f-8a0f-5b57f3f62f8d)
+
 
 ## 🎠 Run
 
