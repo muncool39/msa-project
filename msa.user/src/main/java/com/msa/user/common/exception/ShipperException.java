@@ -1,6 +1,5 @@
-package com.msa.user.shipper.exception;
+package com.msa.user.common.exception;
 
-import com.msa.user.common.exception.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 

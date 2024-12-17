@@ -1,16 +1,15 @@
-package com.msa.user.shipper.presentation;
+package com.msa.user.presentation.controller;
 
-import com.msa.user.shipper.application.dto.DeleteShipperResponse;
-import com.msa.user.shipper.application.dto.ShipperAssignResponseDto;
-import com.msa.user.shipper.application.dto.ShipperResponse;
-import com.msa.user.shipper.application.ShipperService;
-import com.msa.user.shipper.presentation.request.CreateShipperRequest;
-import com.msa.user.shipper.presentation.request.ShipperAssignRequestDto;
-import com.msa.user.shipper.presentation.request.UpdateShipperRequest;
+import com.msa.user.application.dto.DeleteShipperResponse;
+import com.msa.user.application.dto.ShipperAssignResponseDto;
+import com.msa.user.application.dto.ShipperResponse;
+import com.msa.user.application.service.ShipperService;
+import com.msa.user.presentation.request.CreateShipperRequest;
+import com.msa.user.presentation.request.ShipperAssignRequest;
+import com.msa.user.presentation.request.UpdateShipperRequest;
 import com.msa.user.presentation.response.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,7 +39,7 @@ public class ShipperController {
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @PatchMapping("/{shipperId}")
-    public ApiResponse<ShipperResponse> updateShipper(@PathVariable UUID shipperId,
+    public ApiResponse<ShipperResponse> updateShipper(@PathVariable Long shipperId,
                                                       @Valid @RequestBody UpdateShipperRequest request
     ) {
         return ApiResponse.success(shipperService.updateShipper(shipperId, request));
@@ -49,7 +48,7 @@ public class ShipperController {
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER','DELIVERY_MANAGER')")
     @GetMapping("/{shipperId}")
-    public ApiResponse<ShipperResponse> getShipper(@PathVariable UUID shipperId) {
+    public ApiResponse<ShipperResponse> getShipper(@PathVariable Long shipperId) {
         return ApiResponse.success(shipperService.getShipper(shipperId));
     }
 
@@ -61,14 +60,13 @@ public class ShipperController {
 
     @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @DeleteMapping
-    public ApiResponse<DeleteShipperResponse> deleteShipper(UUID shipperId) {
+    public ApiResponse<DeleteShipperResponse> deleteShipper(Long shipperId) {
         return ApiResponse.success(shipperService.deleteShipper(shipperId));
     }
 
-    @PreAuthorize("hasAnyRole('MASTER', 'HUB_MANAGER')")
     @PostMapping("/assign")
     public ApiResponse<ShipperAssignResponseDto> assignShippers(
-            @Valid @RequestBody ShipperAssignRequestDto request) {
+            @Valid @RequestBody ShipperAssignRequest request) {
         System.out.println("assignShippers");
         return ApiResponse.success(shipperService.assignShippers(request));
     }

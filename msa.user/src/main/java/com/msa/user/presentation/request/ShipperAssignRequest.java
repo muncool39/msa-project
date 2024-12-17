@@ -1,4 +1,4 @@
-package com.msa.user.shipper.presentation.request;
+package com.msa.user.presentation.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -6,10 +6,7 @@ import java.util.List;
 
 public record ShipperAssignRequest(
         @NotNull
-        List<PathDto> paths,
-
-        @NotBlank
-        String companyDeliverId
+        List<PathDto> paths
 ) {
     public static record PathDto(
             @NotBlank

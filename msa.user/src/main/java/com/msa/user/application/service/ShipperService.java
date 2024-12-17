@@ -1,24 +1,23 @@
-package com.msa.user.shipper.application;
+package com.msa.user.application.service;
 
 import static com.msa.user.common.exception.ErrorCode.*;
 
-import com.msa.user.shipper.application.dto.DeleteShipperResponse;
-import com.msa.user.shipper.application.dto.ShipperAssignDetailDto;
-import com.msa.user.shipper.application.dto.ShipperAssignResponseDto;
-import com.msa.user.shipper.application.dto.ShipperResponse;
-import com.msa.user.shipper.domain.model.type.ShipperStatus;
-import com.msa.user.shipper.domain.model.type.ShipperType;
-import com.msa.user.shipper.exception.ShipperException;
-import com.msa.user.shipper.domain.model.Shipper;
-import com.msa.user.shipper.domain.repository.ShipperRepository;
+import com.msa.user.application.dto.DeleteShipperResponse;
+import com.msa.user.application.dto.ShipperAssignDetailDto;
+import com.msa.user.application.dto.ShipperAssignResponseDto;
+import com.msa.user.application.dto.ShipperResponse;
+import com.msa.user.domain.model.ShipperStatus;
+import com.msa.user.domain.model.ShipperType;
+import com.msa.user.common.exception.ShipperException;
+import com.msa.user.domain.model.Shipper;
+import com.msa.user.domain.repository.ShipperRepository;
 import com.msa.user.domain.repository.UserRepository;
 import com.msa.user.infrastructure.HubClient;
-import com.msa.user.shipper.presentation.request.CreateShipperRequest;
-import com.msa.user.shipper.presentation.request.ShipperAssignRequestDto;
-import com.msa.user.shipper.presentation.request.UpdateShipperRequest;
+import com.msa.user.presentation.request.CreateShipperRequest;
+import com.msa.user.presentation.request.ShipperAssignRequest;
+import com.msa.user.presentation.request.UpdateShipperRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,7 +53,7 @@ public class ShipperService {
         return ShipperResponse.fromEntity(shipper);
     }
 
-    public ShipperResponse getShipper(UUID shipperId) {
+    public ShipperResponse getShipper(Long shipperId) {
         Shipper shipper = shipperRepository.findById(shipperId)
                 .orElseThrow(() -> new ShipperException(SHIPPER_NOT_FOUND));
 
@@ -70,7 +69,7 @@ public class ShipperService {
     }
 
     @Transactional
-    public ShipperResponse updateShipper(UUID shipperId, UpdateShipperRequest request) {
+    public ShipperResponse updateShipper(Long shipperId, UpdateShipperRequest request) {
         Shipper shipper = shipperRepository.findById(shipperId)
                 .orElseThrow(() -> new ShipperException(SHIPPER_NOT_FOUND));
 
@@ -82,7 +81,7 @@ public class ShipperService {
     }
 
     @Transactional
-    public DeleteShipperResponse deleteShipper(UUID shipperId) {
+    public DeleteShipperResponse deleteShipper(Long shipperId) {
         Shipper shipper = shipperRepository.findById(shipperId)
                 .orElseThrow(() -> new ShipperException(SHIPPER_NOT_FOUND));
 
@@ -100,8 +99,9 @@ public class ShipperService {
      * @throws ShipperException 허브 검증 실패, 요청 데이터가 비어있거나 배송 담당자가 부족한 경우
      */
     @Transactional
-    public ShipperAssignResponseDto assignShippers(ShipperAssignRequestDto request) {
-        for (ShipperAssignRequestDto.PathDto path : request.paths()) {
+    public ShipperAssignResponseDto assignShippers(ShipperAssignRequest request) {
+        for (ShipperAssignRequest.PathDto path : request.paths()) {
+
             hubClient.verifyHub(path.departureHubId());
             hubClient.verifyHub(path.destinationHubId());
         }
@@ -137,7 +137,7 @@ public class ShipperService {
 
         // 허브 배송 담당자 배정 (경로 개수에 맞춰 순차적으로 배정)
         for (int i = 0; i < pathCount; i++) {
-            ShipperAssignRequestDto.PathDto path =
+            ShipperAssignRequest.PathDto path =
                     request.paths().get(Math.min(i, request.paths().size() - 1));
             Shipper hubShipper = hubDeliverShippers.get(i);
 
@@ -147,7 +147,7 @@ public class ShipperService {
         }
 
         //업체 배송 담당자 1명 배정 (마지막 경로에)
-        ShipperAssignRequestDto.PathDto lastPathDto = request.paths()
+        ShipperAssignRequest.PathDto lastPathDto = request.paths()
                 .get(request.paths().size() - 1);
         companyDeliverShipper.updateStatus(ShipperStatus.DELIVERING); // 상태 업데이트
         assignedShippers.add(new ShipperAssignDetailDto(
